@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-
-import 'screens/loginScreen.dart';
+import 'package:mangafaver/screens/HomeScreen.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: loginScreen(),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: HomeScreen(),
+      ),
     );
   }
 }
