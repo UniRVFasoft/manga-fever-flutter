@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mangafaver/widgets/appBar.dart';
 import 'package:mangafaver/widgets/botaoA.dart';
 import 'package:mangafaver/widgets/botaoC.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
@@ -32,29 +33,7 @@ class loginScreen extends StatelessWidget {
         backgroundColor: Color(0xFF1A1A1A),
         appBar: AppBar(
           backgroundColor: Color(0xFF1A1A1A),
-          title: Row(children: [
-            Image.asset(
-              'assets/images/icon.png',
-              width: 40,
-            ),
-            Padding(padding: EdgeInsets.only(left: 10)),
-            Text(
-              'Manga\nFever',
-              style: TextStyle(fontFamily: 'KronaOne-Regular'),
-              textAlign: TextAlign.center,
-            ),
-            Spacer(),
-            IconButton(
-              icon: Icon(
-                Icons.person_outlined,
-                color: Color(0xFFE6810B),
-                size: 40,
-              ),
-              onPressed: () {
-                // Adicione aqui a lógica para a ação do botão do ícone
-              },
-            ),
-          ]),
+          title: appBar(),
         ),
         body: Center(
           child: ConstrainedBox(
