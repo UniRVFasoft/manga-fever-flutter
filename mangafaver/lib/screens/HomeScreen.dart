@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mangafaver/screens/loginScreen.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
@@ -87,9 +88,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         border: InputBorder.none,
                         contentPadding: const EdgeInsets.symmetric(
-                            vertical: 16.5,
-                            horizontal:
-                                10),
+                            vertical: 16.5, horizontal: 10),
                       ),
                     ),
                   ),
@@ -109,8 +108,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        const loginScreen(),
+                    builder: (context) => const loginScreen(),
                   ),
                 );
               },
@@ -153,7 +151,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      
       body: Container(
         color: const Color(0xFF1A1A1A),
         child: SingleChildScrollView(
@@ -203,6 +200,7 @@ class HomeScreen extends StatelessWidget {
                                   final data = dataList[index];
                                   final imageUrl =
                                       data['imagem'] ?? data['imagens'] ?? '';
+                                  final nota = data['nota'] ?? 0.0;
                                   String title = data['titulo'] ?? '';
 
                                   //Se o título tiver mais de 16 caracteres quebra a linha.
@@ -219,10 +217,9 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     child: Column(
                                       children: <Widget>[
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          child: Image.network(imageUrl),
+                                        NotasManga(
+                                          nota: nota,
+                                          imageUrl: imageUrl,
                                         ),
                                         const SizedBox(
                                           height: 8.0,
@@ -261,3 +258,95 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+class NotasManga extends StatelessWidget {
+  final double nota;
+  final String imageUrl;
+
+  const NotasManga({
+    required this.nota,
+    required this.imageUrl,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          child: Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.network(imageUrl),
+              ),
+              const Padding(
+                // Espaço entre a imagem e as estrelas.
+                padding: EdgeInsets.only(top: 8),
+              ),
+              //Impletanção das estrelas de acordo com a nota.
+              RatingBar.builder(
+                initialRating: nota,
+                minRating: 0,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemSize: 20,
+                itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+                itemBuilder: (context, _) => const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {},
+              ),
+            ],
+          ),
+        ),
+        //Nota em forma de número.
+        Positioned(
+          top: 200, 
+          right: 60,
+          left: 60,
+          child: Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: 43,
+              height: 25,
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: const Color(0XFF0066FF),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Center(
+                child: Text(
+                  nota.toStringAsFixed(1),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/*class FavoritarIcon extends StatelessWidget {
+  final bool isFavorited;
+
+  const FavoritarIcon({
+    required this.isFavorited,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    
+  }
+}
+*/
