@@ -13,7 +13,7 @@ class BotoesHomeScreen extends StatelessWidget {
     this.filterColor = const Color(0XFFFF9900),
     //Distância do topo e do lado direito quando a tela está grande.
     this.topPadding = 20,
-    this.rightPadding = 90,
+    this.rightPadding = 55,
     this.spaceBetweenItems = 5,
   }) : super(key: key);
 
