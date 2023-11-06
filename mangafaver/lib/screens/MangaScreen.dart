@@ -20,7 +20,7 @@ class MangaScreen extends StatelessWidget {
 
     double containerHeight; // Altura a ser determinada
 
-    if (screenWidth >= 600) {
+    if (screenWidth >= 1000) {
       // Tela maior, use uma altura menor
       containerHeight = 800.0;
     } else {
@@ -56,7 +56,7 @@ class MangaScreen extends StatelessWidget {
               ),
               child: LayoutBuilder(
                 builder: (context, constraints) {
-                  if (constraints.maxWidth >= 600) {
+                  if (constraints.maxWidth >= 1000) {
                     // Use Row widget with mainAxisAlignment set to spaceBetween
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

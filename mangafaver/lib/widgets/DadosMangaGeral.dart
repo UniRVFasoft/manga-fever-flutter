@@ -20,7 +20,7 @@ class DadosMangaGeral extends StatelessWidget {
         // Verificar a largura disponível na tela
         double screenWidth = constraints.maxWidth;
 
-        if (screenWidth < 600) {
+        if (screenWidth < 1000) {
           // Defina o limite desejado para a mudança de layout
           // Layout em coluna
           return Column(
