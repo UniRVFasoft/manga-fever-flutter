@@ -29,30 +29,27 @@ class DadosMangaGeral extends StatelessWidget {
                 'assets/images/capa.jpeg',
                 width: 200,
               ),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    tituloManga(),
-                    SizedBox(
-                        height:
-                            10), // Espaçamento entre tituloManga e CampoCategoria
-                    CampoCategoria(texto: 'Ação'),
-                    SizedBox(
-                        height:
-                            10), // Espaçamento entre CampoCategoria e CampoCategoria
-                    CampoCategoria(texto: 'Escolar'),
-                    SizedBox(
-                        height:
-                            10), // Espaçamento entre CampoCategoria e CampoCategoria
-                    CampoCategoria(texto: 'Shounen'),
-                    SizedBox(
-                        height:
-                            10), // Espaçamento entre CampoCategoria e descricaoManga
-                    descricaoManga(),
-                  ],
-                ),
+              SizedBox(width: 15),
+              Column(
+                children: [
+                  tituloManga(),
+                  SizedBox(
+                      height:
+                          10), // Espaçamento entre tituloManga e CampoCategoria
+                  CampoCategoria(texto: 'Ação'),
+                  SizedBox(
+                      height:
+                          10), // Espaçamento entre CampoCategoria e CampoCategoria
+                  CampoCategoria(texto: 'Escolar'),
+                  SizedBox(
+                      height:
+                          10), // Espaçamento entre CampoCategoria e CampoCategoria
+                  CampoCategoria(texto: 'Shounen'),
+                  SizedBox(
+                      height:
+                          10), // Espaçamento entre CampoCategoria e descricaoManga
+                  descricaoManga(),
+                ],
               ),
             ],
           );
@@ -60,34 +57,36 @@ class DadosMangaGeral extends StatelessWidget {
           // Layout em linha
           return Row(
             children: <Widget>[
-              Image.asset(
-                'assets/images/capa.jpeg',
-                width: 200,
-              ),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    tituloManga(),
-                    SizedBox(
-                        height:
-                            10), // Espaçamento entre tituloManga e Row de CampoCategoria
-                    Row(
-                      children: [
-                        CampoCategoria(texto: 'Ação'),
-                        SizedBox(width: 10), // Espaçamento entre CampoCategoria
-                        CampoCategoria(texto: 'Escolar'),
-                        SizedBox(width: 10), // Espaçamento entre CampoCategoria
-                        CampoCategoria(texto: 'Shounen'),
-                      ],
-                    ),
-                    SizedBox(
-                        height:
-                            10), // Espaçamento entre Row de CampoCategoria e descricaoManga
-                    descricaoManga(),
-                  ],
+              Align(
+                alignment: Alignment.topRight,
+                child: Image.asset(
+                  'assets/images/capa.jpeg',
+                  width: 200,
+                  alignment: AlignmentDirectional
+                      .topStart, // Alinhamento explicitamente definido para o topo esquerdo na vertical
                 ),
+              ),
+              SizedBox(width: 15),
+              Column(
+                children: [
+                  tituloManga(),
+                  SizedBox(
+                      height:
+                          10), // Espaçamento entre tituloManga e Row de CampoCategoria
+                  Row(
+                    children: [
+                      CampoCategoria(texto: 'Ação'),
+                      SizedBox(width: 10), // Espaçamento entre CampoCategoria
+                      CampoCategoria(texto: 'Escolar'),
+                      SizedBox(width: 10), // Espaçamento entre CampoCategoria
+                      CampoCategoria(texto: 'Shounen'),
+                    ],
+                  ),
+                  SizedBox(
+                      height:
+                          10), // Espaçamento entre Row de CampoCategoria e descricaoManga
+                  descricaoManga(),
+                ],
               ),
             ],
           );
