@@ -139,6 +139,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
+  screens:
+    dependency: "direct main"
+    description:
+      name: screens
+      sha256: "853cbecef256910e5c1062cfc5c4c83f44fcd942aba30f806d8ba5ab4917ebf7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.0"
   sky_engine:
     dependency: transitive
     description: flutter
