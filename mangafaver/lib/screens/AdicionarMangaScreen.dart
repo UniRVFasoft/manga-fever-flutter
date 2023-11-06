@@ -25,7 +25,7 @@ class AdicionarMangaScreen extends StatelessWidget {
           final containerMaxHeight = screenHeight * 1.0;
 
           const maxWidth = 800.0;
-          const maxHeight = 600.0;
+          const maxHeight = 625.0;
 
           final containerWidth =
               containerMaxWidth < maxWidth ? containerMaxWidth : maxWidth;
@@ -67,7 +67,7 @@ class AdicionarMangaScreen extends StatelessWidget {
                               maxLines: 5,
                             ),
                             SizedBox(
-                              width: 300,
+                              width: 250,
                               child: Column(
                                 children: [
                                   const SizedBox(height: 10),
@@ -120,12 +120,8 @@ class AdicionarMangaScreen extends StatelessWidget {
                         ),
                         Positioned(
                           //Posição do botão dependendo do tamanho da tela.
-                          top: screenWidth <= 600
-                              ? 255
-                              : 255, 
-                          left: screenWidth <= 600
-                              ? 172
-                              : 212, 
+                          top: screenWidth <= 600 ? 255 : 255,
+                          left: screenWidth <= 600 ? 172 : 212,
                           child: BotaoAdicionarManga(
                             size: botaoTamanho,
                             iconSize: 18.0,
