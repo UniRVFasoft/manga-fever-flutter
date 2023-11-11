@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mangafaver/screens/AdicionarMangaScreen.dart';
 import 'package:mangafaver/screens/HomeScreen.dart';
 import 'package:mangafaver/screens/MangaScreen.dart';
+import 'package:mangafaver/screens/loginScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: MangaScreen(),
+        body: LoginScreen(),
       ),
     );
   }
