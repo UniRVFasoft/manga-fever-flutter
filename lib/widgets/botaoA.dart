@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class botaoA extends StatelessWidget {
+  final VoidCallback? onPressed;
   const botaoA({
-    super.key,
+    Key? key,
+    this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: ElevatedButton(
-        onPressed: () {
-          // Adicione o que deseja fazer quando o botão for pressionado aqui
-        },
+        onPressed: onPressed,
         style: ButtonStyle(
           textStyle: MaterialStateProperty.all<TextStyle>(
             TextStyle(fontSize: 25), // Tamanho do texto

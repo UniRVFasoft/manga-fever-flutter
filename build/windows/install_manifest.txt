@@ -1,0 +1,17 @@
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/icudtl.dat
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/flutter_windows.dll
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/AssetManifest.bin
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/AssetManifest.json
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/assets/fonts/KronaOne-Regular.ttf
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/assets/images/capa.jpeg
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/assets/images/capa.png
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/assets/images/icon.png
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/assets/images/icone-user.png
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/assets/images/iconmanguinha.jpeg
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/FontManifest.json
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/kernel_blob.bin
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/NOTICES
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/NOTICES.Z
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+C:/Users/Luciano/Desktop/Biblioteca/manga-fever-flutter/build/windows/runner/Debug/data/flutter_assets/shaders/ink_sparkle.frag

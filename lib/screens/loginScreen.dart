@@ -1,14 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:mangafaver/screens/registerScreen.dart';
+import 'dart:convert';
+
 import 'package:mangafaver/widgets/appBar.dart';
 import 'package:mangafaver/widgets/botaoA.dart';
 import 'package:mangafaver/widgets/botaoC.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
 
-import 'registerScreen.dart';
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
-class loginScreen extends StatelessWidget {
-  const loginScreen({Key? key}) : super(key: key);
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  Future<void> _login() async {
+    const String apiUrl =
+        'https://manga-fever-backend-production.up.railway.app/auth/entrar';
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        body: {
+          'nomeUsuario': 'teste1',
+          'senha': 'senha123',
+        },
+      );
+
+      print('Response status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        print('Autenticado com sucesso!');
+      } else {
+        print('Erro no login ${response.body}');
+      }
+    } catch (error) {
+      print('Error: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,14 +102,16 @@ class loginScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         SizedBox(height: 20),
-                        botaoA(),
+                        botaoA(onPressed: () => _login()),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.1,
                         ),
                       ],
                     ),
                   ),
-                  BotaoC(tela: registerScreen())
+                  BotaoC(
+                    tela: Scaffold(),
+                  )
                 ],
               ),
             ),
