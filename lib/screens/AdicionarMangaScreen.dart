@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:mangafaver/screens/HomeScreen.dart';
 import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
-import 'package:mangafaver/widgets/BotaoAdicionarManga.dart';
+import 'package:mangafaver/widgets/BotaoAdicionarClassificacao.dart';
 import 'package:mangafaver/widgets/CampoTextoCustom.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
 
-class AdicionarMangaScreen extends StatelessWidget {
+class AdicionarMangaScreen extends StatefulWidget {
   const AdicionarMangaScreen({Key? key}) : super(key: key);
 
+  _AdicionarMangaScreenState createState() => _AdicionarMangaScreenState();
+}
+
+class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
   final double botaoTamanho = 25.0;
+  String opcaoSelecionada = '';
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +66,50 @@ class AdicionarMangaScreen extends StatelessWidget {
                             ),
                             const campoTexto(descricao: 'Título'),
                             const campoTexto(descricao: 'Link Imagem'),
-                            const campoTexto(descricao: 'Classificação'),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 60,
+                                vertical: 10,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        'Classificação',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16.0,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      SizedBox(height: 10, width: 10),
+                                      Positioned(
+                                        top: screenWidth <= 600 ? 255 : 255,
+                                        left: screenWidth <= 600 ? 172 : 212,
+                                        child: BotaoAdicionarClassificacao(
+                                          size: botaoTamanho,
+                                          iconSize: 18.0,
+                                          onPressed: (opcao) {
+                                            setState(() {
+                                              opcaoSelecionada = opcao;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  if (opcaoSelecionada.isNotEmpty)
+                                    Text(
+                                      '\n$opcaoSelecionada',
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                ],
+                              ),
+                            ),
                             const CampoTextoCustom(
                               descricao: 'Descrição',
                               maxLines: 5,
@@ -117,16 +165,6 @@ class AdicionarMangaScreen extends StatelessWidget {
                               ),
                             ),
                           ],
-                        ),
-                        Positioned(
-                          //Posição do botão dependendo do tamanho da tela.
-                          top: screenWidth <= 600 ? 255 : 255,
-                          left: screenWidth <= 600 ? 172 : 212,
-                          child: BotaoAdicionarManga(
-                            size: botaoTamanho,
-                            iconSize: 18.0,
-                            onPressed: () {},
-                          ),
                         ),
                       ],
                     ),

@@ -1,2 +1,10 @@
-2023/11/06-19:00:11.479 1a4 Creating DB C:\Users\Luciano\AppData\Local\Temp\flutter_tools.e9d0df32\flutter_tools_chrome_device.5cc83b55\Default\Site Characteristics Database since it was missing.
-2023/11/06-19:00:11.488 1a4 Reusing MANIFEST C:\Users\Luciano\AppData\Local\Temp\flutter_tools.e9d0df32\flutter_tools_chrome_device.5cc83b55\Default\Site Characteristics Database/MANIFEST-000001
+2023/11/10-21:21:31.101 5f8c Log #3: 3 ops saved to Table #7 OK
+2023/11/10-21:21:31.110 5f8c Archiving C:\Users\Luciano\AppData\Local\Temp\flutter_tools.dba0adf3\flutter_tools_chrome_device.f9b96d2d\Default\Site Characteristics Database/000003.log: OK
+2023/11/10-21:21:31.117 5f8c Log #6: 2 ops saved to Table #8 OK
+2023/11/10-21:21:31.118 5f8c Archiving C:\Users\Luciano\AppData\Local\Temp\flutter_tools.dba0adf3\flutter_tools_chrome_device.f9b96d2d\Default\Site Characteristics Database/000006.log: OK
+2023/11/10-21:21:31.119 5f8c Table #4: 3 entries OK
+2023/11/10-21:21:31.119 5f8c Table #6: 3 entries OK
+2023/11/10-21:21:31.119 5f8c Table #7: 3 entries OK
+2023/11/10-21:21:31.120 5f8c Table #8: 2 entries OK
+2023/11/10-21:21:31.125 5f8c Archiving C:\Users\Luciano\AppData\Local\Temp\flutter_tools.dba0adf3\flutter_tools_chrome_device.f9b96d2d\Default\Site Characteristics Database/MANIFEST-000001: OK
+2023/11/10-21:21:31.135 5f8c **** Repaired leveldb C:\Users\Luciano\AppData\Local\Temp\flutter_tools.dba0adf3\flutter_tools_chrome_device.f9b96d2d\Default\Site Characteristics Database; recovered 4 files; 847 bytes. Some data may have been lost. ****
