@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mangafaver/widgets/appBar.dart';
-import 'package:mangafaver/widgets/BotaoFavorito.dart';
-import 'package:mangafaver/widgets/campoCategoria.dart';
-import 'package:mangafaver/widgets/classificacaoManga.dart';
+
+import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
 import 'package:mangafaver/widgets/dadosClassificacaoGeral.dart';
 import 'package:mangafaver/widgets/DadosMangaGeral.dart';
-import 'package:mangafaver/widgets/descricaoManga.dart';
-import 'package:mangafaver/widgets/notaManga.dart';
-import 'package:mangafaver/widgets/tituloManga.dart';
-
-import 'registerScreen.dart';
-import 'package:flutter/material.dart';
 
 class MangaScreen extends StatelessWidget {
   const MangaScreen({Key? key}) : super(key: key);
@@ -28,7 +20,7 @@ class MangaScreen extends StatelessWidget {
 
     double containerHeight; // Altura a ser determinada
 
-    if (screenWidth >= 600) {
+    if (screenWidth >= 1000) {
       // Tela maior, use uma altura menor
       containerHeight = 800.0;
     } else {
@@ -42,10 +34,7 @@ class MangaScreen extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Color(0xFF1A1A1A),
-        appBar: AppBar(
-          backgroundColor: Color(0xFF1A1A1A),
-          title: Text('Manga Screen'),
-        ),
+        appBar: AppBarHomeScreen(),
         body: Center(
           child: SingleChildScrollView(
             child: Container(
@@ -67,10 +56,10 @@ class MangaScreen extends StatelessWidget {
               ),
               child: LayoutBuilder(
                 builder: (context, constraints) {
-                  if (constraints.maxWidth >= 600) {
+                  if (constraints.maxWidth >= 1000) {
+                    // Use Row widget with mainAxisAlignment set to spaceBetween
                     return Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.center, // Centralize na horizontal
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         DadosMangaGeral(
                           containerWidth: containerWidth,
@@ -80,9 +69,9 @@ class MangaScreen extends StatelessWidget {
                       ],
                     );
                   } else {
+                    // Use Column widget with mainAxisAlignment set to center
                     return Column(
-                      mainAxisAlignment:
-                          MainAxisAlignment.center, // Centralize na vertical
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         DadosMangaGeral(
                           containerWidth: containerWidth,
