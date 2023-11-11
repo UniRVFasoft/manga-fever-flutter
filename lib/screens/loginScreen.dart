@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: [
                         SizedBox(height: 20),
-                        botaoA(onPressed: () => {_login()}),
+                        botaoA(onPressed: () => _login()),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.1,
                         ),

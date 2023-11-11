@@ -3,6 +3,7 @@ import 'package:mangafaver/screens/AdicionarMangaScreen.dart';
 import 'package:mangafaver/screens/HomeScreen.dart';
 import 'package:mangafaver/screens/MangaScreen.dart';
 import 'package:mangafaver/screens/loginScreen.dart';
+import 'package:mangafaver/screens/registerScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: LoginScreen(),
+        body: registerScreen(),
       ),
     );
   }
