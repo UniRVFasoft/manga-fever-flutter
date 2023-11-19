@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mangafaver/screens/registerScreen.dart';
 
 class BotaoC extends StatelessWidget {
   final Widget tela; // Parâmetro para a tela
@@ -15,7 +16,7 @@ class BotaoC extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => tela, // Use o parâmetro da tela aqui
+            builder: (context) => registerScreen(), // Use o parâmetro da tela aqui
           ),
         );
       },
