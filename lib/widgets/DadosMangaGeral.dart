@@ -37,19 +37,19 @@ class DadosMangaGeral extends StatelessWidget {
                     tituloManga(),
                     SizedBox(
                         height:
-                            10), // Espaçamento entre tituloManga e CampoCategoria
+                            25), // Espaçamento entre tituloManga e CampoCategoria
                     CampoCategoria(texto: 'Ação'),
                     SizedBox(
                         height:
-                            10), // Espaçamento entre CampoCategoria e CampoCategoria
+                            15), // Espaçamento entre CampoCategoria e CampoCategoria
                     CampoCategoria(texto: 'Escolar'),
                     SizedBox(
                         height:
-                            10), // Espaçamento entre CampoCategoria e CampoCategoria
+                            15), // Espaçamento entre CampoCategoria e CampoCategoria
                     CampoCategoria(texto: 'Shounen'),
                     SizedBox(
                         height:
-                            10), // Espaçamento entre CampoCategoria e descricaoManga
+                            20), // Espaçamento entre CampoCategoria e descricaoManga
                     descricaoManga(),
                   ],
                 ),
@@ -57,35 +57,58 @@ class DadosMangaGeral extends StatelessWidget {
             ],
           );
         } else {
-          // Layout em linha
           return Row(
             children: <Widget>[
-              Image.asset(
-                'assets/images/capa.jpeg',
-                width: 200,
-              ),
               Padding(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(35),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    tituloManga(),
-                    SizedBox(
-                        height:
-                            10), // Espaçamento entre tituloManga e Row de CampoCategoria
+                    SizedBox(height: 5), // Reduzir o espaçamento do topo
+                    SizedBox(height: 2), // Espaçamento entre o topo e o título
                     Row(
-                      children: [
-                        CampoCategoria(texto: 'Ação'),
-                        SizedBox(width: 10), // Espaçamento entre CampoCategoria
-                        CampoCategoria(texto: 'Escolar'),
-                        SizedBox(width: 10), // Espaçamento entre CampoCategoria
-                        CampoCategoria(texto: 'Shounen'),
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 40),
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Image.asset(
+                              'assets/images/capa.jpeg',
+                              width: 200,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(35),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              tituloManga(),
+                              SizedBox(
+                                  height:
+                                      20), // Espaçamento entre tituloManga e CampoCategoria
+                              Row(
+                                children: [
+                                  CampoCategoria(texto: 'Ação'),
+                                  SizedBox(
+                                      width:
+                                          15), // Espaçamento entre CampoCategoria
+                                  CampoCategoria(texto: 'Escolar'),
+                                  SizedBox(
+                                      width:
+                                          15), // Espaçamento entre CampoCategoria
+                                  CampoCategoria(texto: 'Shounen'),
+                                ],
+                              ),
+                              SizedBox(
+                                  height:
+                                      20), // Espaçamento entre Row de CampoCategoria e descricaoManga
+                              descricaoManga(),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                    SizedBox(
-                        height:
-                            10), // Espaçamento entre Row de CampoCategoria e descricaoManga
-                    descricaoManga(),
                   ],
                 ),
               ),

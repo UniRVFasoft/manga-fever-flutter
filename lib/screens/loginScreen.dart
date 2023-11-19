@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mangafaver/screens/registerScreen.dart';
-import 'dart:convert';
+import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
 
-import 'package:mangafaver/widgets/appBar.dart';
 import 'package:mangafaver/widgets/botaoA.dart';
 import 'package:mangafaver/widgets/botaoC.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
@@ -67,10 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Color(0xFF1A1A1A),
-        appBar: AppBar(
-          backgroundColor: Color(0xFF1A1A1A),
-          title: appBar(),
-        ),
+        appBar: AppBarHomeScreen(),
         body: Center(
           child: ConstrainedBox(
             constraints: BoxConstraints(

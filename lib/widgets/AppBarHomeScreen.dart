@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mangafaver/screens/HomeScreen.dart';
 import 'package:mangafaver/screens/loginScreen.dart';
 
 class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
@@ -17,9 +18,19 @@ class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       title: Row(
         children: [
-          Image.asset(
-            'assets/images/icon.png',
-            height: AppBar().preferredSize.height * 1.1,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomeScreen(),
+                ),
+              );
+            },
+            child: Image.asset(
+              'assets/images/icon.png',
+              height: AppBar().preferredSize.height * 1.1,
+            )
           ),
           const SizedBox(width: 12),
           // Título da AppBar.

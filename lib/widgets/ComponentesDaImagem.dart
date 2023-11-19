@@ -34,7 +34,7 @@ class ComponentesDaImagem extends StatelessWidget {
                     ),
                   ),
                   const Padding(
-                    //Espaço entre a imagem e as estrelas.
+                    //Localização da nota na imagem.
                     padding: EdgeInsets.only(top: 8),
                   ),
                   //Implementação das estrelas de acordo com a nota.

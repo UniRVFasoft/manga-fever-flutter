@@ -10,18 +10,40 @@ class dadosClassificacaoGeral extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          BotaoFavorito(),
-          SizedBox(height: 10.0),
-          notaManga(
-            nota: '4.8',
-          ),
-          SizedBox(height: 10.0),
-          classificacaoManga(classificacao: 4),
-        ],
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth >= 800) {
+          return const Padding(
+            padding: EdgeInsets.only(
+              top: 70.0, 
+              right: 180.0, 
+            ),
+            child: Column(
+              children: [
+                BotaoFavorito(),
+                SizedBox(height: 10.0),
+                notaManga(
+                  nota: '4.8',
+                ),
+                SizedBox(height: 10.0),
+                classificacaoManga(classificacao: 4),
+              ],
+            ),
+          );
+        } else {
+          return const Column(
+            children: [
+              BotaoFavorito(),
+              SizedBox(height: 10.0),
+              notaManga(
+                nota: '4.8',
+              ),
+              SizedBox(height: 10.0),
+              classificacaoManga(classificacao: 4),
+            ],
+          );
+        }
+      },
     );
   }
 }

@@ -30,7 +30,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
           final containerMaxHeight = screenHeight * 1.0;
 
           const maxWidth = 800.0;
-          const maxHeight = 625.0;
+          const maxHeight = 590.0;
 
           final containerWidth =
               containerMaxWidth < maxWidth ? containerMaxWidth : maxWidth;
@@ -76,7 +76,12 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
+                                      if (screenWidth > 600)
+                                        SizedBox(
+                                            width: screenWidth *
+                                                0.03), // Ajuste a distância do lado direito conforme necessário
                                       const Text(
                                         'Classificação',
                                         style: TextStyle(
@@ -85,27 +90,32 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                         ),
                                         textAlign: TextAlign.left,
                                       ),
-                                      SizedBox(height: 10, width: 10),
-                                      Positioned(
-                                        top: screenWidth <= 600 ? 255 : 255,
-                                        left: screenWidth <= 600 ? 172 : 212,
-                                        child: BotaoAdicionarClassificacao(
-                                          size: botaoTamanho,
-                                          iconSize: 18.0,
-                                          onPressed: (opcao) {
-                                            setState(() {
-                                              opcaoSelecionada = opcao;
-                                            });
-                                          },
-                                        ),
+                                      const SizedBox(
+                                          width:
+                                              8), // Adiciona um espaço de 8 pixels entre o texto e o botão
+                                      BotaoAdicionarClassificacao(
+                                        size: botaoTamanho,
+                                        iconSize: 18.0,
+                                        onPressed: (opcao) {
+                                          setState(() {
+                                            opcaoSelecionada = opcao;
+                                          });
+                                        },
                                       ),
                                     ],
                                   ),
                                   if (opcaoSelecionada.isNotEmpty)
-                                    Text(
-                                      '\n$opcaoSelecionada',
-                                      style:
-                                          const TextStyle(color: Colors.white),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        left: screenWidth > 600
+                                            ? screenWidth * 0.03
+                                            : 0,
+                                        top: 10,
+                                      ),
+                                      child: Text(
+                                        opcaoSelecionada,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                     ),
                                 ],
                               ),

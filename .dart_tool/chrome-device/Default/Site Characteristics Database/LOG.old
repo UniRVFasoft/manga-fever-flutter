@@ -1,10 +1,7 @@
-2023/11/10-21:21:31.101 5f8c Log #3: 3 ops saved to Table #7 OK
-2023/11/10-21:21:31.110 5f8c Archiving C:\Users\Luciano\AppData\Local\Temp\flutter_tools.dba0adf3\flutter_tools_chrome_device.f9b96d2d\Default\Site Characteristics Database/000003.log: OK
-2023/11/10-21:21:31.117 5f8c Log #6: 2 ops saved to Table #8 OK
-2023/11/10-21:21:31.118 5f8c Archiving C:\Users\Luciano\AppData\Local\Temp\flutter_tools.dba0adf3\flutter_tools_chrome_device.f9b96d2d\Default\Site Characteristics Database/000006.log: OK
-2023/11/10-21:21:31.119 5f8c Table #4: 3 entries OK
-2023/11/10-21:21:31.119 5f8c Table #6: 3 entries OK
-2023/11/10-21:21:31.119 5f8c Table #7: 3 entries OK
-2023/11/10-21:21:31.120 5f8c Table #8: 2 entries OK
-2023/11/10-21:21:31.125 5f8c Archiving C:\Users\Luciano\AppData\Local\Temp\flutter_tools.dba0adf3\flutter_tools_chrome_device.f9b96d2d\Default\Site Characteristics Database/MANIFEST-000001: OK
-2023/11/10-21:21:31.135 5f8c **** Repaired leveldb C:\Users\Luciano\AppData\Local\Temp\flutter_tools.dba0adf3\flutter_tools_chrome_device.f9b96d2d\Default\Site Characteristics Database; recovered 4 files; 847 bytes. Some data may have been lost. ****
+2023/11/18-20:18:53.154 3a48 Reusing MANIFEST C:\Users\gabin\AppData\Local\Temp\flutter_tools.3f3cdb6b\flutter_tools_chrome_device.339dc188\Default\Site Characteristics Database/MANIFEST-000001
+2023/11/18-20:18:53.157 3a48 Recovering log #10
+2023/11/18-20:18:53.158 3a48 Reusing old log C:\Users\gabin\AppData\Local\Temp\flutter_tools.3f3cdb6b\flutter_tools_chrome_device.339dc188\Default\Site Characteristics Database/000010.log 
+2023/11/18-20:18:53.159 3a48 Delete type=0 #3
+2023/11/18-20:18:53.159 3a48 Delete type=2 #6
+2023/11/18-20:18:53.159 3a48 Delete type=0 #6
+2023/11/18-20:18:53.159 3a48 Delete type=2 #11

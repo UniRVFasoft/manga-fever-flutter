@@ -20,12 +20,12 @@ class MangaScreen extends StatelessWidget {
 
     double containerHeight; // Altura a ser determinada
 
-    if (screenWidth >= 1000) {
+    if (screenWidth >= 600) {
       // Tela maior, use uma altura menor
-      containerHeight = 800.0;
+      containerHeight = 650.0;
     } else {
       // Tela menor, use uma altura maior
-      containerHeight = 1200.0;
+      containerHeight = 1050.0;
     }
 
     final containerWidth =
@@ -35,53 +35,54 @@ class MangaScreen extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Color(0xFF1A1A1A),
         appBar: AppBarHomeScreen(),
-        body: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.1,
-                vertical: screenHeight * 0.1,
-              ),
-              constraints: BoxConstraints(
-                maxWidth: screenWidth * 0.85,
-                maxHeight: containerHeight,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Color(0xFF222222),
-                border: Border.all(
-                  color: Colors.white,
-                  width: 0.5,
+        body: SingleChildScrollView(
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(
+              horizontal: 50,
+              vertical: 30,
+            ),
+            child: Center(
+              child: Container(
+                constraints: BoxConstraints(
+                  maxWidth: screenWidth * 0.85,
+                  maxHeight: containerHeight - 80,
                 ),
-              ),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  if (constraints.maxWidth >= 1000) {
-                    // Use Row widget with mainAxisAlignment set to spaceBetween
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        DadosMangaGeral(
-                          containerWidth: containerWidth,
-                          containerHeight: containerHeight,
-                        ),
-                        dadosClassificacaoGeral(),
-                      ],
-                    );
-                  } else {
-                    // Use Column widget with mainAxisAlignment set to center
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        DadosMangaGeral(
-                          containerWidth: containerWidth,
-                          containerHeight: containerHeight,
-                        ),
-                        dadosClassificacaoGeral(),
-                      ],
-                    );
-                  }
-                },
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(0xFF222222),
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 0.5,
+                  ),
+                ),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth >= 900) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          DadosMangaGeral(
+                            containerWidth: containerWidth,
+                            containerHeight: containerHeight,
+                          ),
+                          dadosClassificacaoGeral(),
+                        ],
+                      );
+                    } else {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          DadosMangaGeral(
+                            containerWidth: containerWidth,
+                            containerHeight: containerHeight,
+                          ),
+                          dadosClassificacaoGeral(),
+                        ],
+                      );
+                    }
+                  },
+                ),
               ),
             ),
           ),
