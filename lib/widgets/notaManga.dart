@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class notaManga extends StatelessWidget {
-  final String nota;
+  final String mediaNota;
 
   const notaManga({
     super.key,
-    required this.nota,
+    required this.mediaNota,
   });
 
   @override
@@ -15,7 +15,7 @@ class notaManga extends StatelessWidget {
       width: 120,
       child: Center(
         child: Text(
-          nota,
+          mediaNota,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,

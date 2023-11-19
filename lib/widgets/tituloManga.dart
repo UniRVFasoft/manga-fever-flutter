@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
-class tituloManga extends StatelessWidget {
-  const tituloManga({
-    super.key,
-  });
+class TituloManga extends StatelessWidget {
+  const TituloManga({
+    Key? key,
+    required this.textoTitulo,
+  }) : super(key: key);
+
+  final String textoTitulo;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Text(
-        'Tokyo Revengers:  Baji Keisuke kara no Tegami',
+        textoTitulo,
         style: TextStyle(
           fontFamily: 'Roboto',
           fontSize: 20,

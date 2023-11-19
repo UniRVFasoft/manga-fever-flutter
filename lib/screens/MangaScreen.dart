@@ -20,9 +20,9 @@ class MangaScreen extends StatelessWidget {
 
     double containerHeight; // Altura a ser determinada
 
-    if (screenWidth >= 600) {
+    if (screenWidth >= 1397) {
       // Tela maior, use uma altura menor
-      containerHeight = 650.0;
+      containerHeight = 850.0;
     } else {
       // Tela menor, use uma altura maior
       containerHeight = 1050.0;
@@ -58,13 +58,19 @@ class MangaScreen extends StatelessWidget {
                 ),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    if (constraints.maxWidth >= 900) {
+                    if (constraints.maxWidth >= 1397) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           DadosMangaGeral(
-                            containerWidth: containerWidth,
-                            containerHeight: containerHeight,
+                            imagem: 'assets/images/capa.jpeg',
+                            containerWidth: MediaQuery.of(context).size.width,
+                            containerHeight: MediaQuery.of(context).size.height,
+                            categories: [
+                              'Ação',
+                              'Escolar',
+                              'Shounen'
+                            ], // Lista de categorias
                           ),
                           dadosClassificacaoGeral(),
                         ],
@@ -74,8 +80,10 @@ class MangaScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           DadosMangaGeral(
-                            containerWidth: containerWidth,
-                            containerHeight: containerHeight,
+                            imagem: 'assets/images/capa.jpeg',
+                            containerWidth: MediaQuery.of(context).size.width,
+                            containerHeight: MediaQuery.of(context).size.height,
+                            categories: ['Ação', 'Escolar', 'Shounen'],
                           ),
                           dadosClassificacaoGeral(),
                         ],

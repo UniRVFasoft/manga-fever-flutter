@@ -15,15 +15,15 @@ class dadosClassificacaoGeral extends StatelessWidget {
         if (constraints.maxWidth >= 800) {
           return const Padding(
             padding: EdgeInsets.only(
-              top: 70.0, 
-              right: 180.0, 
+              top: 70.0,
+              right: 180.0,
             ),
             child: Column(
               children: [
                 BotaoFavorito(),
                 SizedBox(height: 10.0),
                 notaManga(
-                  nota: '4.8',
+                  mediaNota: '4.8',
                 ),
                 SizedBox(height: 10.0),
                 classificacaoManga(classificacao: 4),
@@ -36,7 +36,7 @@ class dadosClassificacaoGeral extends StatelessWidget {
               BotaoFavorito(),
               SizedBox(height: 10.0),
               notaManga(
-                nota: '4.8',
+                mediaNota: '4.8',
               ),
               SizedBox(height: 10.0),
               classificacaoManga(classificacao: 4),
