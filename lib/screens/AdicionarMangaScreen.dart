@@ -5,6 +5,7 @@ import 'package:mangafaver/screens/HomeScreen.dart';
 import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
 import 'package:mangafaver/widgets/BotaoAdicionarClassificacao.dart';
 import 'package:mangafaver/widgets/CampoTextoDescricao.dart';
+import 'package:mangafaver/widgets/campoCategoria.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
 import 'package:http/http.dart' as http;
@@ -22,17 +23,19 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
   TextEditingController imagemController = TextEditingController();
 
   final double botaoTamanho = 25.0;
-  String opcaoSelecionada = '';
+  List<String> opcaoSelecionada = [];
+  
 
   Future<void> _adicionarManga() async {
-    const String apiUrl = 'http://localhost:3000/mangas/create';
-
+    const String apiUrl = 'https://manga-fever-backend-production.up.railway.app/mangas/create';
+    List<String> classificacao = opcaoSelecionada.toList();
+    
     try {
       final Map<String, dynamic> mangaData = {
         'titulo': tituloController.text,
         'descricao': descriptionController.text,
         'imagem': imagemController.text,
-        'classificacao': opcaoSelecionada,
+        'categorias': classificacao,
       };
 
       final String requestBody = jsonEncode(mangaData);
@@ -41,7 +44,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
         Uri.parse(apiUrl),
         headers: {
           'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkMmQyYmJiLWE3NDctNDNjMS04YzhkLTJkNjk0OTg4OWNlNCIsInNlbmhhIjoiJDJiJDEwJGlkM0FLQW04Vy5wN25MVGRMYkZ4WXVnMXRyVkExa2dEaWxYRXRHakpka3hCMjNnemR5TGJTIiwiZW1haWwiOiJsdWNpYW5vQGVtYWlsLmNvbSIsIm5vbWVVc3VhcmlvIjoibHVjaWFubyIsImlzQWRtaW4iOmZhbHNlLCJjcmlhZG9FbSI6IjIwMjMtMTEtMjJUMDA6MDE6MDYuNzE4WiIsImlhdCI6MTcwMDYxMTI2NiwiZXhwIjoxNzAwNjE0ODY2fQ.zDGXkV5_bgg0PiEIrQPadZmTrFfT701mxwtKmnorxvY',
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhkYWU0ZjdkLWU2ZmEtNGFjYy1hMWY4LTMxZTVkYTc3ZTlmZCIsInNlbmhhIjoiJDJiJDEwJHlOd2lPTnBua1ExY3Q5M0I3dU82Ni5jZGZPc0hWNm8yMUlxU1lGd3UzMGRvMkNsWU9pQm8uIiwiZW1haWwiOiJwZWRyb0BwZWRyby5wZWRybyIsIm5vbWVVc3VhcmlvIjoicGVkcmluaG8iLCJpc0FkbWluIjp0cnVlLCJjcmlhZG9FbSI6IjIwMjMtMTEtMjJUMTE6MDE6MTIuODgwWiIsImlhdCI6MTcwMDY1MTE0NiwiZXhwIjoxNzAwNjU0NzQ2fQ.MPmBnGdWKPZe4oi85bEDIUAmDc1-TXyP3i_O3Nf4m1I',
           'Content-Type': 'application/json',
         },
         body: requestBody,
@@ -157,7 +160,8 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                         iconSize: 18.0,
                                         onPressed: (opcao) {
                                           setState(() {
-                                            opcaoSelecionada = opcao;
+                                            opcaoSelecionada.add(opcao);
+                                            
                                           });
                                         },
                                       ),
@@ -171,9 +175,14 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                             : 0,
                                         top: 10,
                                       ),
-                                      child: Text(
-                                        opcaoSelecionada,
-                                        style: TextStyle(color: Colors.white),
+                                     child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 10),
+                                          for (var item in opcaoSelecionada)
+                                           CampoCategoria(texto: item),
+                                           SizedBox(height: 10, width: 10,),
+                                        ],
                                       ),
                                     ),
                                 ],

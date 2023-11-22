@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
 
   Future<void> _login() async {
-    const String apiUrl = 'http://localhost:3000/auth/entrar';
+    const String apiUrl = 'https://manga-fever-backend-production.up.railway.app/auth/entrar';
     ;
 
     try {
