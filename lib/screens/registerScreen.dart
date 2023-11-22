@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mangafaver/controller/controller.dart';
-import 'dart:convert';
 
 import 'package:mangafaver/screens/loginScreen.dart';
+import 'package:mangafaver/widgets/BotaoCadastrar.dart';
 import 'package:mangafaver/widgets/appBar.dart';
-import 'package:mangafaver/widgets/BotaoEntrar.dart';
-
 import 'package:mangafaver/widgets/botaoB.dart';
-import 'package:mangafaver/widgets/campoTexto.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
 
@@ -30,7 +26,8 @@ class _registerScreenState extends State<registerScreen> {
   }
 
   Future<void> _cadastro() async {
-    const String apiUrl = 'http://localhost:3000/auth/cadastrar';
+    const String apiUrl =
+        'https://manga-fever-backend-production.up.railway.app/auth/cadastrar';
     try {
       final response = await http.post(
         Uri.parse(apiUrl),
@@ -127,7 +124,7 @@ class _registerScreenState extends State<registerScreen> {
                       child: Column(
                         children: [
                           SizedBox(height: 20),
-                          BotaoEntrar(
+                          BotaoCadastrar(
                             onPressed: () {
                               if (senhasIguais(passwordController.text,
                                   confirmPassawordController.text)) {
