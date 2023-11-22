@@ -1,57 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:mangafaver/screens/HomeScreen.dart';
 import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
 import 'package:mangafaver/widgets/BotaoAdicionarClassificacao.dart';
 import 'package:mangafaver/widgets/CampoTextoCustom.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
-import 'dart:convert';
 
-class RegisterManga extends StatefulWidget {
-  const RegisterManga({Key? key}) : super(key: key);
+class AdicionarMangaScreen extends StatefulWidget {
+  const AdicionarMangaScreen({Key? key}) : super(key: key);
 
-  @override
-  _RegisterMangaState createState() => _RegisterMangaState();
+  _AdicionarMangaScreenState createState() => _AdicionarMangaScreenState();
 }
 
-class _RegisterMangaState extends State<RegisterManga> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descricaoController = TextEditingController();
-  TextEditingController imageController = TextEditingController();
-  TextEditingController categoriaController = TextEditingController();
-
-  Future<void> _login() async {
-    const String apiUrl = 'http://localhost:3000/mangas/create';
-    ;
-
-    try {
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        body: {
-          "titulo": titleController.text,
-          "descricao": descricaoController.text,
-          "imagem": imageController.text,
-          "categorias": []
-        },
-      );
-
-      var data = json.decode(response.body);
-
-      print('Response status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-
-      if (response.statusCode == 200) {
-        print('Autenticado com sucesso!');
-      } else {
-        print('Erro no login ${response.body}');
-        print('Conteúdo do usernameController: ${usernameController.text}');
-        print('Conteúdo do passwordController: ${passwordController.text}');
-      }
-    } catch (error) {
-      print('Error: $error');
-    }
-  }
+class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
+  final double botaoTamanho = 25.0;
+  String opcaoSelecionada = '';
 
   @override
   Widget build(BuildContext context) {
