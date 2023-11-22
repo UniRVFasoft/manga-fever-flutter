@@ -5,12 +5,12 @@ import 'dart:convert';
 
 import 'package:mangafaver/screens/loginScreen.dart';
 import 'package:mangafaver/widgets/appBar.dart';
-import 'package:mangafaver/widgets/botaoA.dart';
+import 'package:mangafaver/widgets/BotaoEntrar.dart';
+
 import 'package:mangafaver/widgets/botaoB.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
-import 'package:mangafaver/widgets/campoTexto22.dart';
-import 'package:mangafaver/widgets/textoTitulo.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
+import 'package:mangafaver/widgets/textoTitulo.dart';
 
 class registerScreen extends StatefulWidget {
   const registerScreen({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class _registerScreenState extends State<registerScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPassawoerController = TextEditingController();
+  TextEditingController confirmPassawordController = TextEditingController();
 
   bool senhasIguais(String senha1, String senha2) {
     return senha1 == senha2;
@@ -105,32 +105,32 @@ class _registerScreenState extends State<registerScreen> {
                     textoTitulo(
                       titulo: 'Cadastro de usuário',
                     ),
-                    campoTexto2(
+                    campoTexto(
                       descricao: 'Nome de usuário',
                       controller: usernameController,
                     ),
-                    campoTexto2(
+                    campoTexto(
                       descricao: 'Email',
                       controller: emailController,
                     ),
-                    campoTexto2(
+                    campoTexto(
                       descricao: 'Senha',
                       obscureText: true,
                       controller: passwordController,
                     ),
-                    campoTexto2(
+                    campoTexto(
                       descricao: 'Confirmar senha',
                       obscureText: true,
-                      controller: confirmPassawoerController,
+                      controller: confirmPassawordController,
                     ),
                     Container(
                       child: Column(
                         children: [
                           SizedBox(height: 20),
-                          botaoA(
+                          BotaoEntrar(
                             onPressed: () {
                               if (senhasIguais(passwordController.text,
-                                  confirmPassawoerController.text)) {
+                                  confirmPassawordController.text)) {
                                 _cadastro();
                               } else {
                                 print('As senhas não correspondem!');

@@ -22,7 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
   //Realiza a chamada do banco de dados. MockAPI utilizado para testar a estrutura.
   Future<List<Map<String, dynamic>>> fetchData() async {
     final response = await http.get(Uri.parse(
-        'https://653e87429e8bd3be29df705c.mockapi.io/apiteste/Imagens'));
+        // 'https://653e87429e8bd3be29df705c.mockapi.io/apiteste/Imagens'
+        'https://manga-fever-backend-production.up.railway.app/mangas'));
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonResponse = json.decode(response.body);

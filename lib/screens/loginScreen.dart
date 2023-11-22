@@ -2,11 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
-
-import 'package:mangafaver/widgets/botaoA.dart';
+import 'package:mangafaver/screens/HomeScreen.dart';
+import 'package:mangafaver/widgets/appBar.dart';
+import 'package:mangafaver/widgets/BotaoEntrar.dart';
 import 'package:mangafaver/widgets/botaoC.dart';
-import 'package:mangafaver/widgets/campoTexto22.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
 
@@ -41,6 +40,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (response.statusCode == 200) {
         print('Autenticado com sucesso!');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
       } else {
         print('Erro no login ${response.body}');
         print('Conteúdo do usernameController: ${usernameController.text}');
@@ -72,7 +75,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Color(0xFF1A1A1A),
-        appBar: AppBarHomeScreen(),
+        appBar: AppBar(
+          backgroundColor: Color(0xFF1A1A1A),
+          title: appBar(),
+        ),
         body: Center(
           child: ConstrainedBox(
             constraints: BoxConstraints(
@@ -95,11 +101,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   textoTitulo(
                     titulo: 'Login',
                   ),
-                  campoTexto2(
+                  campoTexto(
                     descricao: 'Nome de usuário',
                     controller: usernameController,
                   ),
-                  campoTexto2(
+                  campoTexto(
                     descricao: 'Senha',
                     obscureText: true,
                     controller: passwordController,
@@ -108,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: [
                         SizedBox(height: 20),
-                        botaoA(onPressed: () => _login()),
+                        BotaoEntrar(onPressed: () => _login()),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.1,
                         ),

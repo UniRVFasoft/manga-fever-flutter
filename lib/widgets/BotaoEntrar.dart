@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class botaoA extends StatelessWidget {
+class BotaoEntrar extends StatelessWidget {
   final VoidCallback? onPressed;
-  const botaoA({
+  const BotaoEntrar({
     Key? key,
     this.onPressed,
   });

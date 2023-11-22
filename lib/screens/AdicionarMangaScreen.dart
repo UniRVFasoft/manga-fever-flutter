@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mangafaver/screens/HomeScreen.dart';
 import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
 import 'package:mangafaver/widgets/BotaoAdicionarClassificacao.dart';
-import 'package:mangafaver/widgets/CampoTextoCustom.dart';
+import 'package:mangafaver/widgets/CampoTextoDescricao.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
 
@@ -13,6 +13,11 @@ class AdicionarMangaScreen extends StatefulWidget {
 }
 
 class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
+  TextEditingController tituloController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController imagemController = TextEditingController();
+  TextEditingController categoriesController = TextEditingController();
+
   final double botaoTamanho = 25.0;
   String opcaoSelecionada = '';
 
@@ -64,8 +69,14 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                             const textoTitulo(
                               titulo: 'Adicionar Mangá',
                             ),
-                            const campoTexto(descricao: 'Título'),
-                            const campoTexto(descricao: 'Link Imagem'),
+                            campoTexto(
+                              descricao: 'Título',
+                              controller: tituloController,
+                            ),
+                            campoTexto(
+                              descricao: 'Link Imagem',
+                              controller: imagemController,
+                            ),
                             Padding(
                               padding: EdgeInsets.symmetric(
                                 horizontal: 60,
@@ -120,9 +131,10 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                 ],
                               ),
                             ),
-                            const CampoTextoCustom(
+                            CampoTextoDescricao(
                               descricao: 'Descrição',
                               maxLines: 5,
+                              controller: descriptionController,
                             ),
                             SizedBox(
                               width: 250,

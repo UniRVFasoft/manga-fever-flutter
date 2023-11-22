@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 class campoTexto extends StatelessWidget {
   final String descricao;
   final bool obscureText;
+  final TextEditingController controller;
 
   const campoTexto({
     Key? key,
     required this.descricao,
     this.obscureText = false,
+    required this.controller,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final verticalPadding = screenHeight * 0.01;
 
@@ -38,6 +39,7 @@ class campoTexto extends StatelessWidget {
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 600),
             child: TextField(
+              controller: controller,
               obscureText: obscureText,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
