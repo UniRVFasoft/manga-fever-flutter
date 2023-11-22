@@ -39,13 +39,15 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
         'categorias': classificacao,
       };
 
+      print('Manga Data: $mangaData');
+
       final String requestBody = jsonEncode(mangaData);
 
       final response = await http.post(
         Uri.parse(apiUrl),
         headers: {
           'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhkYWU0ZjdkLWU2ZmEtNGFjYy1hMWY4LTMxZTVkYTc3ZTlmZCIsInNlbmhhIjoiJDJiJDEwJHlOd2lPTnBua1ExY3Q5M0I3dU82Ni5jZGZPc0hWNm8yMUlxU1lGd3UzMGRvMkNsWU9pQm8uIiwiZW1haWwiOiJwZWRyb0BwZWRyby5wZWRybyIsIm5vbWVVc3VhcmlvIjoicGVkcmluaG8iLCJpc0FkbWluIjp0cnVlLCJjcmlhZG9FbSI6IjIwMjMtMTEtMjJUMTE6MDE6MTIuODgwWiIsImlhdCI6MTcwMDY1MTE0NiwiZXhwIjoxNzAwNjU0NzQ2fQ.MPmBnGdWKPZe4oi85bEDIUAmDc1-TXyP3i_O3Nf4m1I',
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkMmQyYmJiLWE3NDctNDNjMS04YzhkLTJkNjk0OTg4OWNlNCIsInNlbmhhIjoiJDJiJDEwJGlkM0FLQW04Vy5wN25MVGRMYkZ4WXVnMXRyVkExa2dEaWxYRXRHakpka3hCMjNnemR5TGJTIiwiZW1haWwiOiJsdWNpYW5vQGVtYWlsLmNvbSIsIm5vbWVVc3VhcmlvIjoibHVjaWFubyIsImlzQWRtaW4iOnRydWUsImNyaWFkb0VtIjoiMjAyMy0xMS0yMlQwMDowMTowNi43MThaIiwiaWF0IjoxNzAwNjYxMzM1LCJleHAiOjE3MDA2NjQ5MzV9.bVmEBqM8ZuVzwhEelAF8SDewC0BlYX4mfQKZx6G1oQw',
           'Content-Type': 'application/json',
         },
         body: requestBody,
@@ -158,15 +160,26 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                         onPressed: (opcao) {
                                           if (opcaoSelecionada.length < 3) {
                                             setState(() {
-                                              opcaoSelecionada.add(opcao);
-                                              _containerHeight += 45.0;
+                                              if (!opcaoSelecionada
+                                                  .contains(opcao)) {
+                                                opcaoSelecionada.add(opcao);
+                                                _containerHeight += 45.0;
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                        'Categoria já adicionada.'),
+                                                  ),
+                                                );
+                                              }
                                             });
                                           } else {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
                                               SnackBar(
                                                 content: Text(
-                                                    'Você só pode adicionar até 3 categorias.'),
+                                                    'Você só pode adicionar até 3 categorias. Clique sobre alguma para excluí-la.'),
                                               ),
                                             );
                                           }
@@ -188,11 +201,19 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                         children: [
                                           SizedBox(height: 10),
                                           for (var item in opcaoSelecionada)
-                                            Column(
-                                              children: [
-                                                CampoCategoria(texto: item),
-                                                SizedBox(height: 10),
-                                              ],
+                                            GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  opcaoSelecionada.remove(item);
+                                                  _containerHeight -= 45.0;
+                                                });
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  CampoCategoria(texto: item),
+                                                  SizedBox(height: 10),
+                                                ],
+                                              ),
                                             ),
                                           SizedBox(height: 10, width: 10),
                                         ],

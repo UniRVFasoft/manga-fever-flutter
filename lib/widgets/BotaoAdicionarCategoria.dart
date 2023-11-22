@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BotaoAdicionarCategoria extends StatelessWidget {
+class BotaoAdicionarCategoria extends StatefulWidget {
   final double size;
   final double iconSize;
   final Color buttonColor;
@@ -15,35 +15,41 @@ class BotaoAdicionarCategoria extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _BotaoAdicionarCategoriaState createState() =>
+      _BotaoAdicionarCategoriaState();
+}
+
+class _BotaoAdicionarCategoriaState extends State<BotaoAdicionarCategoria> {
+  List<String> categorias = [
+    'Ação',
+    'Suspense',
+    'Ficção Científica',
+  ];
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: size,
-      height: size,
+      width: widget.size,
+      height: widget.size,
       child: FloatingActionButton(
         onPressed: () {},
-        backgroundColor: buttonColor,
+        backgroundColor: widget.buttonColor,
         child: PopupMenuButton<String>(
           onSelected: (String value) {
-            onPressed(value);
+            widget.onPressed(value);
           },
           child: Icon(
             Icons.add,
-            size: iconSize,
+            size: widget.iconSize,
           ),
-          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-            const PopupMenuItem<String>(
-              value: 'Ação',
-              child: Text('Ação'),
-            ),
-            const PopupMenuItem<String>(
-              value: 'Suspense',
-              child: Text('Suspense'),
-            ),
-            const PopupMenuItem<String>(
-              value: 'Ficção Científica',
-              child: Text('Ficção Científica'),
-            ),
-          ],
+          itemBuilder: (BuildContext context) => categorias
+              .map(
+                (categoria) => PopupMenuItem<String>(
+                  value: categoria,
+                  child: Text(categoria),
+                ),
+              )
+              .toList(),
         ),
       ),
     );
