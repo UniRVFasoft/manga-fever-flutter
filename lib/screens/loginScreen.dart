@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
 
 import 'package:mangafaver/widgets/botaoA.dart';
 import 'package:mangafaver/widgets/botaoC.dart';
+import 'package:mangafaver/widgets/campoTexto22.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
 
@@ -19,17 +22,19 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
 
   Future<void> _login() async {
-    const String apiUrl =
-        'https://manga-fever-backend-production.up.railway.app/auth/entrar';
+    const String apiUrl = 'http://localhost:3000/auth/entrar';
+    ;
 
     try {
       final response = await http.post(
         Uri.parse(apiUrl),
         body: {
-          'nomeUsuario': 'teste1',
-          'senha': 'senha123',
+          'nomeUsuario': usernameController.text,
+          'senha': passwordController.text,
         },
       );
+
+      var data = json.decode(response.body);
 
       print('Response status code: ${response.statusCode}');
       print('Response body: ${response.body}');
@@ -38,6 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
         print('Autenticado com sucesso!');
       } else {
         print('Erro no login ${response.body}');
+        print('Conteúdo do usernameController: ${usernameController.text}');
+        print('Conteúdo do passwordController: ${passwordController.text}');
       }
     } catch (error) {
       print('Error: $error');
@@ -88,10 +95,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   textoTitulo(
                     titulo: 'Login',
                   ),
-                  campoTexto(descricao: 'Nome de usuário'),
-                  campoTexto(
+                  campoTexto2(
+                    descricao: 'Nome de usuário',
+                    controller: usernameController,
+                  ),
+                  campoTexto2(
                     descricao: 'Senha',
                     obscureText: true,
+                    controller: passwordController,
                   ),
                   Container(
                     child: Column(

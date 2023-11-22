@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mangafaver/widgets/appBar.dart';
 import 'package:mangafaver/widgets/botaoA.dart';
 import 'package:mangafaver/widgets/botaoC.dart';
-import 'package:mangafaver/widgets/campoTexto.dart';
+import 'package:mangafaver/widgets/campoTexto22.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
 
 import '../lib/screens/registerScreen.dart';

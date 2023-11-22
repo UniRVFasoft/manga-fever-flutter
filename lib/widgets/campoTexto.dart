@@ -4,7 +4,6 @@ class campoTexto extends StatelessWidget {
   final String descricao;
   final bool obscureText;
 
-
   const campoTexto({
     Key? key,
     required this.descricao,
@@ -13,14 +12,15 @@ class campoTexto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    
-  final screenWidth = MediaQuery.of(context).size.width;
-  final screenHeight = MediaQuery.of(context).size.height;
-  final verticalPadding = screenHeight * 0.01;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final verticalPadding = screenHeight * 0.01;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10,),
+      padding: EdgeInsets.symmetric(
+        horizontal: 60,
+        vertical: 10,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mangafaver/controller/controller.dart';
 import 'dart:convert';
 
 import 'package:mangafaver/screens/loginScreen.dart';
@@ -7,7 +8,9 @@ import 'package:mangafaver/widgets/appBar.dart';
 import 'package:mangafaver/widgets/botaoA.dart';
 import 'package:mangafaver/widgets/botaoB.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
+import 'package:mangafaver/widgets/campoTexto22.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
+import 'package:mangafaver/widgets/campoTexto.dart';
 
 class registerScreen extends StatefulWidget {
   const registerScreen({Key? key}) : super(key: key);
@@ -20,17 +23,21 @@ class _registerScreenState extends State<registerScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPassawoerController = TextEditingController();
+
+  bool senhasIguais(String senha1, String senha2) {
+    return senha1 == senha2;
+  }
 
   Future<void> _cadastro() async {
-    const String apiUrl =
-        'https://manga-fever-backend-production.up.railway.app/auth/cadastrar';
+    const String apiUrl = 'http://localhost:3000/auth/cadastrar';
     try {
       final response = await http.post(
         Uri.parse(apiUrl),
         body: {
-          'nomeUsuario': 'teste12',
-          'email': 'email1@email.com',
-          'senha': 'senha123'
+          'nomeUsuario': usernameController.text,
+          'email': emailController.text,
+          'senha': passwordController.text,
         },
       );
 
@@ -39,6 +46,9 @@ class _registerScreenState extends State<registerScreen> {
 
       if (response.statusCode == 200) {
         print('Cadastrado com sucesso!');
+        print('Conteúdo do usernameController: ${usernameController.text}');
+        print('Conteúdo do passwordController: ${passwordController.text}');
+        print('Conteúdo do emailController: ${emailController.text}');
       } else {
         print('Erro no cadastro ${response.body}');
       }
@@ -95,21 +105,39 @@ class _registerScreenState extends State<registerScreen> {
                     textoTitulo(
                       titulo: 'Cadastro de usuário',
                     ),
-                    campoTexto(descricao: 'Nome de usuário'),
-                    campoTexto(descricao: 'Email'),
-                    campoTexto(
+                    campoTexto2(
+                      descricao: 'Nome de usuário',
+                      controller: usernameController,
+                    ),
+                    campoTexto2(
+                      descricao: 'Email',
+                      controller: emailController,
+                    ),
+                    campoTexto2(
                       descricao: 'Senha',
                       obscureText: true,
+                      controller: passwordController,
                     ),
-                    campoTexto(
+                    campoTexto2(
                       descricao: 'Confirmar senha',
                       obscureText: true,
+                      controller: confirmPassawoerController,
                     ),
                     Container(
                       child: Column(
                         children: [
                           SizedBox(height: 20),
-                          botaoA(onPressed: () => _cadastro()),
+                          botaoA(
+                            onPressed: () {
+                              if (senhasIguais(passwordController.text,
+                                  confirmPassawoerController.text)) {
+                                _cadastro();
+                              } else {
+                                print('As senhas não correspondem!');
+                                // Aqui você pode exibir uma mensagem ao usuário informando que as senhas não coincidem
+                              }
+                            },
+                          ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.1,
                           ),
