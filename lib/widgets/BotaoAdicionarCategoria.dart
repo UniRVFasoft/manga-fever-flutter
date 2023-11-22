@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class BotaoAdicionarClassificacao extends StatelessWidget {
+class BotaoAdicionarCategoria extends StatelessWidget {
   final double size;
   final double iconSize;
   final Color buttonColor;
   final Function(String) onPressed;
 
-  const BotaoAdicionarClassificacao({
+  const BotaoAdicionarCategoria({
     Key? key,
     this.size = 50.0,
     this.iconSize = 30.0,
@@ -32,16 +32,16 @@ class BotaoAdicionarClassificacao extends StatelessWidget {
           ),
           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
             const PopupMenuItem<String>(
-              value: 'opcao1',
-              child: Text('Opção 1'),
+              value: 'Ação',
+              child: Text('Ação'),
             ),
             const PopupMenuItem<String>(
-              value: 'opcao2',
-              child: Text('Opção 2'),
+              value: 'Suspense',
+              child: Text('Suspense'),
             ),
             const PopupMenuItem<String>(
-              value: 'opcao3',
-              child: Text('Opção 3'),
+              value: 'Ficção Científica',
+              child: Text('Ficção Científica'),
             ),
           ],
         ),

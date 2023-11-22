@@ -1,3 +1,4 @@
-2023/11/22-02:36:50.462 67b4 Reusing MANIFEST C:\Users\gabin\AppData\Local\Temp\flutter_tools.ed74be7d\flutter_tools_chrome_device.44e9bd7f\Default\Service Worker\Database/MANIFEST-000001
-2023/11/22-02:36:50.463 67b4 Recovering log #3
-2023/11/22-02:36:50.464 67b4 Reusing old log C:\Users\gabin\AppData\Local\Temp\flutter_tools.ed74be7d\flutter_tools_chrome_device.44e9bd7f\Default\Service Worker\Database/000003.log 
+2023/11/22-09:51:34.118 4d0c Creating DB C:\Users\joaov\AppData\Local\Temp\flutter_tools.f7619ee1\flutter_tools_chrome_device.50a90483\Default\Service Worker\Database since it was missing.
+2023/11/22-09:51:34.122 4d0c Reusing MANIFEST C:\Users\joaov\AppData\Local\Temp\flutter_tools.f7619ee1\flutter_tools_chrome_device.50a90483\Default\Service Worker\Database/MANIFEST-000001
+2023/11/22-09:51:34.122 4d0c Recovering log #3
+2023/11/22-09:51:34.122 4d0c Reusing old log C:\Users\joaov\AppData\Local\Temp\flutter_tools.f7619ee1\flutter_tools_chrome_device.50a90483\Default\Service Worker\Database/000003.log 

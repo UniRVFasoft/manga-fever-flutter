@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mangafaver/screens/HomeScreen.dart';
 import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
-import 'package:mangafaver/widgets/BotaoAdicionarClassificacao.dart';
+import 'package:mangafaver/widgets/BotaoAdicionarCategoria.dart';
 import 'package:mangafaver/widgets/CampoTextoDescricao.dart';
 import 'package:mangafaver/widgets/campoCategoria.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
@@ -24,12 +24,13 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
 
   final double botaoTamanho = 25.0;
   List<String> opcaoSelecionada = [];
-  
+  double _containerHeight = 590.0;
 
   Future<void> _adicionarManga() async {
-    const String apiUrl = 'https://manga-fever-backend-production.up.railway.app/mangas/create';
+    const String apiUrl =
+        'https://manga-fever-backend-production.up.railway.app/mangas/create';
     List<String> classificacao = opcaoSelecionada.toList();
-    
+
     try {
       final Map<String, dynamic> mangaData = {
         'titulo': tituloController.text,
@@ -83,10 +84,10 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
           final screenHeight = constraints.maxHeight;
 
           final containerMaxWidth = screenWidth * 0.8;
-          final containerMaxHeight = screenHeight * 1.0;
+          final containerMaxHeight = _containerHeight;
 
           const maxWidth = 800.0;
-          const maxHeight = 590.0;
+          const maxHeight = 800.0;
 
           final containerWidth =
               containerMaxWidth < maxWidth ? containerMaxWidth : maxWidth;
@@ -141,28 +142,34 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       if (screenWidth > 600)
-                                        SizedBox(
-                                            width: screenWidth *
-                                                0.03), // Ajuste a distância do lado direito conforme necessário
+                                        SizedBox(width: screenWidth * 0.03),
                                       const Text(
-                                        'Classificação',
+                                        'Categorias',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 16.0,
                                         ),
                                         textAlign: TextAlign.left,
                                       ),
-                                      const SizedBox(
-                                          width:
-                                              8), // Adiciona um espaço de 8 pixels entre o texto e o botão
-                                      BotaoAdicionarClassificacao(
+                                      const SizedBox(width: 8),
+                                      BotaoAdicionarCategoria(
                                         size: botaoTamanho,
                                         iconSize: 18.0,
                                         onPressed: (opcao) {
-                                          setState(() {
-                                            opcaoSelecionada.add(opcao);
-                                            
-                                          });
+                                          if (opcaoSelecionada.length < 3) {
+                                            setState(() {
+                                              opcaoSelecionada.add(opcao);
+                                              _containerHeight += 45.0;
+                                            });
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    'Você só pode adicionar até 3 categorias.'),
+                                              ),
+                                            );
+                                          }
                                         },
                                       ),
                                     ],
@@ -175,13 +182,19 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                             : 0,
                                         top: 10,
                                       ),
-                                     child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(height: 10),
                                           for (var item in opcaoSelecionada)
-                                           CampoCategoria(texto: item),
-                                           SizedBox(height: 10, width: 10,),
+                                            Column(
+                                              children: [
+                                                CampoCategoria(texto: item),
+                                                SizedBox(height: 10),
+                                              ],
+                                            ),
+                                          SizedBox(height: 10, width: 10),
                                         ],
                                       ),
                                     ),
