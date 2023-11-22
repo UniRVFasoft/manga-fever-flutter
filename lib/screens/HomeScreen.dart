@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
       throw Exception('Falha ao carregar os dados');
     }
   }
-
+  
   late double maxWidth;
 
   @override
@@ -42,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
     maxWidth = MediaQuery.sizeOf(context).width;
   }
+  
 
   @override
   Widget build(BuildContext context) {

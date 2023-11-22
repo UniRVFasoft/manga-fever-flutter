@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mangafaver/screens/HomeScreen.dart';
 import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
@@ -5,10 +7,12 @@ import 'package:mangafaver/widgets/BotaoAdicionarClassificacao.dart';
 import 'package:mangafaver/widgets/CampoTextoDescricao.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
+import 'package:http/http.dart' as http;
 
 class AdicionarMangaScreen extends StatefulWidget {
   const AdicionarMangaScreen({Key? key}) : super(key: key);
 
+  @override
   _AdicionarMangaScreenState createState() => _AdicionarMangaScreenState();
 }
 
@@ -16,10 +20,54 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
   TextEditingController tituloController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController imagemController = TextEditingController();
-  TextEditingController categoriesController = TextEditingController();
 
   final double botaoTamanho = 25.0;
   String opcaoSelecionada = '';
+
+  Future<void> _adicionarManga() async {
+    const String apiUrl = 'http://localhost:3000/mangas/create';
+
+    try {
+      final Map<String, dynamic> mangaData = {
+        'titulo': tituloController.text,
+        'descricao': descriptionController.text,
+        'imagem': imagemController.text,
+        'classificacao': opcaoSelecionada,
+      };
+
+      final String requestBody = jsonEncode(mangaData);
+
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {
+          'Authorization':
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkMmQyYmJiLWE3NDctNDNjMS04YzhkLTJkNjk0OTg4OWNlNCIsInNlbmhhIjoiJDJiJDEwJGlkM0FLQW04Vy5wN25MVGRMYkZ4WXVnMXRyVkExa2dEaWxYRXRHakpka3hCMjNnemR5TGJTIiwiZW1haWwiOiJsdWNpYW5vQGVtYWlsLmNvbSIsIm5vbWVVc3VhcmlvIjoibHVjaWFubyIsImlzQWRtaW4iOmZhbHNlLCJjcmlhZG9FbSI6IjIwMjMtMTEtMjJUMDA6MDE6MDYuNzE4WiIsImlhdCI6MTcwMDYxMTI2NiwiZXhwIjoxNzAwNjE0ODY2fQ.zDGXkV5_bgg0PiEIrQPadZmTrFfT701mxwtKmnorxvY',
+          'Content-Type': 'application/json',
+        },
+        body: requestBody,
+      );
+
+      print('Response status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        print('Mangá adicionado com sucesso!');
+
+        // Retorna para a tela anterior (HomeScreen) e passa os dados do novo mangá como parâmetro
+        Navigator.pop(context, {
+          'titulo': tituloController.text,
+          'descricao': descriptionController.text,
+          'imagem': imagemController.text,
+          'classificacao': opcaoSelecionada,
+        });
+      } else {
+        print('Erro ao adicionar o mangá ${response.body}');
+        // Trate o erro adequadamente
+      }
+    } catch (error) {
+      print('Erro: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +216,9 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                       ),
                                       Expanded(
                                         child: ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            _adicionarManga();
+                                          },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor:
                                                 const Color(0xFF008405),
