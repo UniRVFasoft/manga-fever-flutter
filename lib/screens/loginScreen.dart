@@ -20,8 +20,11 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  String errorMessage = '';
+
   Future<void> _login() async {
-    const String apiUrl = 'https://manga-fever-backend-production.up.railway.app/auth/entrar';
+    const String apiUrl =
+        'https://manga-fever-backend-production.up.railway.app/auth/entrar';
     ;
 
     try {
@@ -45,6 +48,10 @@ class _LoginScreenState extends State<LoginScreen> {
           MaterialPageRoute(builder: (context) => HomeScreen()),
         );
       } else {
+        setState(() {
+          errorMessage =
+              'Erro no login. Verifique suas credenciais e tente novamente.';
+        });
         print('Erro no login ${response.body}');
         print('Conteúdo do usernameController: ${usernameController.text}');
         print('Conteúdo do passwordController: ${passwordController.text}');
@@ -113,6 +120,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     child: Column(
                       children: [
+                        if (errorMessage
+                            .isNotEmpty) // Exibe a mensagem de erro se não estiver vazia
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              errorMessage,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
                         SizedBox(height: 20),
                         BotaoEntrar(onPressed: () => _login()),
                         SizedBox(

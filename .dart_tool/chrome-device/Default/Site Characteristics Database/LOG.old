@@ -1,7 +1,13 @@
-2023/11/22-01:34:20.454 4458 Reusing MANIFEST C:\Users\gabin\AppData\Local\Temp\flutter_tools.6c9dacfe\flutter_tools_chrome_device.991db8c6\Default\Site Characteristics Database/MANIFEST-000001
-2023/11/22-01:34:20.458 4458 Recovering log #10
-2023/11/22-01:34:20.458 4458 Reusing old log C:\Users\gabin\AppData\Local\Temp\flutter_tools.6c9dacfe\flutter_tools_chrome_device.991db8c6\Default\Site Characteristics Database/000010.log 
-2023/11/22-01:34:20.459 4458 Delete type=0 #3
-2023/11/22-01:34:20.459 4458 Delete type=2 #6
-2023/11/22-01:34:20.459 4458 Delete type=0 #6
-2023/11/22-01:34:20.459 4458 Delete type=2 #11
+2023/11/22-10:19:12.301 3338 Reusing MANIFEST C:\Users\joaov\AppData\Local\Temp\flutter_tools.9c02946d\flutter_tools_chrome_device.ef1d9ecc\Default\Site Characteristics Database/MANIFEST-000001
+2023/11/22-10:19:12.304 3338 Recovering log #3
+2023/11/22-10:19:12.304 3338 Level-0 table #3: started
+2023/11/22-10:19:12.306 3338 Level-0 table #3: 130 bytes OK
+2023/11/22-10:19:12.307 3338 Recovering log #6
+2023/11/22-10:19:12.307 3338 Level-0 table #4: started
+2023/11/22-10:19:12.308 3338 Level-0 table #4: 165 bytes OK
+2023/11/22-10:19:12.309 3338 Recovering log #10
+2023/11/22-10:19:12.309 3338 Reusing old log C:\Users\joaov\AppData\Local\Temp\flutter_tools.9c02946d\flutter_tools_chrome_device.ef1d9ecc\Default\Site Characteristics Database/000010.log 
+2023/11/22-10:19:12.310 3338 Delete type=0 #3
+2023/11/22-10:19:12.310 3338 Delete type=2 #6
+2023/11/22-10:19:12.311 3338 Delete type=0 #6
+2023/11/22-10:19:12.311 3338 Delete type=2 #11

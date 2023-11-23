@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-class BotaoAdicionarCategoria extends StatelessWidget {
+class BotaoAdicionarCategoria extends StatefulWidget {
   final double size;
   final double iconSize;
   final Color buttonColor;
@@ -15,35 +17,61 @@ class BotaoAdicionarCategoria extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _BotaoAdicionarCategoriaState createState() =>
+      _BotaoAdicionarCategoriaState();
+}
+
+class _BotaoAdicionarCategoriaState extends State<BotaoAdicionarCategoria> {
+  List<String> categorias = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategories();
+  }
+
+  Future<void> fetchCategories() async {
+    final response = await http.get(Uri.parse(
+        'https://manga-fever-backend-production.up.railway.app/categorias'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body);
+      List<String> fetchedCategories =
+          data.map((item) => item['descricao'].toString()).toList();
+
+      setState(() {
+        categorias = fetchedCategories;
+      });
+    } else {
+      print('Erro ao carregar categorias: ${response.statusCode}');
+      // Se houver um erro, você pode usar as categorias padrão ou lidar com o erro de outra forma
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: size,
-      height: size,
+      width: widget.size,
+      height: widget.size,
       child: FloatingActionButton(
         onPressed: () {},
-        backgroundColor: buttonColor,
+        backgroundColor: widget.buttonColor,
         child: PopupMenuButton<String>(
           onSelected: (String value) {
-            onPressed(value);
+            widget.onPressed(value);
           },
           child: Icon(
             Icons.add,
-            size: iconSize,
+            size: widget.iconSize,
           ),
-          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-            const PopupMenuItem<String>(
-              value: 'Ação',
-              child: Text('Ação'),
-            ),
-            const PopupMenuItem<String>(
-              value: 'Suspense',
-              child: Text('Suspense'),
-            ),
-            const PopupMenuItem<String>(
-              value: 'Ficção Científica',
-              child: Text('Ficção Científica'),
-            ),
-          ],
+          itemBuilder: (BuildContext context) => categorias
+              .map(
+                (categoria) => PopupMenuItem<String>(
+                  value: categoria,
+                  child: Text(categoria),
+                ),
+              )
+              .toList(),
         ),
       ),
     );
