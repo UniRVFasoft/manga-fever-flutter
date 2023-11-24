@@ -3,13 +3,29 @@ import 'package:mangafaver/screens/HomeScreen.dart';
 import 'package:mangafaver/screens/loginScreen.dart';
 
 class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarHomeScreen({super.key});
+  const AppBarHomeScreen({Key? key});
 
   @override
   Size get preferredSize => const Size.fromHeight(80);
 
+  void navigateToSearch(BuildContext context, String searchTerm) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(searchTerm: searchTerm),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final TextEditingController searchController = TextEditingController();
+
+    void onSearchSubmitted(String value) {
+      final String searchTerm = searchController.text;
+      navigateToSearch(context, searchTerm);
+    }
+
     return AppBar(
       automaticallyImplyLeading: false,
       toolbarHeight: 80,
@@ -20,17 +36,12 @@ class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
-                ),
-              );
+              navigateToSearch(context, '');
             },
             child: Image.asset(
               'assets/images/icon.png',
               height: AppBar().preferredSize.height * 1.1,
-            )
+            ),
           ),
           const SizedBox(width: 12),
           // Título da AppBar.
@@ -72,6 +83,7 @@ class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
                   width: MediaQuery.of(context).size.width > 600 ? 420 : 180,
                   height: 28,
                   child: TextField(
+                    controller: searchController,
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       hintText: 'Pesquisar...',
@@ -85,10 +97,14 @@ class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
                         horizontal: 10,
                       ),
                     ),
+                    onSubmitted: onSearchSubmitted,
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    final String searchTerm = searchController.text;
+                    navigateToSearch(context, searchTerm);
+                  },
                   child: const Icon(
                     Icons.search,
                     color: Color(0XFFE67D0B),

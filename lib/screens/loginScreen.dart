@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
         print('Autenticado com sucesso!');
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => HomeScreen(searchTerm: '',)),
         );
       } else {
         setState(() {

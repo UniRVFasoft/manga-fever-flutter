@@ -241,7 +241,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomeScreen(),
+                                                    HomeScreen(searchTerm: '',),
                                               ),
                                             );
                                           },

@@ -9,28 +9,38 @@ import '../widgets/ComponentesDaImagem.dart';
 import '../widgets/../widgets/BotoesHomeScreen.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
+  final String searchTerm;
+
+  const HomeScreen({Key? key, required this.searchTerm}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool ifCondition = false; // Variável de classe
-  final TextEditingController searchController = TextEditingController();
-
-  
-  //Realiza a chamada do banco de dados. MockAPI utilizado para testar a estrutura.
   Future<List<Map<String, dynamic>>> fetchData() async {
-    final response = await http.get(Uri.parse(
-        // 'https://653e87429e8bd3be29df705c.mockapi.io/apiteste/Imagens'
-        'https://manga-fever-backend-production.up.railway.app/mangas'));
+    final response = await http.get(
+      Uri.parse(
+        'https://manga-fever-backend-production.up.railway.app/mangas',
+      ),
+    );
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonResponse = json.decode(response.body);
       final List<Map<String, dynamic>> data =
           jsonResponse.cast<Map<String, dynamic>>();
-      return data;
+
+      if (widget.searchTerm.isEmpty) {
+        return data;
+      } else {
+        final List<Map<String, dynamic>> filteredData = data
+            .where((element) => element['titulo']
+                .toString()
+                .toLowerCase()
+                .contains(widget.searchTerm.toLowerCase()))
+            .toList();
+        return filteredData;
+      }
     } else {
       throw Exception('Falha ao carregar os dados');
     }
