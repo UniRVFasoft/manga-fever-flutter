@@ -47,7 +47,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
         Uri.parse(apiUrl),
         headers: {
           'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkMmQyYmJiLWE3NDctNDNjMS04YzhkLTJkNjk0OTg4OWNlNCIsInNlbmhhIjoiJDJiJDEwJGlkM0FLQW04Vy5wN25MVGRMYkZ4WXVnMXRyVkExa2dEaWxYRXRHakpka3hCMjNnemR5TGJTIiwiZW1haWwiOiJsdWNpYW5vQGVtYWlsLmNvbSIsIm5vbWVVc3VhcmlvIjoibHVjaWFubyIsImlzQWRtaW4iOnRydWUsImNyaWFkb0VtIjoiMjAyMy0xMS0yMlQwMDowMTowNi43MThaIiwiaWF0IjoxNzAwNjYxMzM1LCJleHAiOjE3MDA2NjQ5MzV9.bVmEBqM8ZuVzwhEelAF8SDewC0BlYX4mfQKZx6G1oQw',
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkMmQyYmJiLWE3NDctNDNjMS04YzhkLTJkNjk0OTg4OWNlNCIsInNlbmhhIjoiJDJiJDEwJGlkM0FLQW04Vy5wN25MVGRMYkZ4WXVnMXRyVkExa2dEaWxYRXRHakpka3hCMjNnemR5TGJTIiwiZW1haWwiOiJsdWNpYW5vQGVtYWlsLmNvbSIsIm5vbWVVc3VhcmlvIjoibHVjaWFubyIsImlzQWRtaW4iOnRydWUsImNyaWFkb0VtIjoiMjAyMy0xMS0yMlQwMDowMTowNi43MThaIiwiaWF0IjoxNzAwNzgzODgxLCJleHAiOjE3MDA3ODc0ODF9.iVY7FqpWvFoLM4JQIg-QMIvtm58S-twlosKoazNuXWc',
           'Content-Type': 'application/json',
         },
         body: requestBody,

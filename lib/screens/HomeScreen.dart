@@ -19,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool ifCondition = false; // Variável de classe
   final TextEditingController searchController = TextEditingController();
 
+  
   //Realiza a chamada do banco de dados. MockAPI utilizado para testar a estrutura.
   Future<List<Map<String, dynamic>>> fetchData() async {
     final response = await http.get(Uri.parse(
@@ -34,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
       throw Exception('Falha ao carregar os dados');
     }
   }
-  
+
   late double maxWidth;
 
   @override
@@ -42,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
     maxWidth = MediaQuery.sizeOf(context).width;
   }
-  
 
   @override
   Widget build(BuildContext context) {

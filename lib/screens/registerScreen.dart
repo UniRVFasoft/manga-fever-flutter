@@ -21,6 +21,8 @@ class _registerScreenState extends State<registerScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPassawordController = TextEditingController();
 
+  String errorMessage = '';
+
   bool senhasIguais(String senha1, String senha2) {
     return senha1 == senha2;
   }
@@ -48,8 +50,16 @@ class _registerScreenState extends State<registerScreen> {
         print('Conteúdo do emailController: ${emailController.text}');
       } else {
         print('Erro no cadastro ${response.body}');
+        setState(() {
+          errorMessage =
+              'Erro no cadastro. Verifique suas credenciais e tente novamente.';
+        });
       }
     } catch (error) {
+      setState(() {
+        errorMessage =
+            'Erro no cadastro. Verifique suas credenciais e tente novamente.';
+      });
       print('Error: $error');
     }
   }
@@ -124,6 +134,15 @@ class _registerScreenState extends State<registerScreen> {
                       child: Column(
                         children: [
                           SizedBox(height: 20),
+                          if (errorMessage
+                              .isNotEmpty) // Exibe a mensagem de erro se não estiver vazia
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                errorMessage,
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
                           BotaoCadastrar(
                             onPressed: () {
                               if (senhasIguais(passwordController.text,
