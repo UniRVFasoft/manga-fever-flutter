@@ -35,6 +35,7 @@ dependencies:
   http: ^1.1.0
   screens: ^2.5.0
   shared_preferences: ^2.2.2
+  cached_network_image: ^3.3.0
 
 dev_dependencies:
   flutter_test:

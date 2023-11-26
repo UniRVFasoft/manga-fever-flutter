@@ -25,6 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 
+    const String imagemPadrao =
+        'https://s2.glbimg.com/QeQ9cqGo-kE-TyD1crH7jpUiDE4=/620x455/e.glbimg.com/og/ed/f/original/2020/01/21/gettyimages-463651383.jpg';
+
     if (response.statusCode == 200) {
       final List<dynamic> jsonResponse = json.decode(response.body);
       final List<Map<String, dynamic>> data =
@@ -56,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //Logo.
     return Scaffold(
       appBar: AppBarHomeScreen(),
       backgroundColor: const Color(0xFF1A1A1A),
@@ -70,13 +72,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Text('Erro: ${snapshot.error}');
+                  // Adiciona tratamento de erro aqui
+                  return _buildErrorWidget(snapshot.error.toString());
                 } else if (snapshot.data is List<Map<String, dynamic>>) {
                   final List<Map<String, dynamic>> dataList = snapshot.data!;
                   if (dataList.isNotEmpty) {
                     return GestureDetector(
                       onTap: () {
-                        // Navigate to the desired screen
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -102,7 +104,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             final nota = data['nota'] ?? 0.0;
                             String title = data['titulo'] ?? '';
 
-                            //Se o título tiver mais de 16 caracteres quebra a linha.
                             if (title.length > 16) {
                               title =
                                   '${title.substring(0, 16)}\n${title.substring(16)}';
@@ -138,6 +139,27 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  // Função para construir um widget de erro
+  Widget _buildErrorWidget(String error) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.error,
+            size: 50,
+            color: Colors.red,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Erro ao carregar os dados: $error',
+            style: TextStyle(color: Colors.red),
+          ),
+        ],
       ),
     );
   }

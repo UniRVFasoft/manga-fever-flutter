@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mangafaver/widgets/FavoritarManga.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ComponentesDaImagem extends StatelessWidget {
   final double nota;
   final String imageUrl;
   final bool isFavorito;
   final String title;
+
+  final String imagemPadrao =
+      'https://upload.wikimedia.org/wikipedia/pt/thumb/5/5a/Boku_no_Hero_Academia_Volume_1.png/240px-Boku_no_Hero_Academia_Volume_1.png';
 
   const ComponentesDaImagem({
     required this.nota,
@@ -28,16 +32,20 @@ class ComponentesDaImagem extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Expanded(
-                    child: Image(
-                      image: Image.network(imageUrl).image,
+                    child: CachedNetworkImage(
+                      imageUrl: imageUrl,
                       fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => Image.network(
+                        imagemPadrao,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   const Padding(
-                    //Localização da nota na imagem.
+                    // Localização da nota na imagem.
                     padding: EdgeInsets.only(top: 8),
                   ),
-                  //Implementação das estrelas de acordo com a nota.
+                  // Implementação das estrelas de acordo com a nota.
                   RatingBar.builder(
                     initialRating: nota,
                     minRating: 0,
