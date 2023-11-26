@@ -82,8 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final containerMaxHeight = screenHeight * 0.8; // 80% da altura da tela
 
     // Defina limites máximos para largura e altura
-    final maxWidth = 700.0; // Largura máxima desejada
-    final maxHeight = 800.0; // Altura máxima desejada
+    const maxWidth = 700.0; // Largura máxima desejada
+    const maxHeight = 800.0; // Altura máxima desejada
 
     final containerWidth =
         containerMaxWidth < maxWidth ? containerMaxWidth : maxWidth;
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               child: Column(
                 children: <Widget>[
-                  textoTitulo(
+                  const textoTitulo(
                     titulo: 'Login',
                   ),
                   campoTexto(

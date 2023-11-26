@@ -68,3 +68,14 @@
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+*.cc
+*.cc
+*.cc
+.dart_tool/chrome-device/Default/Local Storage/leveldb/LOG
+.dart_tool/chrome-device/Default/DIPS
+.dart_tool/chrome-device/Default/Extension State/LOG
+.dart_tool/chrome-device/Default/Extension State/LOG.old
+*.old
+.dart_tool/chrome-device/Default/Favicons
+.dart_tool/chrome-device/Default/GCM Store/Encryption/LOG
+*.old

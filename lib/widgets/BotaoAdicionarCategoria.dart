@@ -6,7 +6,7 @@ class BotaoAdicionarCategoria extends StatefulWidget {
   final double size;
   final double iconSize;
   final Color buttonColor;
-  final Function(String) onPressed;
+  final Function(Categoria) onPressed;
 
   const BotaoAdicionarCategoria({
     Key? key,
@@ -22,7 +22,7 @@ class BotaoAdicionarCategoria extends StatefulWidget {
 }
 
 class _BotaoAdicionarCategoriaState extends State<BotaoAdicionarCategoria> {
-  List<String> categorias = [];
+  List<Categoria> categorias = [];
 
   @override
   void initState() {
@@ -36,15 +36,18 @@ class _BotaoAdicionarCategoriaState extends State<BotaoAdicionarCategoria> {
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
-      List<String> fetchedCategories =
-          data.map((item) => item['descricao'].toString()).toList();
+      List<Categoria> fetchedCategories = data
+          .map((item) => Categoria(
+                id: item['id'].toString(),
+                descricao: item['descricao'].toString(),
+              ))
+          .toList();
 
       setState(() {
         categorias = fetchedCategories;
       });
     } else {
       print('Erro ao carregar categorias: ${response.statusCode}');
-      // Se houver um erro, você pode usar as categorias padrão ou lidar com o erro de outra forma
     }
   }
 
@@ -56,9 +59,9 @@ class _BotaoAdicionarCategoriaState extends State<BotaoAdicionarCategoria> {
       child: FloatingActionButton(
         onPressed: () {},
         backgroundColor: widget.buttonColor,
-        child: PopupMenuButton<String>(
-          onSelected: (String value) {
-            widget.onPressed(value);
+        child: PopupMenuButton<Categoria>(
+          onSelected: (Categoria selectedCategory) {
+            widget.onPressed(selectedCategory);
           },
           child: Icon(
             Icons.add,
@@ -66,9 +69,9 @@ class _BotaoAdicionarCategoriaState extends State<BotaoAdicionarCategoria> {
           ),
           itemBuilder: (BuildContext context) => categorias
               .map(
-                (categoria) => PopupMenuItem<String>(
+                (categoria) => PopupMenuItem<Categoria>(
                   value: categoria,
-                  child: Text(categoria),
+                  child: Text(categoria.descricao),
                 ),
               )
               .toList(),
@@ -76,4 +79,21 @@ class _BotaoAdicionarCategoriaState extends State<BotaoAdicionarCategoria> {
       ),
     );
   }
+}
+
+class Categoria {
+  final String id;
+  final String descricao;
+
+  Categoria({required this.id, required this.descricao});
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Categoria &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          descricao == other.descricao;
+
+  @override
+  int get hashCode => id.hashCode ^ descricao.hashCode;
 }

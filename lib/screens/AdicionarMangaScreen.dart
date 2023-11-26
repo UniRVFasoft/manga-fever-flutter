@@ -24,13 +24,19 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
   TextEditingController imagemController = TextEditingController();
 
   final double botaoTamanho = 25.0;
-  List<String> opcaoSelecionada = [];
+  List<Categoria> opcaoSelecionada = [];
   double _containerHeight = 590.0;
+
+  List<Categoria> categorias = [];
 
   Future<void> _adicionarManga() async {
     const String apiUrl =
         'https://manga-fever-backend-production.up.railway.app/mangas/create';
-    List<String> classificacao = opcaoSelecionada.toList();
+
+    final List<String> categoriaIds =
+        opcaoSelecionada.map((categoria) => categoria.id).toList();
+
+    final BuildContext currentContext = context; // Store the context
 
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -41,45 +47,62 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
           'titulo': tituloController.text,
           'descricao': descriptionController.text,
           'imagem': imagemController.text,
-          'categorias': classificacao,
+          'categorias': categoriaIds,
         };
-
-        print('Manga Data: $mangaData');
 
         final String requestBody = jsonEncode(mangaData);
 
         final response = await http.post(
           Uri.parse(apiUrl),
           headers: {
-            'Authorization': 'Bearer $token', // Usando o token no cabeçalho
+            'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',
           },
           body: requestBody,
         );
 
-        print('Response status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
-
-        if (response.statusCode == 200) {
-          print('Mangá adicionado com sucesso!');
+        if (response.statusCode == 201) {
+          ScaffoldMessenger.of(currentContext).showSnackBar(
+            SnackBar(
+              content: Text('Mangá adicionado com sucesso!'),
+              backgroundColor: Colors.green,
+            ),
+          );
 
           // Retorna para a tela anterior (HomeScreen) e passa os dados do novo mangá como parâmetro
-          Navigator.pop(context, {
+          Navigator.pop(currentContext, {
             'titulo': tituloController.text,
             'descricao': descriptionController.text,
             'imagem': imagemController.text,
-            'classificacao': opcaoSelecionada,
+            'classificacao': categoriaIds,
           });
         } else {
-          print('Erro ao adicionar o mangá ${response.body}');
-          // Trate o erro adequadamente
+          ScaffoldMessenger.of(currentContext).showSnackBar(
+            SnackBar(
+              content: Text('Erro ao adicionar o mangá. Tente novamente.'),
+              backgroundColor: Colors.red,
+            ),
+          );
         }
       } else {
-        print('Token não encontrado nas SharedPreferences.');
-        // Lógica para lidar quando o token não está disponível
+        // Show error message
+        ScaffoldMessenger.of(currentContext).showSnackBar(
+          SnackBar(
+            content: Text('Erro: Token não encontrado. Faça login novamente.'),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     } catch (error) {
       print('Erro: $error');
+
+      // Show error message
+      ScaffoldMessenger.of(currentContext).showSnackBar(
+        SnackBar(
+          content: Text('Erro inesperado. Tente novamente mais tarde.'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
@@ -141,7 +164,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(
-                                horizontal: 60,
+                                horizontal: 50,
                                 vertical: 10,
                               ),
                               child: Column(
@@ -166,11 +189,18 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                         size: botaoTamanho,
                                         iconSize: 18.0,
                                         onPressed: (opcao) {
-                                          if (opcaoSelecionada.length < 3) {
+                                          if (opcaoSelecionada.length < 6) {
                                             setState(() {
-                                              if (!opcaoSelecionada
-                                                  .contains(opcao)) {
-                                                opcaoSelecionada.add(opcao);
+                                              final Categoria categoria =
+                                                  Categoria(
+                                                id: opcao.id,
+                                                descricao: opcao.descricao,
+                                              );
+
+                                              if (!categorias.any((c) =>
+                                                  c.id == categoria.id)) {
+                                                opcaoSelecionada.add(categoria);
+                                                categorias.add(categoria);
                                                 _containerHeight += 45.0;
                                               } else {
                                                 ScaffoldMessenger.of(context)
@@ -187,7 +217,8 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                                 .showSnackBar(
                                               SnackBar(
                                                 content: Text(
-                                                    'Você só pode adicionar até 3 categorias. Clique sobre alguma para excluí-la.'),
+                                                  'Você só pode adicionar até 6 categorias. Clique sobre alguma para excluí-la.',
+                                                ),
                                               ),
                                             );
                                           }
@@ -203,27 +234,27 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                             : 0,
                                         top: 10,
                                       ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      child: Wrap(
+                                        spacing:
+                                            5.0, // Adjust spacing between items
+                                        runSpacing:
+                                            5.0, // Adjust spacing between lines
                                         children: [
-                                          SizedBox(height: 10),
-                                          for (var item in opcaoSelecionada)
+                                          for (var categoria
+                                              in opcaoSelecionada)
                                             GestureDetector(
                                               onTap: () {
                                                 setState(() {
-                                                  opcaoSelecionada.remove(item);
+                                                  opcaoSelecionada
+                                                      .remove(categoria);
+                                                  categorias.removeWhere((c) =>
+                                                      c.id == categoria.id);
                                                   _containerHeight -= 45.0;
                                                 });
                                               },
-                                              child: Column(
-                                                children: [
-                                                  CampoCategoria(texto: item),
-                                                  SizedBox(height: 10),
-                                                ],
-                                              ),
+                                              child: CampoCategoria(
+                                                  texto: categoria.descricao),
                                             ),
-                                          SizedBox(height: 10, width: 10),
                                         ],
                                       ),
                                     ),
