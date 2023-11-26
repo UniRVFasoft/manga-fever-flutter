@@ -1,7 +1,2 @@
-2023/11/23-10:34:24.145 2a8 Reusing MANIFEST C:\Users\gabin\AppData\Local\Temp\flutter_tools.c24bd37f\flutter_tools_chrome_device.9b884fd\Default\Site Characteristics Database/MANIFEST-000001
-2023/11/23-10:34:24.149 2a8 Recovering log #10
-2023/11/23-10:34:24.149 2a8 Reusing old log C:\Users\gabin\AppData\Local\Temp\flutter_tools.c24bd37f\flutter_tools_chrome_device.9b884fd\Default\Site Characteristics Database/000010.log 
-2023/11/23-10:34:24.151 2a8 Delete type=0 #3
-2023/11/23-10:34:24.151 2a8 Delete type=2 #6
-2023/11/23-10:34:24.151 2a8 Delete type=0 #6
-2023/11/23-10:34:24.152 2a8 Delete type=2 #11
+2023/11/26-13:42:03.727 2b48 Creating DB C:\Users\pedro\AppData\Local\Temp\flutter_tools.52e03369\flutter_tools_chrome_device.cfb3341a\Default\Site Characteristics Database since it was missing.
+2023/11/26-13:42:03.808 2b48 Reusing MANIFEST C:\Users\pedro\AppData\Local\Temp\flutter_tools.52e03369\flutter_tools_chrome_device.cfb3341a\Default\Site Characteristics Database/MANIFEST-000001

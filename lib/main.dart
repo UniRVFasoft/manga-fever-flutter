@@ -4,8 +4,11 @@ import 'package:mangafaver/screens/HomeScreen.dart';
 import 'package:mangafaver/screens/MangaScreen.dart';
 import 'package:mangafaver/screens/loginScreen.dart';
 import 'package:mangafaver/screens/registerScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferences.getInstance();
   runApp(MyApp());
 }
 
@@ -17,7 +20,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: HomeScreen(searchTerm: '',),
+        body: HomeScreen(
+          searchTerm: '',
+        ),
       ),
     );
   }

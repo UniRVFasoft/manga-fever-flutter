@@ -8,6 +8,7 @@ import 'package:mangafaver/widgets/BotaoEntrar.dart';
 import 'package:mangafaver/widgets/botaoC.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -43,9 +44,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (response.statusCode == 200) {
         print('Autenticado com sucesso!');
+
+        final responseData = json.decode(response.body);
+        final token = responseData['token'];
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
+
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen(searchTerm: '',)),
+          MaterialPageRoute(
+              builder: (context) => HomeScreen(
+                    searchTerm: '',
+                  )),
         );
       } else {
         setState(() {

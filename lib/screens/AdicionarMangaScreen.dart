@@ -9,6 +9,7 @@ import 'package:mangafaver/widgets/campoCategoria.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdicionarMangaScreen extends StatefulWidget {
   const AdicionarMangaScreen({Key? key}) : super(key: key);
@@ -32,43 +33,50 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
     List<String> classificacao = opcaoSelecionada.toList();
 
     try {
-      final Map<String, dynamic> mangaData = {
-        'titulo': tituloController.text,
-        'descricao': descriptionController.text,
-        'imagem': imagemController.text,
-        'categorias': classificacao,
-      };
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
 
-      print('Manga Data: $mangaData');
-
-      final String requestBody = jsonEncode(mangaData);
-
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: {
-          'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkMmQyYmJiLWE3NDctNDNjMS04YzhkLTJkNjk0OTg4OWNlNCIsInNlbmhhIjoiJDJiJDEwJGlkM0FLQW04Vy5wN25MVGRMYkZ4WXVnMXRyVkExa2dEaWxYRXRHakpka3hCMjNnemR5TGJTIiwiZW1haWwiOiJsdWNpYW5vQGVtYWlsLmNvbSIsIm5vbWVVc3VhcmlvIjoibHVjaWFubyIsImlzQWRtaW4iOnRydWUsImNyaWFkb0VtIjoiMjAyMy0xMS0yMlQwMDowMTowNi43MThaIiwiaWF0IjoxNzAwNzgzODgxLCJleHAiOjE3MDA3ODc0ODF9.iVY7FqpWvFoLM4JQIg-QMIvtm58S-twlosKoazNuXWc',
-          'Content-Type': 'application/json',
-        },
-        body: requestBody,
-      );
-
-      print('Response status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-
-      if (response.statusCode == 200) {
-        print('Mangá adicionado com sucesso!');
-
-        // Retorna para a tela anterior (HomeScreen) e passa os dados do novo mangá como parâmetro
-        Navigator.pop(context, {
+      if (token != null) {
+        final Map<String, dynamic> mangaData = {
           'titulo': tituloController.text,
           'descricao': descriptionController.text,
           'imagem': imagemController.text,
-          'classificacao': opcaoSelecionada,
-        });
+          'categorias': classificacao,
+        };
+
+        print('Manga Data: $mangaData');
+
+        final String requestBody = jsonEncode(mangaData);
+
+        final response = await http.post(
+          Uri.parse(apiUrl),
+          headers: {
+            'Authorization': 'Bearer $token', // Usando o token no cabeçalho
+            'Content-Type': 'application/json',
+          },
+          body: requestBody,
+        );
+
+        print('Response status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+
+        if (response.statusCode == 200) {
+          print('Mangá adicionado com sucesso!');
+
+          // Retorna para a tela anterior (HomeScreen) e passa os dados do novo mangá como parâmetro
+          Navigator.pop(context, {
+            'titulo': tituloController.text,
+            'descricao': descriptionController.text,
+            'imagem': imagemController.text,
+            'classificacao': opcaoSelecionada,
+          });
+        } else {
+          print('Erro ao adicionar o mangá ${response.body}');
+          // Trate o erro adequadamente
+        }
       } else {
-        print('Erro ao adicionar o mangá ${response.body}');
-        // Trate o erro adequadamente
+        print('Token não encontrado nas SharedPreferences.');
+        // Lógica para lidar quando o token não está disponível
       }
     } catch (error) {
       print('Erro: $error');
@@ -241,7 +249,9 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomeScreen(searchTerm: '',),
+                                                    HomeScreen(
+                                                  searchTerm: '',
+                                                ),
                                               ),
                                             );
                                           },
