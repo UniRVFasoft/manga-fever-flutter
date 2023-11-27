@@ -5,11 +5,16 @@ import 'package:mangafaver/screens/MangaScreen.dart';
 import 'package:mangafaver/screens/loginScreen.dart';
 import 'package:mangafaver/screens/registerScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import './providers/user_provider.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await SharedPreferences.getInstance();
-  runApp(MyApp());
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

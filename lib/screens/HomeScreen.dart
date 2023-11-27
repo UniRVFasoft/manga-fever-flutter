@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarHomeScreen(),
+      appBar: const AppBarHomeScreen(),
       backgroundColor: const Color(0xFF1A1A1A),
       body: Column(
         children: [
@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(50),
                         child: GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(

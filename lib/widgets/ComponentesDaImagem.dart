@@ -32,18 +32,22 @@ class ComponentesDaImagem extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Expanded(
-                    child: CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      fit: BoxFit.cover,
-                      errorWidget: (context, url, error) => Image.network(
-                        imagemPadrao,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                          10.0), // Adjust the radius as needed
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl,
                         fit: BoxFit.cover,
+                        errorWidget: (context, url, error) => Image.network(
+                          imagemPadrao,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
                   const Padding(
                     // Localização da nota na imagem.
-                    padding: EdgeInsets.only(top: 8),
+                    padding: EdgeInsets.only(top: 15),
                   ),
                   // Implementação das estrelas de acordo com a nota.
                   RatingBar.builder(
