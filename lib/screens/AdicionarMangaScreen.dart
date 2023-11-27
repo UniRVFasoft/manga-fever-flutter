@@ -110,7 +110,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF1A1A1A),
-      appBar: const AppBarHomeScreen(),
+      appBar: AppBarHomeScreen(showSearchBar: false),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final screenWidth = constraints.maxWidth;

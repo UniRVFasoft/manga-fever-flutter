@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:mangafaver/screens/loginScreen.dart';
 import 'package:mangafaver/widgets/BotaoCadastrar.dart';
-import 'package:mangafaver/widgets/appBar.dart';
+import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
 import 'package:mangafaver/widgets/botaoB.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
 import 'package:mangafaver/widgets/textoTitulo.dart';
@@ -87,7 +87,7 @@ class _registerScreenState extends State<registerScreen> {
         backgroundColor: Color(0xFF1A1A1A),
         appBar: AppBar(
           backgroundColor: Color(0xFF1A1A1A),
-          title: appBar(),
+          title: AppBarHomeScreen(),
         ),
         body: SingleChildScrollView(
           child: Center(

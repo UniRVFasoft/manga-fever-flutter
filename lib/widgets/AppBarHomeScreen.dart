@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:mangafaver/providers/user_provider.dart';
 import 'package:mangafaver/screens/HomeScreen.dart';
@@ -5,10 +7,19 @@ import 'package:mangafaver/screens/loginScreen.dart';
 import 'package:provider/provider.dart';
 
 class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarHomeScreen({Key? key});
+  AppBarHomeScreen({Key? key, this.showSearchBar = true}) : super(key: key);
+
+  final bool showSearchBar;
 
   @override
   Size get preferredSize => const Size.fromHeight(80);
+
+  final TextEditingController searchController = TextEditingController();
+
+  void onSearchSubmitted(String value) {
+    final String searchTerm = searchController.text;
+    navigateToSearch(context as BuildContext, searchTerm);
+  }
 
   void navigateToSearch(BuildContext context, String searchTerm) {
     Navigator.push(
@@ -63,10 +74,47 @@ class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
               ),
             ],
           ),
-          const Spacer(),
-          Container(
-              // ... Your existing code
+          if (showSearchBar) ...[
+            const Spacer(),
+            Container(
+              child: Row(
+                children: [
+                  SizedBox(
+                    // Tamanho da barra de pesquisa em telas maiores.
+                    width: MediaQuery.of(context).size.width > 600 ? 420 : 180,
+                    height: 28,
+                    child: TextField(
+                      controller: searchController,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: 'Pesquisar...',
+                        hintStyle: TextStyle(
+                          color: const Color(0xFF878787).withOpacity(0.5),
+                          fontSize: 13,
+                        ),
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 16.5,
+                          horizontal: 10,
+                        ),
+                      ),
+                      onSubmitted: onSearchSubmitted,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      final String searchTerm = searchController.text;
+                      navigateToSearch(context, searchTerm);
+                    },
+                    child: const Icon(
+                      Icons.search,
+                      color: Color(0XFFE67D0B),
+                    ),
+                  )
+                ],
               ),
+            ),
+          ],
           const Spacer(),
           InkWell(
             onTap: () {
