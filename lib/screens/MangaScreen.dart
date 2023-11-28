@@ -1,11 +1,47 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:mangafaver/widgets/Appbar1.dart';
 import 'package:mangafaver/widgets/dadosClassificacaoGeral.dart';
 import 'package:mangafaver/widgets/DadosMangaGeral.dart';
 
-class MangaScreen extends StatelessWidget {
-  const MangaScreen({Key? key}) : super(key: key);
+class MangaScreen extends StatefulWidget {
+  final String mangaId;
+
+  const MangaScreen({Key? key, required this.mangaId}) : super(key: key);
+
+  @override
+  _MangaScreenState createState() => _MangaScreenState();
+}
+
+class _MangaScreenState extends State<MangaScreen> {
+  late Map<String, dynamic> mangaDetails = {};
+
+  Future<void> fetchMangaDetails() async {
+    final url = Uri.parse(
+        'https://manga-fever-backend-production.up.railway.app/mangas/${widget.mangaId}');
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        setState(() {
+          mangaDetails = json.decode(response.body);
+          print('ID do manga recebido: ${widget.mangaId}');
+        });
+      } else {
+        throw Exception('Falha ao carregar detalhes do manga');
+      }
+    } catch (error) {
+      throw Exception('Erro: $error');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMangaDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,14 +102,7 @@ class MangaScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           DadosMangaGeral(
-                            imagem: 'assets/images/capa.jpeg',
-                            containerWidth: MediaQuery.of(context).size.width,
-                            containerHeight: MediaQuery.of(context).size.height,
-                            categories: [
-                              'Ação',
-                              'Escolar',
-                              'Shounen'
-                            ], // Lista de categorias
+                            mangaData: mangaDetails,
                           ),
                           dadosClassificacaoGeral(),
                         ],
@@ -83,10 +112,7 @@ class MangaScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           DadosMangaGeral(
-                            imagem: 'assets/images/capa.jpeg',
-                            containerWidth: MediaQuery.of(context).size.width,
-                            containerHeight: MediaQuery.of(context).size.height,
-                            categories: ['Ação', 'Escolar', 'Shounen'],
+                            mangaData: mangaDetails,
                           ),
                           dadosClassificacaoGeral(),
                         ],

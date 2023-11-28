@@ -75,56 +75,56 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else if (snapshot.hasError) {
                   // Adiciona tratamento de erro aqui
                   return _buildErrorWidget(snapshot.error.toString());
-                } else if (snapshot.data is List<Map<String, dynamic>>) {
+                } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                   final List<Map<String, dynamic>> dataList = snapshot.data!;
-                  if (dataList.isNotEmpty) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MangaScreen()),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(50),
-                        child: GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: maxWidth > 600 ? 6 : 2,
-                            crossAxisSpacing: 1.0,
-                            mainAxisSpacing: 45.0,
-                            childAspectRatio: 0.8,
-                          ),
-                          itemCount: dataList.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            final data = dataList[index];
-                            final imageUrl =
-                                data['imagem'] ?? data['imagens'] ?? '';
-                            final nota = data['nota'] ?? 0.0;
-                            String title = data['titulo'] ?? '';
 
-                            if (title.length > 16) {
-                              title =
-                                  '${title.substring(0, 16)}\n${title.substring(16)}';
-                            }
+                  return Padding(
+                    padding: const EdgeInsets.all(50),
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: maxWidth > 600 ? 6 : 2,
+                        crossAxisSpacing: 1.0,
+                        mainAxisSpacing: 45.0,
+                        childAspectRatio: 0.8,
+                      ),
+                      itemCount: dataList.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final data = dataList[index];
+                        final imageUrl =
+                            data['imagem'] ?? data['imagens'] ?? '';
+                        final nota = data['nota'] ?? 0.0;
+                        String title = data['titulo'] ?? '';
+                        String id = data["id"] ?? '';
 
-                            return ComponentesDaImagem(
-                              nota: nota,
-                              imageUrl: imageUrl,
-                              isFavorito: false,
-                              title: title,
+                        if (title.length > 16) {
+                          title =
+                              '${title.substring(0, 16)}\n${title.substring(16)}';
+                        }
+
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MangaScreen(
+                                  mangaId: id,
+                                ),
+                              ),
                             );
                           },
-                        ),
-                      ),
-                    );
-                  } else {
-                    return const Text('Nenhum dado encontrado.');
-                  }
+                          child: ComponentesDaImagem(
+                            nota: nota,
+                            imageUrl: imageUrl,
+                            isFavorito: false,
+                            title: title,
+                          ),
+                        );
+                      },
+                    ),
+                  );
                 } else {
-                  return const Text('Dados inválidos');
+                  return const Center(child: Text('Nenhum dado encontrado.'));
                 }
               },
             ),
@@ -143,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
   // Função para construir um widget de erro
   Widget _buildErrorWidget(String error) {
     return Center(

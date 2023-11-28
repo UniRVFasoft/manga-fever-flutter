@@ -1,36 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:mangafaver/widgets/campoCategoria.dart';
+import 'package:mangafaver/widgets/campoCategoria2.dart';
 import 'package:mangafaver/widgets/descricaoManga.dart';
 import 'package:mangafaver/widgets/tituloManga.dart';
 
 class DadosMangaGeral extends StatelessWidget {
   const DadosMangaGeral({
     Key? key,
-    required this.imagem,
-    required this.containerWidth,
-    required this.containerHeight,
-    required this.categories,
+    required this.mangaData,
   }) : super(key: key);
 
-  final String imagem;
-  final double containerWidth;
-  final double containerHeight;
-  final List<String> categories;
+  final Map<String, dynamic> mangaData;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Verificar a largura disponível na tela
         double screenWidth = constraints.maxWidth;
 
         if (screenWidth < 1038) {
-          // Defina o limite desejado para a mudança de layout
-          // Layout em coluna
+          // Layout em coluna para telas menores
           return Column(
             children: <Widget>[
-              Image.asset(
-                imagem,
+              Image.network(
+                mangaData['imagem'] ?? 'URL padrão se não houver imagem',
                 width: 200,
               ),
               Padding(
@@ -39,23 +32,21 @@ class DadosMangaGeral extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TituloManga(
-                      textoTitulo:
-                          'Tokyo Revengers: Baji Keisuke kara no Tegami',
+                      textoTitulo: mangaData['titulo'] ?? '',
                     ),
                     for (var category
-                        in categories.take(3)) // Mostrar até 3 categorias
+                        in (mangaData['categorias'] as List<dynamic>?)
+                                ?.take(3) ??
+                            [])
                       Column(
                         children: [
-                          CampoCategoria(texto: category),
+                          CampoCategoria2(categoryId: category.toString()),
                           SizedBox(height: 15),
                         ],
                       ),
-                    SizedBox(
-                        height:
-                            25), // Espaçamento entre tituloManga e CampoCategoria
+                    SizedBox(height: 25),
                     DescricaoManga(
-                      textoDescricao:
-                          'Takemichi é um virgem desempregado de 26 anos que descobre que a garota que ele namorou durante o ensino médio - a única que ele já namorou - morreu. Então, após um acidente ele se encontra de volta ao passado, durante seus anos de ensino médio. Ele promete mudar o futuro e salvar a garota, e para isso, ele planeja subir até o topo da gangue de delinquentes mais brutal da região de Kantou.',
+                      textoDescricao: mangaData['descricao'] ?? '',
                     ),
                   ],
                 ),
@@ -63,6 +54,7 @@ class DadosMangaGeral extends StatelessWidget {
             ],
           );
         } else {
+          // Layout em linha para telas maiores
           return Row(
             children: <Widget>[
               Padding(
@@ -70,16 +62,17 @@ class DadosMangaGeral extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 5), // Reduzir o espaçamento do topo
-                    SizedBox(height: 2), // Espaçamento entre o topo e o título
+                    SizedBox(height: 5),
+                    SizedBox(height: 2),
                     Row(
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(left: 40),
                           child: Align(
                             alignment: Alignment.topLeft,
-                            child: Image.asset(
-                              'assets/images/capa.jpeg',
+                            child: Image.network(
+                              mangaData['imagem'] ??
+                                  'URL padrão se não houver imagem',
                               width: 200,
                             ),
                           ),
@@ -90,26 +83,23 @@ class DadosMangaGeral extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TituloManga(
-                                textoTitulo:
-                                    'Tokyo Revengers: Baji Keisuke kara no Tegami',
+                                textoTitulo: mangaData['titulo'] ?? '',
                               ),
-                              SizedBox(
-                                  height:
-                                      20), // Espaçamento entre tituloManga e CampoCategoria
-                              for (var category in categories
-                                  .take(3)) // Mostrar até 3 categorias
+                              SizedBox(height: 20),
+                              for (var category
+                                  in (mangaData['categorias'] as List<dynamic>?)
+                                          ?.take(3) ??
+                                      [])
                                 Column(
                                   children: [
-                                    CampoCategoria(texto: category),
+                                    CampoCategoria2(
+                                        categoryId: category.toString()),
                                     SizedBox(height: 15),
                                   ],
                                 ),
-                              SizedBox(
-                                  height:
-                                      20), // Espaçamento entre Row de CampoCategoria e descricaoManga
+                              SizedBox(height: 20),
                               DescricaoManga(
-                                textoDescricao:
-                                    'Takemichi é um virgem desempregado de 26 anos que descobre que a garota que ele namorou durante o ensino médio - a única que ele já namorou - morreu. Então, após um acidente ele se encontra de volta ao passado, durante seus anos de ensino médio. Ele promete mudar o futuro e salvar a garota, e para isso, ele planeja subir até o topo da gangue de delinquentes mais brutal da região de Kantou.',
+                                textoDescricao: mangaData['descricao'] ?? '',
                               ),
                             ],
                           ),
