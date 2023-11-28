@@ -19,12 +19,21 @@ class DadosMangaGeral extends StatelessWidget {
         double screenWidth = constraints.maxWidth;
 
         if (screenWidth < 1038) {
-          // Layout em coluna para telas menores
           return Column(
             children: <Widget>[
               Image.network(
                 mangaData['imagem'] ?? 'URL padrão se não houver imagem',
                 width: 200,
+                fit: BoxFit.cover,
+                errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
+                  return Placeholder(
+                    fallbackWidth: 200, // Largura da imagem de substituição
+                    fallbackHeight: 200, // Altura da imagem de substituição
+                    color:
+                        Colors.grey, // Cor de fundo da imagem de substituição
+                  );
+                },
               ),
               Padding(
                 padding: EdgeInsets.all(20),
@@ -54,7 +63,6 @@ class DadosMangaGeral extends StatelessWidget {
             ],
           );
         } else {
-          // Layout em linha para telas maiores
           return Row(
             children: <Widget>[
               Padding(
@@ -74,6 +82,7 @@ class DadosMangaGeral extends StatelessWidget {
                               mangaData['imagem'] ??
                                   'URL padrão se não houver imagem',
                               width: 200,
+                              fit: BoxFit.cover, // Define o ajuste da imagem
                             ),
                           ),
                         ),
