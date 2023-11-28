@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mangafaver/screens/HomeScreen.dart';
-import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
+import 'package:mangafaver/widgets/Appbar1.dart';
 import 'package:mangafaver/widgets/BotaoAdicionarCategoria.dart';
 import 'package:mangafaver/widgets/CampoTextoDescricao.dart';
 import 'package:mangafaver/widgets/campoCategoria.dart';
@@ -63,7 +63,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
 
         if (response.statusCode == 201) {
           ScaffoldMessenger.of(currentContext).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('Mangá adicionado com sucesso!'),
               backgroundColor: Colors.green,
             ),
@@ -78,7 +78,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
           });
         } else {
           ScaffoldMessenger.of(currentContext).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('Erro ao adicionar o mangá. Tente novamente.'),
               backgroundColor: Colors.red,
             ),
@@ -87,7 +87,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
       } else {
         // Show error message
         ScaffoldMessenger.of(currentContext).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Erro: Token não encontrado. Faça login novamente.'),
             backgroundColor: Colors.red,
           ),
@@ -98,7 +98,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
 
       // Show error message
       ScaffoldMessenger.of(currentContext).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Erro inesperado. Tente novamente mais tarde.'),
           backgroundColor: Colors.red,
         ),
@@ -110,7 +110,10 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF1A1A1A),
-      appBar: AppBarHomeScreen(showSearchBar: false),
+      appBar: AppBar(
+          backgroundColor: Color(0xFF1A1A1A),
+          title: AppBar1(),
+        ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final screenWidth = constraints.maxWidth;
@@ -163,7 +166,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                               controller: imagemController,
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 50,
                                 vertical: 10,
                               ),
@@ -205,7 +208,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                               } else {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
-                                                  SnackBar(
+                                                  const SnackBar(
                                                     content: Text(
                                                         'Categoria já adicionada.'),
                                                   ),
@@ -215,7 +218,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                           } else {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
-                                              SnackBar(
+                                              const SnackBar(
                                                 content: Text(
                                                   'Você só pode adicionar até 6 categorias. Clique sobre alguma para excluí-la.',
                                                 ),
@@ -280,7 +283,7 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomeScreen(
+                                                    const HomeScreen(
                                                   searchTerm: '',
                                                 ),
                                               ),

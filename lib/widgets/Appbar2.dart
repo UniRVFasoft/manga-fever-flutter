@@ -1,25 +1,12 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
-import 'package:mangafaver/providers/user_provider.dart';
 import 'package:mangafaver/screens/HomeScreen.dart';
 import 'package:mangafaver/screens/loginScreen.dart';
-import 'package:provider/provider.dart';
 
-class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
-  AppBarHomeScreen({Key? key, this.showSearchBar = true}) : super(key: key);
-
-  final bool showSearchBar;
+class AppBar2 extends StatelessWidget implements PreferredSizeWidget {
+  const AppBar2({Key? key});
 
   @override
   Size get preferredSize => const Size.fromHeight(80);
-
-  final TextEditingController searchController = TextEditingController();
-
-  void onSearchSubmitted(String value) {
-    final String searchTerm = searchController.text;
-    navigateToSearch(context as BuildContext, searchTerm);
-  }
 
   void navigateToSearch(BuildContext context, String searchTerm) {
     Navigator.push(
@@ -33,7 +20,11 @@ class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
-    final userProvider = Provider.of<UserProvider>(context);
+
+    void onSearchSubmitted(String value) {
+      final String searchTerm = searchController.text;
+      navigateToSearch(context, searchTerm);
+    }
 
     return AppBar(
       automaticallyImplyLeading: false,
@@ -53,6 +44,7 @@ class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           const SizedBox(width: 12),
+          // Título da AppBar.
           const Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -74,62 +66,62 @@ class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
               ),
             ],
           ),
-          if (showSearchBar) ...[
-            const Spacer(),
-            Container(
-              child: Row(
-                children: [
-                  SizedBox(
-                    // Tamanho da barra de pesquisa em telas maiores.
-                    width: MediaQuery.of(context).size.width > 600 ? 420 : 180,
-                    height: 28,
-                    child: TextField(
-                      controller: searchController,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: 'Pesquisar...',
-                        hintStyle: TextStyle(
-                          color: const Color(0xFF878787).withOpacity(0.5),
-                          fontSize: 13,
-                        ),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 16.5,
-                          horizontal: 10,
-                        ),
-                      ),
-                      onSubmitted: onSearchSubmitted,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      final String searchTerm = searchController.text;
-                      navigateToSearch(context, searchTerm);
-                    },
-                    child: const Icon(
-                      Icons.search,
-                      color: Color(0XFFE67D0B),
-                    ),
-                  )
-                ],
+          const Spacer(),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color(0xFFE67D0B),
+                width: 2,
               ),
+              borderRadius: BorderRadius.circular(10),
             ),
-          ],
+            // Barra de Pesquisa.
+            child: Row(
+              children: [
+                SizedBox(
+                  // Tamanho da barra de pesquisa em telas maiores.
+                  width: MediaQuery.of(context).size.width > 600 ? 420 : 180,
+                  height: 28,
+                  child: TextField(
+                    controller: searchController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: 'Pesquisar...',
+                      hintStyle: TextStyle(
+                        color: const Color(0xFF878787).withOpacity(0.5),
+                        fontSize: 13,
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 16.5,
+                        horizontal: 10,
+                      ),
+                    ),
+                    onSubmitted: onSearchSubmitted,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    final String searchTerm = searchController.text;
+                    navigateToSearch(context, searchTerm);
+                  },
+                  child: const Icon(
+                    Icons.search,
+                    color: Color(0XFFE67D0B),
+                  ),
+                )
+              ],
+            ),
+          ),
           const Spacer(),
           InkWell(
             onTap: () {
-              if (userProvider.isLoggedIn) {
-                // Handle logout
-                userProvider.logout();
-              } else {
-                // Handle login
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  ),
-                );
-              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginScreen(),
+                ),
+              );
             },
             child: Column(
               children: [
@@ -144,10 +136,10 @@ class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
                     height: 25,
                   ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(top: 5),
                   child: Text(
-                    userProvider.isLoggedIn ? userProvider.userName : 'Entrar',
+                    'Entrar',
                     style: TextStyle(
                       fontSize: 10,
                       color: Color(0XFFE67D0B),
@@ -160,6 +152,7 @@ class AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
+      // Linha branca abaixo da AppBar.
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(2),
         child: Container(

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mangafaver/screens/HomeScreen.dart';
-import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
+import 'package:mangafaver/widgets/Appbar1.dart';
 import 'package:mangafaver/widgets/BotaoEntrar.dart';
 import 'package:mangafaver/widgets/botaoC.dart';
 import 'package:mangafaver/widgets/campoTexto.dart';
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Color(0xFF1A1A1A),
         appBar: AppBar(
           backgroundColor: Color(0xFF1A1A1A),
-          title: AppBarHomeScreen(),
+          title: AppBar1(),
         ),
         body: Center(
           child: ConstrainedBox(

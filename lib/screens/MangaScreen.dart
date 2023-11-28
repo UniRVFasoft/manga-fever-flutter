@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
+import 'package:mangafaver/widgets/Appbar1.dart';
 import 'package:mangafaver/widgets/dadosClassificacaoGeral.dart';
 import 'package:mangafaver/widgets/DadosMangaGeral.dart';
 
@@ -34,7 +34,10 @@ class MangaScreen extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Color(0xFF1A1A1A),
-        appBar: AppBarHomeScreen(),
+        appBar: AppBar(
+          backgroundColor: Color(0xFF1A1A1A),
+          title: AppBar1(),
+        ),
         body: SingleChildScrollView(
           child: Container(
             width: double.infinity,

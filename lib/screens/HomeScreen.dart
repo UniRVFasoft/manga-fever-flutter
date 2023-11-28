@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mangafaver/screens/AdicionarMangaScreen.dart';
 import 'package:mangafaver/screens/MangaScreen.dart';
-import 'package:mangafaver/widgets/AppBarHomeScreen.dart';
+import 'package:mangafaver/widgets/Appbar1.dart';
+import 'package:mangafaver/widgets/Appbar2.dart';
 import 'package:mangafaver/widgets/BotaoAdicionarManga.dart';
 import '../widgets/ComponentesDaImagem.dart';
 import '../widgets/../widgets/BotoesHomeScreen.dart';
@@ -60,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarHomeScreen(showSearchBar: true),
+      appBar: AppBar2(),
       backgroundColor: const Color(0xFF1A1A1A),
       body: Column(
         children: [
