@@ -21,19 +21,23 @@ class DadosMangaGeral extends StatelessWidget {
         if (screenWidth < 1038) {
           return Column(
             children: <Widget>[
-              Image.network(
-                mangaData['imagem'] ?? 'URL padrão se não houver imagem',
-                width: 200,
-                fit: BoxFit.cover,
-                errorBuilder: (BuildContext context, Object exception,
-                    StackTrace? stackTrace) {
-                  return Placeholder(
-                    fallbackWidth: 200, // Largura da imagem de substituição
-                    fallbackHeight: 200, // Altura da imagem de substituição
-                    color:
-                        Colors.grey, // Cor de fundo da imagem de substituição
-                  );
-                },
+              ClipRRect(
+                borderRadius:
+                    BorderRadius.circular(10.0), // Ajuste conforme necessário
+                child: Image.network(
+                  mangaData['imagem'] ?? 'URL padrão se não houver imagem',
+                  width: 200,
+                  height: 220,
+                  fit: BoxFit.cover,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return Placeholder(
+                      fallbackWidth: 200,
+                      fallbackHeight: 220,
+                      color: Colors.grey,
+                    );
+                  },
+                ),
               ),
               Padding(
                 padding: EdgeInsets.all(20),
@@ -43,22 +47,25 @@ class DadosMangaGeral extends StatelessWidget {
                     TituloManga(
                       textoTitulo: mangaData['titulo'] ?? '',
                     ),
-                    for (var category
-                        in (mangaData['categorias'] as List<dynamic>?)
-                                ?.take(3) ??
-                            [])
-                      Column(
-                        children: [
-                          CampoCategoria2(categoryId: category.toString()),
-                          SizedBox(height: 15),
-                        ],
-                      ),
-                    SizedBox(height: 25),
+                    SizedBox(height: 15),
                     DescricaoManga(
                       textoDescricao: mangaData['descricao'] ?? '',
                     ),
                   ],
                 ),
+              ),
+              SizedBox(height: 25),
+              Wrap(
+                alignment: WrapAlignment.start,
+                spacing: 15.0,
+                children: [
+                  for (var category
+                      in (mangaData['categorias'] as List<dynamic>?)?.take(6) ??
+                          [])
+                    CampoCategoria2(
+                      categoryDescription: category['descricao'].toString(),
+                    ),
+                ],
               ),
             ],
           );
@@ -82,7 +89,16 @@ class DadosMangaGeral extends StatelessWidget {
                               mangaData['imagem'] ??
                                   'URL padrão se não houver imagem',
                               width: 200,
-                              fit: BoxFit.cover, // Define o ajuste da imagem
+                              height: 300,
+                              fit: BoxFit.cover,
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace? stackTrace) {
+                                return Placeholder(
+                                  fallbackWidth: 200,
+                                  fallbackHeight: 300,
+                                  color: Colors.grey,
+                                );
+                              },
                             ),
                           ),
                         ),
@@ -95,21 +111,23 @@ class DadosMangaGeral extends StatelessWidget {
                                 textoTitulo: mangaData['titulo'] ?? '',
                               ),
                               SizedBox(height: 20),
-                              for (var category
-                                  in (mangaData['categorias'] as List<dynamic>?)
-                                          ?.take(3) ??
+                              Row(
+                                children: [
+                                  for (var category in (mangaData['categorias']
+                                              as List<dynamic>?)
+                                          ?.take(6) ??
                                       [])
-                                Column(
-                                  children: [
                                     CampoCategoria2(
-                                        categoryId: category.toString()),
-                                    SizedBox(height: 15),
-                                  ],
-                                ),
+                                      categoryDescription:
+                                          category['descricao'].toString(),
+                                    ),
+                                ],
+                              ),
                               SizedBox(height: 20),
                               DescricaoManga(
                                 textoDescricao: mangaData['descricao'] ?? '',
                               ),
+                              SizedBox(height: 20),
                             ],
                           ),
                         ),

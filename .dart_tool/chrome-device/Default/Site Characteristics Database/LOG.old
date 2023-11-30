@@ -1,13 +1,7 @@
-2023/11/26-19:02:36.216 1270 Reusing MANIFEST C:\Users\Luciano\AppData\Local\Temp\flutter_tools.5ed8773c\flutter_tools_chrome_device.4c00c9b6\Default\Site Characteristics Database/MANIFEST-000001
-2023/11/26-19:02:36.218 1270 Recovering log #3
-2023/11/26-19:02:36.218 1270 Level-0 table #3: started
-2023/11/26-19:02:36.220 1270 Level-0 table #3: 130 bytes OK
-2023/11/26-19:02:36.220 1270 Recovering log #6
-2023/11/26-19:02:36.220 1270 Level-0 table #4: started
-2023/11/26-19:02:36.221 1270 Level-0 table #4: 165 bytes OK
-2023/11/26-19:02:36.222 1270 Recovering log #10
-2023/11/26-19:02:36.222 1270 Reusing old log C:\Users\Luciano\AppData\Local\Temp\flutter_tools.5ed8773c\flutter_tools_chrome_device.4c00c9b6\Default\Site Characteristics Database/000010.log 
-2023/11/26-19:02:36.223 1270 Delete type=0 #3
-2023/11/26-19:02:36.224 1270 Delete type=2 #6
-2023/11/26-19:02:36.224 1270 Delete type=0 #6
-2023/11/26-19:02:36.224 1270 Delete type=2 #11
+2023/11/29-20:41:00.545 18a8 Reusing MANIFEST C:\Users\Luciano\AppData\Local\Temp\flutter_tools.8fa131c9\flutter_tools_chrome_device.6043f8f0\Default\Site Characteristics Database/MANIFEST-000001
+2023/11/29-20:41:00.547 18a8 Recovering log #10
+2023/11/29-20:41:00.547 18a8 Reusing old log C:\Users\Luciano\AppData\Local\Temp\flutter_tools.8fa131c9\flutter_tools_chrome_device.6043f8f0\Default\Site Characteristics Database/000010.log 
+2023/11/29-20:41:00.548 18a8 Delete type=0 #3
+2023/11/29-20:41:00.548 18a8 Delete type=2 #6
+2023/11/29-20:41:00.548 18a8 Delete type=0 #6
+2023/11/29-20:41:00.548 18a8 Delete type=2 #11
