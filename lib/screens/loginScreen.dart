@@ -47,9 +47,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
         final responseData = json.decode(response.body);
         final token = responseData['token'];
+        final id = responseData['id'];
+        final isAdmin = responseData['isAdmin'];
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
+        await prefs.setString('id', id);
+        await prefs.setBool('isAdmin', isAdmin);
 
         Navigator.push(
           context,
@@ -64,8 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
               'Erro no login. Verifique suas credenciais e tente novamente.';
         });
         print('Erro no login ${response.body}');
-        print('Conteúdo do usernameController: ${usernameController.text}');
-        print('Conteúdo do passwordController: ${passwordController.text}');
       }
     } catch (error) {
       print('Error: $error');
@@ -95,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Color(0xFF1A1A1A),
         appBar: AppBar(
           backgroundColor: Color(0xFF1A1A1A),
-          title: AppBar1(),
+          title: const AppBar1(),
         ),
         body: Center(
           child: ConstrainedBox(
@@ -108,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Color(0xFF222222),
+                color: const Color(0xFF222222),
                 border: Border.all(
                   color: Colors.white,
                   width: 0.5,

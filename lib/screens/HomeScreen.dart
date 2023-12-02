@@ -6,6 +6,7 @@ import 'package:mangafaver/screens/MangaScreen.dart';
 import 'package:mangafaver/widgets/Appbar1.dart';
 import 'package:mangafaver/widgets/Appbar2.dart';
 import 'package:mangafaver/widgets/BotaoAdicionarManga.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/ComponentesDaImagem.dart';
 import '../widgets/../widgets/BotoesHomeScreen.dart';
 
@@ -18,7 +19,26 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+// Future<SharedPreferences> getPrefs() async {
+//   return await SharedPreferences.getInstance();
+// }
+
 class _HomeScreenState extends State<HomeScreen> {
+  late bool isAdmin;
+
+  @override
+  void initState() {
+    super.initState();
+    _initIsAdmin();
+  }
+
+  Future<void> _initIsAdmin() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      isAdmin = sharedPreferences.getBool('isAdmin') ?? false;
+    });
+  }
+
   Future<List<Map<String, dynamic>>> fetchData() async {
     final response = await http.get(
       Uri.parse(
@@ -58,10 +78,17 @@ class _HomeScreenState extends State<HomeScreen> {
     maxWidth = MediaQuery.sizeOf(context).width;
   }
 
+  Future<void> initIsAdmin() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      isAdmin = sharedPreferences.getBool('isAdmin') ?? false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar2(),
+      appBar: const AppBar2(),
       backgroundColor: const Color(0xFF1A1A1A),
       body: Column(
         children: [
@@ -131,18 +158,21 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      floatingActionButton: BotaoAdicionarManga(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AdicionarMangaScreen(),
-            ),
-          );
-        },
-      ),
+      floatingActionButton: isAdmin
+          ? BotaoAdicionarManga(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AdicionarMangaScreen(),
+                  ),
+                );
+              },
+            )
+          : null,
     );
   }
+
   // Função para construir um widget de erro
   Widget _buildErrorWidget(String error) {
     return Center(
