@@ -22,10 +22,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late bool isAdmin;
   bool sortByRating = false;
+  bool orderByAlphabetical = false;
+  late List<Map<String, dynamic>> dataList;
 
   @override
   void initState() {
     super.initState();
+    dataList = [];
     _initIsAdmin();
   }
 
@@ -36,31 +39,53 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<List<Map<String, dynamic>>> fetchData() async {
+  void handleAlphabeticalOrder() {
+    setState(() {
+      orderByAlphabetical = true;
+    });
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
     final response = await http.get(
       Uri.parse(
         'https://manga-fever-backend-production.up.railway.app/mangas',
       ),
     );
 
-    const String imagemPadrao =
-        'https://s2.glbimg.com/QeQ9cqGo-kE-TyD1crH7jpUiDE4=/620x455/e.glbimg.com/og/ed/f/original/2020/01/21/gettyimages-463651383.jpg';
-
     if (response.statusCode == 200) {
       final List<dynamic> jsonResponse = json.decode(response.body);
-      final List<Map<String, dynamic>> data =
-          jsonResponse.cast<Map<String, dynamic>>();
+      dataList = jsonResponse.cast<Map<String, dynamic>>();
 
-      if (widget.searchTerm.isEmpty) {
-        return data;
+      if (orderByAlphabetical) {
+        dataList.sort(
+          (a, b) => a['titulo'].toString().compareTo(b['titulo'].toString()),
+        );
       } else {
-        final List<Map<String, dynamic>> filteredData = data
+        dataList.sort((a, b) {
+          var notaA = a['nota'];
+          var notaB = b['nota'];
+
+          // Verifica se as notas não são nulas antes de comparar
+          if (notaA != null && notaB != null) {
+            return notaB.compareTo(notaA);
+          } else if (notaA == null && notaB == null) {
+            return 0;
+          } else if (notaA == null) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+      }
+
+      if (widget.searchTerm.isNotEmpty) {
+        dataList = dataList
             .where((element) => element['titulo']
                 .toString()
                 .toLowerCase()
                 .contains(widget.searchTerm.toLowerCase()))
             .toList();
-        return filteredData;
       }
     } else {
       throw Exception('Falha ao carregar os dados');
@@ -72,14 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    maxWidth = MediaQuery.sizeOf(context).width;
-  }
-
-  Future<void> initIsAdmin() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      isAdmin = sharedPreferences.getBool('isAdmin') ?? false;
-    });
+    maxWidth = MediaQuery.of(context).size.width;
   }
 
   @override
@@ -90,25 +108,25 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           BotoesComCallback(
-            searchTerm: widget.searchTerm,
             onPressedMaisPopulares: () {
               setState(() {
+                orderByAlphabetical = false;
                 sortByRating = true;
               });
+              fetchData();
             },
+            handleAlphabeticalOrder: handleAlphabeticalOrder,
+            searchTerm: '',
           ),
           Expanded(
-            child: FutureBuilder<List<Map<String, dynamic>>>(
+            child: FutureBuilder<void>(
               future: fetchData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  // Adiciona tratamento de erro aqui
                   return _buildErrorWidget(snapshot.error.toString());
-                } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  final List<Map<String, dynamic>> dataList = snapshot.data!;
-
+                } else {
                   return Padding(
                     padding: const EdgeInsets.all(50),
                     child: GridView.builder(
@@ -154,8 +172,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                   );
-                } else {
-                  return const Center(child: Text('Nenhum dado encontrado.'));
                 }
               },
             ),
@@ -177,7 +193,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Função para construir um widget de erro
   Widget _buildErrorWidget(String error) {
     return Center(
       child: Column(
@@ -202,11 +217,13 @@ class _HomeScreenState extends State<HomeScreen> {
 class BotoesComCallback extends StatefulWidget {
   final String searchTerm;
   final VoidCallback onPressedMaisPopulares;
+  final VoidCallback handleAlphabeticalOrder;
 
   const BotoesComCallback({
     Key? key,
     required this.searchTerm,
     required this.onPressedMaisPopulares,
+    required this.handleAlphabeticalOrder,
   }) : super(key: key);
 
   @override
@@ -217,8 +234,9 @@ class _BotoesComCallbackState extends State<BotoesComCallback> {
   @override
   Widget build(BuildContext context) {
     return BotoesHomeScreen(
-      // Outros parâmetros
-      onPressedMaisPopulares: widget.onPressedMaisPopulares, searchTerm: '',
+      onPressedMaisPopulares: widget.onPressedMaisPopulares,
+      searchTerm: widget.searchTerm,
+      handleAlphabeticalOrder: widget.handleAlphabeticalOrder,
     );
   }
 }
