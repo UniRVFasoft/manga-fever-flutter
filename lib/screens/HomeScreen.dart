@@ -19,12 +19,9 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-// Future<SharedPreferences> getPrefs() async {
-//   return await SharedPreferences.getInstance();
-// }
-
 class _HomeScreenState extends State<HomeScreen> {
   late bool isAdmin;
+  bool sortByRating = false;
 
   @override
   void initState() {
@@ -92,7 +89,14 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: const Color(0xFF1A1A1A),
       body: Column(
         children: [
-          const BotoesHomeScreen(),
+          BotoesComCallback(
+            searchTerm: widget.searchTerm,
+            onPressedMaisPopulares: () {
+              setState(() {
+                sortByRating = true;
+              });
+            },
+          ),
           Expanded(
             child: FutureBuilder<List<Map<String, dynamic>>>(
               future: fetchData(),
@@ -191,6 +195,30 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class BotoesComCallback extends StatefulWidget {
+  final String searchTerm;
+  final VoidCallback onPressedMaisPopulares;
+
+  const BotoesComCallback({
+    Key? key,
+    required this.searchTerm,
+    required this.onPressedMaisPopulares,
+  }) : super(key: key);
+
+  @override
+  _BotoesComCallbackState createState() => _BotoesComCallbackState();
+}
+
+class _BotoesComCallbackState extends State<BotoesComCallback> {
+  @override
+  Widget build(BuildContext context) {
+    return BotoesHomeScreen(
+      // Outros parâmetros
+      onPressedMaisPopulares: widget.onPressedMaisPopulares, searchTerm: '',
     );
   }
 }

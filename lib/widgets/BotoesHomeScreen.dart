@@ -6,6 +6,7 @@ class BotoesHomeScreen extends StatelessWidget {
   final double topPadding;
   final double rightPadding;
   final double spaceBetweenItems;
+  final VoidCallback onPressedMaisPopulares;
 
   const BotoesHomeScreen({
     Key? key,
@@ -15,6 +16,7 @@ class BotoesHomeScreen extends StatelessWidget {
     this.topPadding = 20,
     this.rightPadding = 55,
     this.spaceBetweenItems = 5,
+    required this.onPressedMaisPopulares, required String searchTerm,
   }) : super(key: key);
 
   @override
@@ -45,7 +47,7 @@ class BotoesHomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: InkWell(
-                onTap: () {},
+                onTap: onPressedMaisPopulares,
                 child: Row(
                   children: [
                     Icon(
