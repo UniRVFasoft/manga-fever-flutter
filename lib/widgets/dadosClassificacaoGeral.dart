@@ -4,17 +4,20 @@ import 'package:mangafaver/widgets/classificacaoManga.dart';
 import 'package:mangafaver/widgets/notaManga.dart';
 
 class dadosClassificacaoGeral extends StatelessWidget {
+  final String mediaNota;
+
   const dadosClassificacaoGeral({
-    super.key,
-  });
+    Key? key,
+    required this.mediaNota,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth >= 800) {
-          return const Padding(
-            padding: EdgeInsets.only(
+          return Padding(
+            padding: const EdgeInsets.only(
               top: 70.0,
               right: 180.0,
             ),
@@ -23,7 +26,7 @@ class dadosClassificacaoGeral extends StatelessWidget {
                 BotaoFavorito(),
                 SizedBox(height: 10.0),
                 notaManga(
-                  mediaNota: '4.8',
+                  mediaNota: mediaNota,
                 ),
                 SizedBox(height: 10.0),
                 classificacaoManga(classificacao: 4),
@@ -31,12 +34,12 @@ class dadosClassificacaoGeral extends StatelessWidget {
             ),
           );
         } else {
-          return const Column(
+          return Column(
             children: [
               BotaoFavorito(),
               SizedBox(height: 10.0),
               notaManga(
-                mediaNota: '4.8',
+                mediaNota: mediaNota,
               ),
               SizedBox(height: 10.0),
               classificacaoManga(classificacao: 4),

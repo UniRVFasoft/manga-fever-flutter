@@ -17,6 +17,7 @@ class MangaScreen extends StatefulWidget {
 
 class _MangaScreenState extends State<MangaScreen> {
   late Map<String, dynamic> mangaDetails = {};
+  String? mediaNota;
 
   Future<void> fetchMangaDetails() async {
     final url = Uri.parse(
@@ -27,6 +28,9 @@ class _MangaScreenState extends State<MangaScreen> {
       if (response.statusCode == 200) {
         setState(() {
           mangaDetails = json.decode(response.body);
+
+          double? nota = mangaDetails['nota'];
+          mediaNota = nota != null ? nota.toStringAsFixed(1) : '';
           print('ID do manga recebido: ${widget.mangaId}');
         });
       } else {
@@ -104,7 +108,8 @@ class _MangaScreenState extends State<MangaScreen> {
                           DadosMangaGeral(
                             mangaData: mangaDetails,
                           ),
-                          dadosClassificacaoGeral(),
+                          if (mediaNota != null)
+                            dadosClassificacaoGeral(mediaNota: mediaNota!),
                         ],
                       );
                     } else {
@@ -114,7 +119,8 @@ class _MangaScreenState extends State<MangaScreen> {
                           DadosMangaGeral(
                             mangaData: mangaDetails,
                           ),
-                          dadosClassificacaoGeral(),
+                          if (mediaNota != null)
+                            dadosClassificacaoGeral(mediaNota: mediaNota!),
                         ],
                       );
                     }
