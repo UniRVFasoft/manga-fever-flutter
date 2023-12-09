@@ -41,8 +41,7 @@ class dadosClassificacaoGeral extends StatelessWidget {
         } else {
           return Column(
             children: [
-              BotaoFavorito(
-                onPressed: toggleFavorite,
+              BotaoFavorito(onPressed: toggleFavorite,
                   isFavorited: isFavorited,),
               SizedBox(height: 10.0),
               notaManga(

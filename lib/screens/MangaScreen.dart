@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:mangafaver/widgets/Appbar1.dart';
 import 'package:mangafaver/widgets/dadosClassificacaoGeral.dart';
 import 'package:mangafaver/widgets/DadosMangaGeral.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MangaScreen extends StatefulWidget {
   final String mangaId;
@@ -22,8 +23,8 @@ class _MangaScreenState extends State<MangaScreen> {
 bool isFavorited = false; 
 
 void toggleFavorite() async {
-  // Lógica para obter o token do usuário logado
-  String userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiMWQyZDJiYmItYTc0Ny00M2MxLThjOGQtMmQ2OTQ5ODg5Y2U0Iiwic2VuaGEiOiIkMmIkMTAkaWQzQUtBbThXLnA3bkxUZExiRnhZdWcxdHJWQTFrZ0RpbFhFdEdqSmRreEIyM2d6ZHlMYlMiLCJlbWFpbCI6Imx1Y2lhbm9AZW1haWwuY29tIiwibm9tZVVzdWFyaW8iOiJsdWNpYW5vIiwiaXNBZG1pbiI6dHJ1ZSwiY3JpYWRvRW0iOiIyMDIzLTExLTIyVDAwOjAxOjA2LjcxOFoifSwiaWF0IjoxNzAyMTU1NjgyLCJleHAiOjE3MDIxNTkyODJ9.H0zdJnTsmQW3sMrpJrGiQzoM73vVE1jOlz67gsPsXjU"; // Substitua pelo token do usuário logado
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? userToken = prefs.getString('token');
 
   try {
     // Construa a URL com o ID do manga
