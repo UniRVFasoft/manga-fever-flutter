@@ -1,17 +1,8 @@
 import 'package:flutter/material.dart';
 
-class BotaoFavorito extends StatefulWidget {
-  const BotaoFavorito({
-    Key? key,
-    this.icon = Icons.add,
-    this.text = 'Favoritar',
-    this.color = Colors.black,
-    this.backgroundColor = const Color(0xFF0066FF),
-    this.textColor = Colors.black,
-    this.maxWidth = 125.0, // Largura máxima desejada
-    this.maxHeight = 50.0, // Altura máxima desejada
-  }) : super(key: key);
-
+class BotaoFavorito extends StatelessWidget {
+  final bool isFavorited;
+  final VoidCallback onPressed;
   final IconData icon;
   final String text;
   final Color color;
@@ -20,38 +11,40 @@ class BotaoFavorito extends StatefulWidget {
   final double maxWidth;
   final double maxHeight;
 
-  @override
-  State<BotaoFavorito> createState() => _MyButtonState();
-}
-
-class _MyButtonState extends State<BotaoFavorito> {
-  bool isPressed = false;
+  const BotaoFavorito({
+    Key? key,
+    required this.isFavorited,
+    required this.onPressed,
+    this.icon = Icons.add,
+    this.text = 'Favoritar',
+    this.color = Colors.black,
+    this.backgroundColor = const Color(0xFF0066FF),
+    this.textColor = Colors.black,
+    this.maxWidth = 125.0,
+    this.maxHeight = 50.0,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: widget.maxWidth,
-        maxHeight: widget.maxHeight,
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
       ),
       child: ElevatedButton(
-        onPressed: () {
-          setState(() {
-            isPressed = !isPressed;
-          });
-        },
+        onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              isPressed ? Icons.favorite : widget.icon,
-              color: isPressed ? widget.textColor : widget.color,
+              isFavorited ? Icons.favorite : icon,
+              color: isFavorited ? Colors.red : color,
             ),
             SizedBox(width: 10),
             Text(
-              isPressed ? 'Favorito' : widget.text,
+              isFavorited ? 'Favorito' : text,
               style: TextStyle(
-                color: isPressed ? widget.textColor : widget.color,
+                color: isFavorited ? Colors.red : textColor,
               ),
             ),
           ],
@@ -60,6 +53,7 @@ class _MyButtonState extends State<BotaoFavorito> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
+          primary: isFavorited ? Colors.yellow : backgroundColor,
         ),
       ),
     );

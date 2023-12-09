@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:mangafaver/widgets/BotaoFavorito.dart';
 import 'package:mangafaver/widgets/classificacaoManga.dart';
 import 'package:mangafaver/widgets/notaManga.dart';
+import 'package:mangafaver/widgets/BotaoFavorito.dart';
 
 class dadosClassificacaoGeral extends StatelessWidget {
   final String mediaNota;
+  final bool isFavorited; // Recebendo o estado de favorito
+  final VoidCallback toggleFavorite; 
 
   const dadosClassificacaoGeral({
     Key? key,
     required this.mediaNota,
+     required this.isFavorited,
+    required this.toggleFavorite,
   }) : super(key: key);
 
   @override
@@ -23,7 +27,8 @@ class dadosClassificacaoGeral extends StatelessWidget {
             ),
             child: Column(
               children: [
-                BotaoFavorito(),
+                BotaoFavorito(onPressed: toggleFavorite,
+                  isFavorited: isFavorited),
                 SizedBox(height: 10.0),
                 notaManga(
                   mediaNota: mediaNota,
@@ -36,7 +41,9 @@ class dadosClassificacaoGeral extends StatelessWidget {
         } else {
           return Column(
             children: [
-              BotaoFavorito(),
+              BotaoFavorito(
+                onPressed: toggleFavorite,
+                  isFavorited: isFavorited,),
               SizedBox(height: 10.0),
               notaManga(
                 mediaNota: mediaNota,

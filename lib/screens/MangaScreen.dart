@@ -19,6 +19,38 @@ class _MangaScreenState extends State<MangaScreen> {
   late Map<String, dynamic> mangaDetails = {};
   String? mediaNota;
 
+bool isFavorited = false; 
+
+void toggleFavorite() async {
+  // Lógica para obter o token do usuário logado
+  String userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiMWQyZDJiYmItYTc0Ny00M2MxLThjOGQtMmQ2OTQ5ODg5Y2U0Iiwic2VuaGEiOiIkMmIkMTAkaWQzQUtBbThXLnA3bkxUZExiRnhZdWcxdHJWQTFrZ0RpbFhFdEdqSmRreEIyM2d6ZHlMYlMiLCJlbWFpbCI6Imx1Y2lhbm9AZW1haWwuY29tIiwibm9tZVVzdWFyaW8iOiJsdWNpYW5vIiwiaXNBZG1pbiI6dHJ1ZSwiY3JpYWRvRW0iOiIyMDIzLTExLTIyVDAwOjAxOjA2LjcxOFoifSwiaWF0IjoxNzAyMTU1NjgyLCJleHAiOjE3MDIxNTkyODJ9.H0zdJnTsmQW3sMrpJrGiQzoM73vVE1jOlz67gsPsXjU"; // Substitua pelo token do usuário logado
+
+  try {
+    // Construa a URL com o ID do manga
+    String apiUrl = 'https://manga-fever-backend-production.up.railway.app/mangas/favoritar/${widget.mangaId}';
+
+    // Faça a requisição HTTP
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: <String, String>{
+        'Authorization': 'Bearer $userToken', // Adiciona o token no cabeçalho
+      },
+    );
+
+    if (response.statusCode == 200) {
+     print(isFavorited.toString());
+      setState(() {
+        isFavorited = !isFavorited; // Inverte o estado de favorito
+      });
+    } else {
+      throw Exception('Falha ao favoritar/desfavoritar o manga');
+    }
+  } catch (error) {
+    throw Exception('Erro: $error');
+  }
+}
+
+
   Future<void> fetchMangaDetails() async {
     final url = Uri.parse(
         'https://manga-fever-backend-production.up.railway.app/mangas/${widget.mangaId}');
@@ -109,7 +141,12 @@ class _MangaScreenState extends State<MangaScreen> {
                             mangaData: mangaDetails,
                           ),
                           if (mediaNota != null)
-                            dadosClassificacaoGeral(mediaNota: mediaNota!),
+                            dadosClassificacaoGeral(
+  mediaNota: mediaNota!,
+  isFavorited: isFavorited, // Passando o estado de favorito
+  toggleFavorite: toggleFavorite, // Passando a função para favoritar/desfavoritar
+),
+
                         ],
                       );
                     } else {
@@ -120,7 +157,11 @@ class _MangaScreenState extends State<MangaScreen> {
                             mangaData: mangaDetails,
                           ),
                           if (mediaNota != null)
-                            dadosClassificacaoGeral(mediaNota: mediaNota!),
+                             dadosClassificacaoGeral(
+  mediaNota: mediaNota!,
+  isFavorited: isFavorited, // Passando o estado de favorito
+  toggleFavorite: toggleFavorite, // Passando a função para favoritar/desfavoritar
+),
                         ],
                       );
                     }
