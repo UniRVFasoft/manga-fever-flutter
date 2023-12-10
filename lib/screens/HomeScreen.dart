@@ -189,6 +189,7 @@ Future<void> fetchData() async {
                               MaterialPageRoute(
                                 builder: (context) => MangaScreen(
                                   mangaId: id,
+                                  userFavorite: userFavorite,
                                 ),
                               ),
                             );

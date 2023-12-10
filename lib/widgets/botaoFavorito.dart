@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
 class BotaoFavorito extends StatelessWidget {
   final bool isFavorited;
   final VoidCallback onPressed;
   final IconData icon;
-  final String text;
   final Color color;
   final Color backgroundColor;
   final Color textColor;
@@ -16,7 +14,6 @@ class BotaoFavorito extends StatelessWidget {
     required this.isFavorited,
     required this.onPressed,
     this.icon = Icons.add,
-    this.text = 'Favoritar',
     this.color = Colors.black,
     this.backgroundColor = const Color(0xFF0066FF),
     this.textColor = Colors.black,
@@ -42,7 +39,7 @@ class BotaoFavorito extends StatelessWidget {
             ),
             SizedBox(width: 10),
             Text(
-              isFavorited ? 'Favorito' : text,
+              isFavorited ? 'Favorito' : 'Favoritar', // Texto dinâmico baseado em isFavorited
               style: TextStyle(
                 color: isFavorited ? Colors.red : textColor,
               ),

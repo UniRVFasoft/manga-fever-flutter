@@ -9,8 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class MangaScreen extends StatefulWidget {
   final String mangaId;
-
-  const MangaScreen({Key? key, required this.mangaId}) : super(key: key);
+  final bool userFavorite; 
+  
+  const MangaScreen({Key? key, required this.mangaId, required this.userFavorite}) : super(key: key);
 
   @override
   _MangaScreenState createState() => _MangaScreenState();
@@ -142,7 +143,7 @@ void toggleFavorite() async {
                           if (mediaNota != null)
                             dadosClassificacaoGeral(
                               mediaNota: mediaNota!,
-                              isFavorited: isFavorited, // Passando o estado de favorito
+                              isFavorited: widget.userFavorite, // Passando o estado de favorito
                               toggleFavorite: toggleFavorite, // Passando a função para favoritar/desfavoritar
                             ),
                         ],
@@ -157,7 +158,7 @@ void toggleFavorite() async {
                           if (mediaNota != null)
                              dadosClassificacaoGeral(
                                mediaNota: mediaNota!,
-                               isFavorited: isFavorited, // Passando o estado de favorito
+                               isFavorited: widget.userFavorite, // Passando o estado de favorito
                                toggleFavorite: toggleFavorite, // Passando a função para favoritar/desfavoritar
                             ),
                         ],
