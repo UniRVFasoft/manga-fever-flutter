@@ -175,7 +175,8 @@ Future<void> fetchData() async {
                         final nota = data['nota'] ?? 0.0;
                         String title = data['titulo'] ?? '';
                         String id = data["id"] ?? '';
-
+                        bool userFavorite = data['userFavorite'] ?? false;
+                        
                         if (title.length > 16) {
                           title =
                               '${title.substring(0, 16)}\n${title.substring(16)}';
@@ -197,6 +198,7 @@ Future<void> fetchData() async {
                             imageUrl: imageUrl,
                             isFavorito: false,
                             title: title,
+                            userFavorite: userFavorite,
                           ),
                         );
                       },

@@ -8,6 +8,7 @@ class ComponentesDaImagem extends StatelessWidget {
   final String imageUrl;
   final bool isFavorito;
   final String title;
+  final bool userFavorite; 
 
   final String imagemPadrao =
       'https://upload.wikimedia.org/wikipedia/pt/thumb/5/5a/Boku_no_Hero_Academia_Volume_1.png/240px-Boku_no_Hero_Academia_Volume_1.png';
@@ -17,7 +18,8 @@ class ComponentesDaImagem extends StatelessWidget {
     required this.imageUrl,
     required this.isFavorito,
     required this.title,
-    Key? key,
+    required this.userFavorite,
+    Key? key, 
   }) : super(key: key);
 
   @override
@@ -69,9 +71,13 @@ class ComponentesDaImagem extends StatelessWidget {
               Positioned(
                 top: 0,
                 right: 0,
-                child: FavoritarManga(
-                  isFavorito: isFavorito,
-                  onPressed: () {},
+                child: Visibility(
+                  visible: userFavorite, // Define a visibilidade com base na condição
+                  child: Icon(
+                    userFavorite ? Icons.star : Icons.star_border,
+                    color: Colors.amber,
+                    size: 24,
+                  ),
                 ),
               ),
               Positioned(
