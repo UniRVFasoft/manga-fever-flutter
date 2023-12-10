@@ -46,16 +46,42 @@ class _HomeScreenState extends State<HomeScreen> {
     fetchData();
   }
 
-  Future<void> fetchData() async {
-    final response = await http.get(
-      Uri.parse(
-        'https://manga-fever-backend-production.up.railway.app/mangas',
-      ),
-    );
 
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonResponse = json.decode(response.body);
+Future<void> fetchData() async {
+  final sharedPreferences = await SharedPreferences.getInstance();
+  final String? token = sharedPreferences.getString('token');
+
+  try {
+    if (token != null && token.isNotEmpty) {
+      final response = await http.get(
+        Uri.parse(
+          'https://manga-fever-backend-production.up.railway.app/mangas/user',
+        ),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonResponse = json.decode(response.body);
+        dataList = jsonResponse.cast<Map<String, dynamic>>();
+        print('com login');
+        // Restante do seu código para processar os dados conforme necessário
+      } else {
+        throw Exception('Falha ao carregar os dados do usuário');
+      }
+    } else {
+      
+      final response = await http.get(
+        Uri.parse(
+          'https://manga-fever-backend-production.up.railway.app/mangas',
+        ),
+      );
+
+      if (response.statusCode == 200) {
+         final List<dynamic> jsonResponse = json.decode(response.body);
       dataList = jsonResponse.cast<Map<String, dynamic>>();
+      print('sem login');
 
       if (orderByAlphabetical) {
         dataList.sort(
@@ -66,7 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
           var notaA = a['nota'];
           var notaB = b['nota'];
 
-          // Verifica se as notas não são nulas antes de comparar
           if (notaA != null && notaB != null) {
             return notaB.compareTo(notaA);
           } else if (notaA == null && notaB == null) {
@@ -87,10 +112,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 .contains(widget.searchTerm.toLowerCase()))
             .toList();
       }
-    } else {
-      throw Exception('Falha ao carregar os dados');
+      } else {
+        throw Exception('Falha ao carregar os dados');
+      }
     }
+  } catch (error) {
+    print('Erro ao buscar dados: $error');
+    // Aqui você pode lidar com possíveis erros ao buscar dados
   }
+}
 
   late double maxWidth;
 

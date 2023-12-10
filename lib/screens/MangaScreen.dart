@@ -27,14 +27,12 @@ void toggleFavorite() async {
   final String? userToken = prefs.getString('token');
 
   try {
-    // Construa a URL com o ID do manga
     String apiUrl = 'https://manga-fever-backend-production.up.railway.app/mangas/favoritar/${widget.mangaId}';
 
-    // Faça a requisição HTTP
     final response = await http.post(
       Uri.parse(apiUrl),
       headers: <String, String>{
-        'Authorization': 'Bearer $userToken', // Adiciona o token no cabeçalho
+        'Authorization': 'Bearer $userToken', 
       },
     );
 
@@ -143,11 +141,10 @@ void toggleFavorite() async {
                           ),
                           if (mediaNota != null)
                             dadosClassificacaoGeral(
-  mediaNota: mediaNota!,
-  isFavorited: isFavorited, // Passando o estado de favorito
-  toggleFavorite: toggleFavorite, // Passando a função para favoritar/desfavoritar
-),
-
+                              mediaNota: mediaNota!,
+                              isFavorited: isFavorited, // Passando o estado de favorito
+                              toggleFavorite: toggleFavorite, // Passando a função para favoritar/desfavoritar
+                            ),
                         ],
                       );
                     } else {
@@ -159,10 +156,10 @@ void toggleFavorite() async {
                           ),
                           if (mediaNota != null)
                              dadosClassificacaoGeral(
-  mediaNota: mediaNota!,
-  isFavorited: isFavorited, // Passando o estado de favorito
-  toggleFavorite: toggleFavorite, // Passando a função para favoritar/desfavoritar
-),
+                               mediaNota: mediaNota!,
+                               isFavorited: isFavorited, // Passando o estado de favorito
+                               toggleFavorite: toggleFavorite, // Passando a função para favoritar/desfavoritar
+                            ),
                         ],
                       );
                     }

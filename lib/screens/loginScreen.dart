@@ -42,17 +42,16 @@ class _LoginScreenState extends State<LoginScreen> {
       print('Response status code: ${response.statusCode}');
       print('Response body: ${response.body}');
 
+
       if (response.statusCode == 200) {
         print('Autenticado com sucesso!');
 
         final responseData = json.decode(response.body);
         final token = responseData['token'];
-        final id = responseData['id'];
         final isAdmin = responseData['isAdmin'];
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
-        await prefs.setString('id', id);
         await prefs.setBool('isAdmin', isAdmin);
 
         Navigator.push(
@@ -66,11 +65,16 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           errorMessage =
               'Erro no login. Verifique suas credenciais e tente novamente.';
+              print('Response status code: ${response.statusCode}');
+              print('Response body: ${response.body}');
         });
         print('Erro no login ${response.body}');
+        print('Response status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
       }
     } catch (error) {
       print('Error: $error');
+      
     }
   }
 
