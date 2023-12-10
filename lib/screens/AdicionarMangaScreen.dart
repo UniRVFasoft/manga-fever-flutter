@@ -68,7 +68,6 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
               backgroundColor: Colors.green,
             ),
           );
-
           // Retorna para a tela anterior (HomeScreen) e passa os dados do novo mangá como parâmetro
           Navigator.pop(currentContext, {
             'titulo': tituloController.text,
@@ -111,9 +110,9 @@ class _AdicionarMangaScreenState extends State<AdicionarMangaScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFF1A1A1A),
       appBar: AppBar(
-          backgroundColor: Color(0xFF1A1A1A),
-          title: AppBar1(),
-        ),
+        backgroundColor: Color(0xFF1A1A1A),
+        title: AppBar1(),
+      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final screenWidth = constraints.maxWidth;

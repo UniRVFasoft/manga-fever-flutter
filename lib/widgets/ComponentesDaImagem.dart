@@ -8,7 +8,7 @@ class ComponentesDaImagem extends StatelessWidget {
   final String imageUrl;
   final bool isFavorito;
   final String title;
-  final bool userFavorite; 
+  final bool userFavorite;
 
   final String imagemPadrao =
       'https://upload.wikimedia.org/wikipedia/pt/thumb/5/5a/Boku_no_Hero_Academia_Volume_1.png/240px-Boku_no_Hero_Academia_Volume_1.png';
@@ -19,7 +19,7 @@ class ComponentesDaImagem extends StatelessWidget {
     required this.isFavorito,
     required this.title,
     required this.userFavorite,
-    Key? key, 
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -65,18 +65,43 @@ class ComponentesDaImagem extends StatelessWidget {
                       color: Colors.amber,
                     ),
                     onRatingUpdate: (rating) {},
+                    ignoreGestures: true,
                   ),
                 ],
               ),
               Positioned(
-                top: 0,
+                top: 5,
                 right: 0,
                 child: Visibility(
-                  visible: userFavorite, // Define a visibilidade com base na condição
-                  child: Icon(
-                    userFavorite ? Icons.star : Icons.star_border,
-                    color: Colors.amber,
-                    size: 24,
+                  visible: userFavorite,
+                  child: Stack(
+                    children: [
+                      // Adiciona a faixa como um Container
+                      Container(
+                        width:
+                            45, // Ajuste a largura da faixa conforme necessário
+                        height: 32,
+                        decoration: const BoxDecoration(
+                          color:
+                              Color.fromARGB(255, 64, 64, 64), // Cor da faixa
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(
+                                16.0), // Borda superior esquerda arredondada
+                            bottomLeft: Radius.circular(
+                                16.0), // Borda inferior esquerda arredondada
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 12,
+                        top: 5,
+                        child: Icon(
+                          userFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: Color.fromARGB(255, 255, 115, 0),
+                          size: 25,
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
