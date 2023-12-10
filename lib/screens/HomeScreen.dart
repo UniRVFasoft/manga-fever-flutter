@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       showFavoritesOnly = !showFavoritesOnly;
     });
-    fetchData(); // Re-chamar a função fetchData para aplicar o filtro atualizado
+    fetchData();
   }
 
   @override
@@ -86,8 +86,37 @@ Future<void> fetchData() async {
         if (showFavoritesOnly) {
           dataList = dataList.where((element) => element['userFavorite'] == true).toList();
         }
+        if (orderByAlphabetical) {
+        dataList.sort(
+          (a, b) => a['titulo'].toString().compareTo(b['titulo'].toString()),
+        );
+      } else {
+        dataList.sort((a, b) {
+          var notaA = a['nota'];
+          var notaB = b['nota'];
 
-        // Restante do seu código para processar os dados conforme necessário
+          if (notaA != null && notaB != null) {
+            return notaB.compareTo(notaA);
+          } else if (notaA == null && notaB == null) {
+            return 0;
+          } else if (notaA == null) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+      }
+
+      if (widget.searchTerm.isNotEmpty) {
+        dataList = dataList
+            .where((element) => element['titulo']
+                .toString()
+                .toLowerCase()
+                .contains(widget.searchTerm.toLowerCase()))
+            .toList();
+      }
+
+        
       } else {
         throw Exception('Falha ao carregar os dados do usuário');
       }
