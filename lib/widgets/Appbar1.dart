@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mangafaver/screens/HomeScreen.dart';
 
 class AppBar1 extends StatelessWidget {
   const AppBar1({
@@ -8,16 +9,51 @@ class AppBar1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(children: [
-      Image.asset(
-        'assets/images/icon.png',
-        width: 40,
+      GestureDetector(
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(searchTerm: ''), // Se necessário, passe um searchTerm aqui
+      ),
+    );
+  },
+  child: Row(
+    children: [
+      GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(searchTerm: ''), // Se necessário, passe um searchTerm aqui
+            ),
+          );
+        },
+        child: Image.asset(
+          'assets/images/icon.png',
+          width: 40,
+        ),
       ),
       Padding(padding: EdgeInsets.only(left: 10)),
-      Text(
-        'Manga\nFever',
-        style: TextStyle(fontFamily: 'KronaOne-Regular'),
-        textAlign: TextAlign.center,
+      GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(searchTerm: ''), // Se necessário, passe um searchTerm aqui
+            ),
+          );
+        },
+        child: Text(
+          'Manga\nFever',
+          style: TextStyle(fontFamily: 'KronaOne-Regular'),
+          textAlign: TextAlign.center,
+        ),
       ),
+    ],
+  ),
+),
+
       Spacer(),
       IconButton(
         icon: Icon(

@@ -30,6 +30,13 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     dataList = [];
     _initIsAdmin();
+    fetchData();
+  }
+
+ @override
+  void didUpdateWidget(covariant HomeScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    fetchData(); // Buscar os dados toda vez que a tela for acessada novamente
   }
 
   Future<void> _initIsAdmin() async {
