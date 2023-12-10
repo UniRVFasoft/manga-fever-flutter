@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+// ignore: file_names
+import 'package:flutter/material.dart' show BuildContext, Center, CircularProgressIndicator, Color, Colors, Column, ConnectionState, EdgeInsets, Expanded, FutureBuilder, GestureDetector, GridView, Icon, Icons, Key, MainAxisAlignment, MaterialPageRoute, MediaQuery, Navigator, Padding, Scaffold, SizedBox, SliverGridDelegateWithFixedCrossAxisCount, State, StatefulWidget, Text, TextStyle, VoidCallback, Widget;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mangafaver/screens/AdicionarMangaScreen.dart';
 import 'package:mangafaver/screens/MangaScreen.dart';
-import 'package:mangafaver/widgets/Appbar1.dart';
 import 'package:mangafaver/widgets/Appbar2.dart';
 import 'package:mangafaver/widgets/BotaoAdicionarManga.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -82,7 +82,6 @@ Future<void> fetchData() async {
       if (response.statusCode == 200) {
         final List<dynamic> jsonResponse = json.decode(response.body);
         dataList = jsonResponse.cast<Map<String, dynamic>>();
-        print('com login');
         if (showFavoritesOnly) {
           dataList = dataList.where((element) => element['userFavorite'] == true).toList();
         }
@@ -131,7 +130,6 @@ Future<void> fetchData() async {
       if (response.statusCode == 200) {
          final List<dynamic> jsonResponse = json.decode(response.body);
       dataList = jsonResponse.cast<Map<String, dynamic>>();
-      print('sem login');
 
       if (orderByAlphabetical) {
         dataList.sort(
@@ -167,7 +165,6 @@ Future<void> fetchData() async {
       }
     }
   } catch (error) {
-    print('Erro ao buscar dados: $error');
     // Aqui você pode lidar com possíveis erros ao buscar dados
   }
 }

@@ -5,12 +5,16 @@ import 'package:mangafaver/widgets/BotaoFavorito.dart';
 
 class dadosClassificacaoGeral extends StatelessWidget {
   final String mediaNota;
-  final bool isFavorited; // Recebendo o estado de favorito
+   final String mangaId; 
+  final String userToken;
+  final bool isFavorited; 
   final VoidCallback toggleFavorite; 
 
   const dadosClassificacaoGeral({
     Key? key,
     required this.mediaNota,
+     required this.mangaId,
+    required this.userToken,
      required this.isFavorited,
     required this.toggleFavorite,
   }) : super(key: key);
@@ -34,7 +38,7 @@ class dadosClassificacaoGeral extends StatelessWidget {
                   mediaNota: mediaNota,
                 ),
                 SizedBox(height: 10.0),
-                classificacaoManga(classificacao: 4),
+                classificacaoManga(mangaId: mangaId),
               ],
             ),
           );
@@ -48,7 +52,7 @@ class dadosClassificacaoGeral extends StatelessWidget {
                 mediaNota: mediaNota,
               ),
               SizedBox(height: 10.0),
-              classificacaoManga(classificacao: 4),
+              classificacaoManga(mangaId: mangaId),
             ],
           );
         }

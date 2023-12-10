@@ -22,6 +22,7 @@ class _MangaScreenState extends State<MangaScreen> {
   String? mediaNota;
 
 bool isFavorited = false; 
+late String? userToken;
 
 void toggleFavorite() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -51,7 +52,6 @@ void toggleFavorite() async {
   }
 }
 
-
   Future<void> fetchMangaDetails() async {
     final url = Uri.parse(
         'https://manga-fever-backend-production.up.railway.app/mangas/${widget.mangaId}');
@@ -77,10 +77,16 @@ void toggleFavorite() async {
   @override
   void initState() {
     super.initState();
+    fetchToken();
     fetchMangaDetails();
   }
 
-  @override
+Future<void> fetchToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userToken = prefs.getString('token'); // Obtém o token armazenado
+  }
+
+   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -144,6 +150,8 @@ void toggleFavorite() async {
                           if (mediaNota != null)
                             dadosClassificacaoGeral(
                               mediaNota: mediaNota!,
+                              mangaId: widget.mangaId,
+                              userToken: userToken  ?? '',
                               isFavorited: widget.userFavorite, // Passando o estado de favorito
                               toggleFavorite: toggleFavorite, // Passando a função para favoritar/desfavoritar
                             ),
@@ -159,6 +167,8 @@ void toggleFavorite() async {
                           if (mediaNota != null)
                              dadosClassificacaoGeral(
                                mediaNota: mediaNota!,
+                               mangaId: widget.mangaId,
+                              userToken: userToken ?? '',
                                isFavorited: widget.userFavorite, // Passando o estado de favorito
                                toggleFavorite: toggleFavorite, // Passando a função para favoritar/desfavoritar
                             ),

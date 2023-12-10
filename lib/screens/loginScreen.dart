@@ -1,5 +1,5 @@
-import 'dart:convert';
-
+// ignore: file_names
+import 'dart:convert' show json;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mangafaver/screens/HomeScreen.dart';
