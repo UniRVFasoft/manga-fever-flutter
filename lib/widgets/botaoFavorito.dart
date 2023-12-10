@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-class BotaoFavorito extends StatelessWidget {
+
+class BotaoFavorito extends StatefulWidget {
   final bool isFavorited;
   final VoidCallback onPressed;
   final IconData icon;
@@ -22,26 +23,44 @@ class BotaoFavorito extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _BotaoFavoritoState createState() => _BotaoFavoritoState();
+}
+
+class _BotaoFavoritoState extends State<BotaoFavorito> {
+  late bool _isFavorited;
+
+  @override
+  void initState() {
+    super.initState();
+    _isFavorited = widget.isFavorited;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: maxWidth,
-        maxHeight: maxHeight,
+        maxWidth: widget.maxWidth,
+        maxHeight: widget.maxHeight,
       ),
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: () {
+          setState(() {
+            _isFavorited = !_isFavorited; // Alternar o estado interno
+          });
+          widget.onPressed(); // Chamada à função onPressed do widget pai
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              isFavorited ? Icons.favorite : icon,
-              color: isFavorited ? Colors.red : color,
+              _isFavorited ? Icons.favorite : widget.icon,
+              color: _isFavorited ? Colors.amber : widget.color,
             ),
             SizedBox(width: 10),
             Text(
-              isFavorited ? 'Favorito' : 'Favoritar', // Texto dinâmico baseado em isFavorited
+              _isFavorited ? 'Favorito' : 'Favoritar',
               style: TextStyle(
-                color: isFavorited ? Colors.red : textColor,
+                color: _isFavorited ? Colors.black : widget.textColor,
               ),
             ),
           ],
@@ -50,7 +69,7 @@ class BotaoFavorito extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-          primary: isFavorited ? Colors.yellow : backgroundColor,
+          primary: _isFavorited ? Colors.orange : widget.backgroundColor,
         ),
       ),
     );

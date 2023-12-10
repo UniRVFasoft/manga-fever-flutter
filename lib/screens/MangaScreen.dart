@@ -42,6 +42,7 @@ void toggleFavorite() async {
       setState(() {
         isFavorited = !isFavorited; // Inverte o estado de favorito
       });
+      await fetchMangaDetails();
     } else {
       throw Exception('Falha ao favoritar/desfavoritar o manga');
     }
