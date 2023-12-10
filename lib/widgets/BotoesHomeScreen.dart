@@ -9,6 +9,7 @@ class BotoesHomeScreen extends StatefulWidget {
   final VoidCallback onPressedMaisPopulares;
   final VoidCallback handleAlphabeticalOrder;
   final String searchTerm;
+  final VoidCallback handleFavoritesFilter; 
 
   const BotoesHomeScreen({
     Key? key,
@@ -20,6 +21,7 @@ class BotoesHomeScreen extends StatefulWidget {
     required this.onPressedMaisPopulares,
     required this.handleAlphabeticalOrder,
     required this.searchTerm,
+    required this.handleFavoritesFilter,
   }) : super(key: key);
 
   @override
@@ -108,7 +110,7 @@ class _BotoesHomeScreenState extends State<BotoesHomeScreen> {
                   color: Color.fromARGB(255, 57, 56, 56),
                 ).then((value) {
                   if (value == 'favoritos') {
-                    // Lógica para 'Favoritos'
+                    widget.handleFavoritesFilter();
                   } else if (value == 'ordem_alfabetica') {
                     widget.handleAlphabeticalOrder();
                   }

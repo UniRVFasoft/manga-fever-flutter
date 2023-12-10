@@ -23,7 +23,17 @@ class _HomeScreenState extends State<HomeScreen> {
   late bool isAdmin;
   bool sortByRating = false;
   bool orderByAlphabetical = false;
+  bool showFavoritesOnly = false;
+
   late List<Map<String, dynamic>> dataList;
+
+
+  void handleFavoritesFilter() {
+    setState(() {
+      showFavoritesOnly = !showFavoritesOnly;
+    });
+    fetchData(); // Re-chamar a função fetchData para aplicar o filtro atualizado
+  }
 
   @override
   void initState() {
@@ -73,6 +83,10 @@ Future<void> fetchData() async {
         final List<dynamic> jsonResponse = json.decode(response.body);
         dataList = jsonResponse.cast<Map<String, dynamic>>();
         print('com login');
+        if (showFavoritesOnly) {
+          dataList = dataList.where((element) => element['userFavorite'] == true).toList();
+        }
+
         // Restante do seu código para processar os dados conforme necessário
       } else {
         throw Exception('Falha ao carregar os dados do usuário');
@@ -154,6 +168,7 @@ Future<void> fetchData() async {
             },
             handleAlphabeticalOrder: handleAlphabeticalOrder,
             searchTerm: '',
+            handleFavoritesFilter: handleFavoritesFilter,
           ),
           Expanded(
             child: FutureBuilder<void>(
@@ -258,12 +273,14 @@ class BotoesComCallback extends StatefulWidget {
   final String searchTerm;
   final VoidCallback onPressedMaisPopulares;
   final VoidCallback handleAlphabeticalOrder;
+  final VoidCallback handleFavoritesFilter;
 
   const BotoesComCallback({
     Key? key,
     required this.searchTerm,
     required this.onPressedMaisPopulares,
     required this.handleAlphabeticalOrder,
+    required this.handleFavoritesFilter,
   }) : super(key: key);
 
   @override
@@ -277,6 +294,7 @@ class _BotoesComCallbackState extends State<BotoesComCallback> {
       onPressedMaisPopulares: widget.onPressedMaisPopulares,
       searchTerm: widget.searchTerm,
       handleAlphabeticalOrder: widget.handleAlphabeticalOrder,
+     handleFavoritesFilter: widget.handleFavoritesFilter,
     );
   }
 }
