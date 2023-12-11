@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mangafaver/widgets/Appbar1.dart';
@@ -150,16 +149,15 @@ class _MangaScreenState extends State<MangaScreen> {
                           DadosMangaGeral(
                             mangaData: mangaDetails,
                           ),
-                          if (mediaNota != null)
-                            dadosClassificacaoGeral(
-                              mediaNota: mediaNota!,
-                              mangaId: widget.mangaId,
-                              userToken: userToken ?? '',
-                              isFavorited: widget
-                                  .userFavorite, // Passando o estado de favorito
-                              toggleFavorite:
-                                  toggleFavorite, // Passando a função para favoritar/desfavoritar
-                            ),
+                          mediaNota != null
+                              ? dadosClassificacaoGeral(
+                                  mediaNota: mediaNota!,
+                                  mangaId: widget.mangaId,
+                                  userToken: userToken ?? '',
+                                  isFavorited: widget.userFavorite,
+                                  toggleFavorite: toggleFavorite,
+                                )
+                              : Container(), // or replace with a loading/error widget if desired
                         ],
                       );
                     } else {

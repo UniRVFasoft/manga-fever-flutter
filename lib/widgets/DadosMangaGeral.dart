@@ -11,6 +11,8 @@ class DadosMangaGeral extends StatelessWidget {
   }) : super(key: key);
 
   final Map<String, dynamic> mangaData;
+  final String imagemPadrao =
+      'https://upload.wikimedia.org/wikipedia/pt/thumb/5/5a/Boku_no_Hero_Academia_Volume_1.png/240px-Boku_no_Hero_Academia_Volume_1.png';
 
   @override
   Widget build(BuildContext context) {
@@ -22,21 +24,18 @@ class DadosMangaGeral extends StatelessWidget {
           return Column(
             children: <Widget>[
               ClipRRect(
-                borderRadius:
-                    BorderRadius.circular(10.0), // Ajuste conforme necessário
+                borderRadius: BorderRadius.circular(10.0),
                 child: Image.network(
-                  mangaData['imagem'] ?? 'URL padrão se não houver imagem',
+                  mangaData['imagem'] != null
+                      ? mangaData['imagem'].toString()
+                      : imagemPadrao,
                   width: 200,
                   height: 220,
                   fit: BoxFit.cover,
-                  errorBuilder: (BuildContext context, Object exception,
-                      StackTrace? stackTrace) {
-                    return Placeholder(
-                      fallbackWidth: 200,
-                      fallbackHeight: 220,
-                      color: Colors.grey,
-                    );
-                  },
+                  errorBuilder: (context, error, stackTrace) => Image.network(
+                    imagemPadrao,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Padding(
@@ -45,11 +44,15 @@ class DadosMangaGeral extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TituloManga(
-                      textoTitulo: mangaData['titulo'] ?? '',
+                      textoTitulo: mangaData['titulo'] != null
+                          ? mangaData['titulo'].toString()
+                          : 'No title available', // Replace with a default value or handle accordingly
                     ),
                     SizedBox(height: 15),
                     DescricaoManga(
-                      textoDescricao: mangaData['descricao'] ?? '',
+                      textoDescricao: mangaData['descricao'] != null
+                          ? mangaData['descricao'].toString()
+                          : 'No description available', // Replace with a default value or handle accordingly
                     ),
                   ],
                 ),
@@ -86,19 +89,15 @@ class DadosMangaGeral extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.topLeft,
                             child: Image.network(
-                              mangaData['imagem'] ??
-                                  'URL padrão se não houver imagem',
+                              mangaData['imagem'],
                               width: 200,
                               height: 330,
                               fit: BoxFit.cover,
-                              errorBuilder: (BuildContext context,
-                                  Object exception, StackTrace? stackTrace) {
-                                return const Placeholder(
-                                  fallbackWidth: 320,
-                                  fallbackHeight: 200,
-                                  color: Colors.grey,
-                                );
-                              },
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Image.network(
+                                imagemPadrao,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),

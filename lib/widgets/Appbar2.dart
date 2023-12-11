@@ -14,8 +14,7 @@ class AppBar2 extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _AppBar2State extends State<AppBar2> {
-  late bool isLoggedIn;
-  final TextEditingController searchController = TextEditingController();
+  late bool? isLoggedIn = false;
 
   @override
   void initState() {
@@ -25,7 +24,7 @@ class _AppBar2State extends State<AppBar2> {
 
   Future<void> checkLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool loggedIn = prefs.containsKey('token');
+    bool loggedIn = prefs.getString('token') != null;
     setState(() {
       isLoggedIn = loggedIn;
     });
@@ -156,7 +155,7 @@ class _AppBar2State extends State<AppBar2> {
           const Spacer(),
           InkWell(
             onTap: () {
-              if (isLoggedIn) {
+              if (isLoggedIn != null && isLoggedIn!) {
                 // Se estiver logado, faça logout
                 logout();
               } else {
@@ -177,7 +176,7 @@ class _AppBar2State extends State<AppBar2> {
                     BlendMode.srcIn,
                   ),
                   child: Icon(
-                    isLoggedIn
+                    isLoggedIn != null && isLoggedIn!
                         ? Icons.exit_to_app // ícone de logout
                         : Icons.person_outlined, // ícone de entrar
                     color: const Color(0XFFE67D0B),
@@ -187,7 +186,7 @@ class _AppBar2State extends State<AppBar2> {
                 Padding(
                   padding: const EdgeInsets.only(top: 5),
                   child: Text(
-                    isLoggedIn ? 'Sair' : 'Entrar',
+                    isLoggedIn != null && isLoggedIn! ? 'Sair' : 'Entrar',
                     style: const TextStyle(
                       fontSize: 10,
                       color: Color(0XFFE67D0B),

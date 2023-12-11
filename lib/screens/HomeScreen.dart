@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'package:flutter/material.dart'
     show
         BuildContext,
@@ -50,7 +49,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late bool isAdmin;
+  late bool isAdmin = false;
+  late bool isLoggedIn = false;
+
   bool sortByRating = false;
   bool orderByAlphabetical = false;
   bool showFavoritesOnly = false;
@@ -88,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isAdmin = sharedPreferences.getBool('isAdmin') ?? false;
     });
+    fetchData();
   }
 
   void handleAlphabeticalOrder() {

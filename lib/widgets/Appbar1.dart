@@ -11,7 +11,7 @@ class AppBar1 extends StatefulWidget {
 }
 
 class _AppBar1State extends State<AppBar1> {
-  late bool isLoggedIn;
+  late bool isLoggedIn = false;
 
   @override
   void initState() {
