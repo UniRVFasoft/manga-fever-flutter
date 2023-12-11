@@ -13,29 +13,34 @@ class CampoCategoria2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 10.0, bottom: 10.0),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 5.0,
+      margin: const EdgeInsets.only(left: 10.0, bottom: 10.0),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxWidth: 150, // Defina o tamanho máximo desejado
         ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10.0),
-            topRight: Radius.circular(0.0),
-            bottomLeft: Radius.circular(0.0),
-            bottomRight: Radius.circular(10.0),
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 5.0,
           ),
-          color: Color(0XFFFF9900),
-        ),
-        child: Center(
-          child: Text(
-            categoryDescription.isNotEmpty
-                ? categoryDescription
-                : 'Carregando...',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              topRight: Radius.circular(0.0),
+              bottomLeft: Radius.circular(0.0),
+              bottomRight: Radius.circular(10.0),
+            ),
+            color: Color(0XFFFF9900),
+          ),
+          child: Center(
+            child: Text(
+              categoryDescription.isNotEmpty
+                  ? categoryDescription
+                  : 'Carregando...',
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
