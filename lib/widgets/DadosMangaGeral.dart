@@ -89,13 +89,13 @@ class DadosMangaGeral extends StatelessWidget {
                               mangaData['imagem'] ??
                                   'URL padrão se não houver imagem',
                               width: 200,
-                              height: 300,
+                              height: 330,
                               fit: BoxFit.cover,
                               errorBuilder: (BuildContext context,
                                   Object exception, StackTrace? stackTrace) {
-                                return Placeholder(
-                                  fallbackWidth: 200,
-                                  fallbackHeight: 300,
+                                return const Placeholder(
+                                  fallbackWidth: 320,
+                                  fallbackHeight: 200,
                                   color: Colors.grey,
                                 );
                               },

@@ -1,12 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:mangafaver/screens/HomeScreen.dart';
 import 'package:mangafaver/screens/loginScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AppBar2 extends StatelessWidget implements PreferredSizeWidget {
+class AppBar2 extends StatefulWidget implements PreferredSizeWidget {
   const AppBar2({Key? key});
 
   @override
   Size get preferredSize => const Size.fromHeight(80);
+
+  @override
+  _AppBar2State createState() => _AppBar2State();
+}
+
+class _AppBar2State extends State<AppBar2> {
+  late bool isLoggedIn;
+  final TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+  }
+
+  Future<void> checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool loggedIn = prefs.containsKey('token');
+    setState(() {
+      isLoggedIn = loggedIn;
+    });
+  }
+
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    await prefs.remove('isAdmin');
+
+    // Atualiza o estado para refletir a mudança no status de login
+    setState(() {
+      isLoggedIn = false;
+    });
+
+    // Recarrega a tela
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomeScreen(searchTerm: "")),
+    );
+  }
 
   void navigateToSearch(BuildContext context, String searchTerm) {
     Navigator.push(
@@ -116,12 +156,18 @@ class AppBar2 extends StatelessWidget implements PreferredSizeWidget {
           const Spacer(),
           InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LoginScreen(),
-                ),
-              );
+              if (isLoggedIn) {
+                // Se estiver logado, faça logout
+                logout();
+              } else {
+                // Se não estiver logado, vá para a tela de login
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
+              }
             },
             child: Column(
               children: [
@@ -130,17 +176,19 @@ class AppBar2 extends StatelessWidget implements PreferredSizeWidget {
                     Color(0XFFE67D0B),
                     BlendMode.srcIn,
                   ),
-                  child: Image.asset(
-                    'assets/images/icone-user.png',
-                    width: 25,
-                    height: 25,
+                  child: Icon(
+                    isLoggedIn
+                        ? Icons.exit_to_app // ícone de logout
+                        : Icons.person_outlined, // ícone de entrar
+                    color: const Color(0XFFE67D0B),
+                    size: 25,
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 5),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
                   child: Text(
-                    'Entrar',
-                    style: TextStyle(
+                    isLoggedIn ? 'Sair' : 'Entrar',
+                    style: const TextStyle(
                       fontSize: 10,
                       color: Color(0XFFE67D0B),
                       fontFamily: 'Roboto',

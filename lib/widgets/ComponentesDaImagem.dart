@@ -37,10 +37,11 @@ class ComponentesDaImagem extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(
                           10.0), // Adjust the radius as needed
-                      child: CachedNetworkImage(
-                        imageUrl: imageUrl,
+                      child: Image.network(
+                        imageUrl,
                         fit: BoxFit.cover,
-                        errorWidget: (context, url, error) => Image.network(
+                        errorBuilder: (context, error, stackTrace) =>
+                            Image.network(
                           imagemPadrao,
                           fit: BoxFit.cover,
                         ),
@@ -97,7 +98,7 @@ class ComponentesDaImagem extends StatelessWidget {
                         top: 5,
                         child: Icon(
                           userFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: Color.fromARGB(255, 255, 115, 0),
+                          color: const Color.fromARGB(255, 255, 115, 0),
                           size: 25,
                         ),
                       )
