@@ -1,32 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mangafaver/screens/LoginScreen.dart';
-import 'package:mangafaver/screens/HomeScreen.dart';
+import 'package:mangafaver/widgets/Appbar2.dart'; 
 
 void main() {
-  testWidgets('Teste de login', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: LoginScreen()));
+  testWidgets('Teste de pesquisa de mangá por título',
+      (WidgetTester tester) async {
+    await tester
+        .pumpWidget(const MaterialApp(home: Scaffold(appBar: AppBar2())));
 
-    // Encontra os campos de texto para nome de usuário e senha
-    final usernameField = find.byWidgetPredicate(
-      (widget) =>
-          widget is TextField && widget.decoration is InputDecoration && widget.decoration!.hintText == 'Nome de usuário',
-    );
-    final passwordField = find.byWidgetPredicate(
-      (widget) =>
-          widget is TextField && widget.decoration is InputDecoration && widget.decoration!.hintText == 'Senha',
-    );
+    Finder searchField = find.byType(TextField);
+    expect(searchField, findsOneWidget);
 
-    // Insere o usuário e a senha nos campos de texto
-    await tester.enterText(usernameField.first, 'luciano');
-    await tester.enterText(passwordField.first, 'senha123');
+    // Simula a digitação de um título de mangá no campo de pesquisa
+    await tester.enterText(searchField, 'One Piece');
 
-    // Encontra e clica no botão de login
-    final loginButton = find.widgetWithText(ElevatedButton, 'Entrar');
-    await tester.tap(loginButton);
-    await tester.pump(); // Aguarda a reação à ação de clique
+    // Encontra e simula o botão de pesquisa
+    Finder searchButton = find.byIcon(Icons.search);
+    expect(searchButton, findsOneWidget);
+    await tester.tap(searchButton);
 
-    // Verifica se a tela de destino após o login é a tela HomeScreen
-    expect(find.byType(HomeScreen), findsOneWidget);
+    // Espera a conclusão da animação de transição de tela
+    await tester.pumpAndSettle();
+
+    // Verifica se a tela de resultados de pesquisa foi carregada corretamente
+    expect(
+        find.text('Resultados da pesquisa para "One Piece"'), findsOneWidget);
   });
 }
