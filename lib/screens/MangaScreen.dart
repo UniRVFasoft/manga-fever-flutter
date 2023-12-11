@@ -29,6 +29,11 @@ class _MangaScreenState extends State<MangaScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? userToken = prefs.getString('token');
 
+    if (userToken == null) {
+      showLoginAlertDialog();
+      return;
+    }
+
     try {
       String apiUrl =
           'https://manga-fever-backend-production.up.railway.app/mangas/favoritar/${widget.mangaId}';
@@ -41,7 +46,6 @@ class _MangaScreenState extends State<MangaScreen> {
       );
 
       if (response.statusCode == 200) {
-        print(isFavorited.toString());
         setState(() {
           isFavorited = !isFavorited; // Inverte o estado de favorito
         });
@@ -50,8 +54,50 @@ class _MangaScreenState extends State<MangaScreen> {
         throw Exception('Falha ao favoritar/desfavoritar o manga');
       }
     } catch (error) {
-      throw Exception('Erro: $error');
+      handleApiError(error);
+    } finally {
+      // Adicione ações a serem executadas independentemente de exceções
     }
+  }
+
+  void showLoginAlertDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Aviso'),
+          content: Text('Você precisa estar logado para realizar esta ação.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void handleApiError(dynamic error) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Erro'),
+          content: Text('Erro ao processar a solicitação: $error'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> fetchMangaDetails() async {
@@ -127,60 +173,65 @@ class _MangaScreenState extends State<MangaScreen> {
               vertical: 30,
             ),
             child: Center(
-              child: Container(
-                constraints: BoxConstraints(
-                  maxWidth: screenWidth * 0.85,
-                  maxHeight: containerHeight - 80,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color(0xFF222222),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 0.5,
+              child: Expanded(
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: screenWidth * 0.85,
+                    maxHeight: containerHeight - 80,
                   ),
-                ),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    if (constraints.maxWidth >= 1397) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          DadosMangaGeral(
-                            mangaData: mangaDetails,
-                          ),
-                          mediaNota != null
-                              ? dadosClassificacaoGeral(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color(0xFF222222),
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 0.5,
+                    ),
+                  ),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      if (constraints.maxWidth >= 1397) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            DadosMangaGeral(
+                              mangaData: mangaDetails,
+                            ),
+                            if (mediaNota != null)
+                              dadosClassificacaoGeral(
+                                mediaNota: mediaNota!,
+                                mangaId: widget.mangaId,
+                                userToken: userToken ?? '',
+                                isFavorited: widget
+                                    .userFavorite, // Passando o estado de favorito
+                                toggleFavorite:
+                                    toggleFavorite, // Passando a função para favoritar/desfavoritar
+                              ),
+                          ],
+                        );
+                      } else {
+                        return SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              DadosMangaGeral(
+                                mangaData: mangaDetails,
+                              ),
+                              if (mediaNota != null)
+                                dadosClassificacaoGeral(
                                   mediaNota: mediaNota!,
                                   mangaId: widget.mangaId,
                                   userToken: userToken ?? '',
                                   isFavorited: widget.userFavorite,
                                   toggleFavorite: toggleFavorite,
-                                )
-                              : Container(), // or replace with a loading/error widget if desired
-                        ],
-                      );
-                    } else {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          DadosMangaGeral(
-                            mangaData: mangaDetails,
+                                ),
+                              if (mediaNota == null)
+                                Container(), // or any other widget as a placeholder for when mediaNota is null
+                            ],
                           ),
-                          if (mediaNota != null)
-                            dadosClassificacaoGeral(
-                              mediaNota: mediaNota!,
-                              mangaId: widget.mangaId,
-                              userToken: userToken ?? '',
-                              isFavorited: widget
-                                  .userFavorite, // Passando o estado de favorito
-                              toggleFavorite:
-                                  toggleFavorite, // Passando a função para favoritar/desfavoritar
-                            ),
-                        ],
-                      );
-                    }
-                  },
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
             ),

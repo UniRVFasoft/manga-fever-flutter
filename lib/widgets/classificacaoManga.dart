@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:mangafaver/screens/MangaScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 class classificacaoManga extends StatefulWidget {
   final String mangaId;
+  final bool userFavorite;
 
-  const classificacaoManga({super.key, 
-    required this.mangaId,
-  });
+  const classificacaoManga(
+      {super.key, required this.mangaId, required this.userFavorite});
 
   @override
   State<classificacaoManga> createState() => _ClassificacaoState();
@@ -16,52 +17,82 @@ class classificacaoManga extends StatefulWidget {
 
 class _ClassificacaoState extends State<classificacaoManga> {
   int estrelasPreenchidas = 0;
+  int currentRating = 0;
 
-Future<void> enviarClassificacao(int classificacao) async {
-  try {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? userToken = prefs.getString('token');
+  Future<void> enviarClassificacao(int classificacao) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? userToken = prefs.getString('token');
 
-    if (userToken == null) {
-      throw Exception('Token do usuário não encontrado.');
+      if (userToken == null) {
+        // Exibir o AlertDialog e retornar sem enviar a classificação
+        showLoginAlertDialog();
+        return;
+      }
+
+      final int classificacaoManga = classificacao;
+      final String apiUrl =
+          'https://manga-fever-backend-production.up.railway.app/mangas/avaliar/${widget.mangaId}';
+
+      print('ID do Manga: ${widget.mangaId}');
+      print('Classificação: $classificacao');
+      print('token: $userToken');
+
+      final Map<String, dynamic> requestBody =
+          _buildRequestBody(classificacaoManga);
+
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: <String, String>{
+          'Authorization': 'Bearer $userToken',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      print(jsonEncode(requestBody));
+
+      if (response.statusCode == 200) {
+        setState(() {
+          estrelasPreenchidas = currentRating;
+        });
+
+        print('Classificação enviada com sucesso: $classificacaoManga');
+      } else {
+        throw Exception(
+            'Falha ao enviar a classificação. Status: ${response.statusCode}. Mensagem: ${response.body}');
+      }
+    } catch (error) {
+      throw Exception('Erro ao enviar a classificação: $error');
     }
-
-    final int classificacaoManga = classificacao;
-    final String apiUrl = 'https://manga-fever-backend-production.up.railway.app/mangas/avaliar/${widget.mangaId}';
-
-    print('ID do Manga: ${widget.mangaId}');
-    print('Classificação: $classificacao');
-    print('token: $userToken');
-
-    final Map<String, dynamic> requestBody = _buildRequestBody(classificacaoManga);
-
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      headers: <String, String>{
-        'Authorization': 'Bearer $userToken',
-        'Content-Type': 'application/json', // Defina o tipo de conteúdo para JSON
-      },
-      body: jsonEncode(requestBody),
-    );
-
-    print(jsonEncode(requestBody));
-
-    if (response.statusCode == 200) {
-      print('Classificação enviada com sucesso: $classificacaoManga');
-    } else {
-      throw Exception('Falha ao enviar a classificação. Status: ${response.statusCode}. Mensagem: ${response.body}');
-    }
-  } catch (error) {
-    throw Exception('Erro ao enviar a classificação: $error');
   }
-}
 
-Map<String, dynamic> _buildRequestBody(int classificacaoManga) {
-  return {
-    'classificacao': classificacaoManga,
-  };
-}
+  Map<String, dynamic> _buildRequestBody(int classificacaoManga) {
+    currentRating = classificacaoManga;
+    return {
+      'classificacao': classificacaoManga,
+    };
+  }
 
+  void showLoginAlertDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Aviso'),
+          content: Text('Você precisa estar logado para realizar esta ação.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +121,7 @@ Map<String, dynamic> _buildRequestBody(int classificacaoManga) {
               ),
           ],
         ),
-        SizedBox(height: 10.0), 
+        SizedBox(height: 10.0),
         Text(
           'Classificar a Obra',
           style: TextStyle(

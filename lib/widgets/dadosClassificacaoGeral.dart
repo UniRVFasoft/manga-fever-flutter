@@ -5,17 +5,17 @@ import 'package:mangafaver/widgets/BotaoFavorito.dart';
 
 class dadosClassificacaoGeral extends StatelessWidget {
   final String mediaNota;
-   final String mangaId; 
+  final String mangaId;
   final String userToken;
-  final bool isFavorited; 
-  final VoidCallback toggleFavorite; 
+  final bool isFavorited;
+  final VoidCallback toggleFavorite;
 
   const dadosClassificacaoGeral({
     Key? key,
     required this.mediaNota,
-     required this.mangaId,
+    required this.mangaId,
     required this.userToken,
-     required this.isFavorited,
+    required this.isFavorited,
     required this.toggleFavorite,
   }) : super(key: key);
 
@@ -31,28 +31,30 @@ class dadosClassificacaoGeral extends StatelessWidget {
             ),
             child: Column(
               children: [
-                BotaoFavorito(onPressed: toggleFavorite,
-                  isFavorited: isFavorited),
+                BotaoFavorito(
+                    onPressed: toggleFavorite, isFavorited: isFavorited),
                 SizedBox(height: 10.0),
                 notaManga(
                   mediaNota: mediaNota,
                 ),
                 SizedBox(height: 10.0),
-                classificacaoManga(mangaId: mangaId),
+                classificacaoManga(mangaId: mangaId, userFavorite: isFavorited),
               ],
             ),
           );
         } else {
           return Column(
             children: [
-              BotaoFavorito(onPressed: toggleFavorite,
-                  isFavorited: isFavorited,),
+              BotaoFavorito(
+                onPressed: toggleFavorite,
+                isFavorited: isFavorited,
+              ),
               SizedBox(height: 10.0),
               notaManga(
                 mediaNota: mediaNota,
               ),
               SizedBox(height: 10.0),
-              classificacaoManga(mangaId: mangaId),
+              classificacaoManga(mangaId: mangaId, userFavorite: isFavorited),
             ],
           );
         }
