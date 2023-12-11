@@ -79,3 +79,4 @@
 .dart_tool/chrome-device/Default/Favicons
 .dart_tool/chrome-device/Default/GCM Store/Encryption/LOG
 *.old
+.flutter-plugins-dependencies
