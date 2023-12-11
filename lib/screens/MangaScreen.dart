@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mangafaver/widgets/Appbar1.dart';
@@ -9,9 +8,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class MangaScreen extends StatefulWidget {
   final String mangaId;
-  final bool userFavorite; 
-  
-  const MangaScreen({Key? key, required this.mangaId, required this.userFavorite}) : super(key: key);
+  final bool userFavorite;
+
+  const MangaScreen(
+      {Key? key, required this.mangaId, required this.userFavorite})
+      : super(key: key);
 
   @override
   _MangaScreenState createState() => _MangaScreenState();
@@ -21,36 +22,37 @@ class _MangaScreenState extends State<MangaScreen> {
   late Map<String, dynamic> mangaDetails = {};
   String? mediaNota;
 
-bool isFavorited = false; 
-late String? userToken;
+  bool isFavorited = false;
+  late String? userToken;
 
-void toggleFavorite() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  final String? userToken = prefs.getString('token');
+  void toggleFavorite() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? userToken = prefs.getString('token');
 
-  try {
-    String apiUrl = 'https://manga-fever-backend-production.up.railway.app/mangas/favoritar/${widget.mangaId}';
+    try {
+      String apiUrl =
+          'https://manga-fever-backend-production.up.railway.app/mangas/favoritar/${widget.mangaId}';
 
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      headers: <String, String>{
-        'Authorization': 'Bearer $userToken', 
-      },
-    );
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: <String, String>{
+          'Authorization': 'Bearer $userToken',
+        },
+      );
 
-    if (response.statusCode == 200) {
-     print(isFavorited.toString());
-      setState(() {
-        isFavorited = !isFavorited; // Inverte o estado de favorito
-      });
-      await fetchMangaDetails();
-    } else {
-      throw Exception('Falha ao favoritar/desfavoritar o manga');
+      if (response.statusCode == 200) {
+        print(isFavorited.toString());
+        setState(() {
+          isFavorited = !isFavorited; // Inverte o estado de favorito
+        });
+        await fetchMangaDetails();
+      } else {
+        throw Exception('Falha ao favoritar/desfavoritar o manga');
+      }
+    } catch (error) {
+      throw Exception('Erro: $error');
     }
-  } catch (error) {
-    throw Exception('Erro: $error');
   }
-}
 
   Future<void> fetchMangaDetails() async {
     final url = Uri.parse(
@@ -81,12 +83,12 @@ void toggleFavorite() async {
     fetchMangaDetails();
   }
 
-Future<void> fetchToken() async {
+  Future<void> fetchToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userToken = prefs.getString('token'); // Obtém o token armazenado
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -147,14 +149,15 @@ Future<void> fetchToken() async {
                           DadosMangaGeral(
                             mangaData: mangaDetails,
                           ),
-                          if (mediaNota != null)
-                            dadosClassificacaoGeral(
-                              mediaNota: mediaNota!,
-                              mangaId: widget.mangaId,
-                              userToken: userToken  ?? '',
-                              isFavorited: widget.userFavorite, // Passando o estado de favorito
-                              toggleFavorite: toggleFavorite, // Passando a função para favoritar/desfavoritar
-                            ),
+                          mediaNota != null
+                              ? dadosClassificacaoGeral(
+                                  mediaNota: mediaNota!,
+                                  mangaId: widget.mangaId,
+                                  userToken: userToken ?? '',
+                                  isFavorited: widget.userFavorite,
+                                  toggleFavorite: toggleFavorite,
+                                )
+                              : Container(), // or replace with a loading/error widget if desired
                         ],
                       );
                     } else {
@@ -165,12 +168,14 @@ Future<void> fetchToken() async {
                             mangaData: mangaDetails,
                           ),
                           if (mediaNota != null)
-                             dadosClassificacaoGeral(
-                               mediaNota: mediaNota!,
-                               mangaId: widget.mangaId,
+                            dadosClassificacaoGeral(
+                              mediaNota: mediaNota!,
+                              mangaId: widget.mangaId,
                               userToken: userToken ?? '',
-                               isFavorited: widget.userFavorite, // Passando o estado de favorito
-                               toggleFavorite: toggleFavorite, // Passando a função para favoritar/desfavoritar
+                              isFavorited: widget
+                                  .userFavorite, // Passando o estado de favorito
+                              toggleFavorite:
+                                  toggleFavorite, // Passando a função para favoritar/desfavoritar
                             ),
                         ],
                       );

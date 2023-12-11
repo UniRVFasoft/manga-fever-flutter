@@ -1,5 +1,34 @@
-// ignore: file_names
-import 'package:flutter/material.dart' show BuildContext, Center, CircularProgressIndicator, Color, Colors, Column, ConnectionState, EdgeInsets, Expanded, FutureBuilder, GestureDetector, GridView, Icon, Icons, Key, MainAxisAlignment, MaterialPageRoute, MediaQuery, Navigator, Padding, Scaffold, SizedBox, SliverGridDelegateWithFixedCrossAxisCount, State, StatefulWidget, Text, TextStyle, VoidCallback, Widget;
+import 'package:flutter/material.dart'
+    show
+        BuildContext,
+        Center,
+        CircularProgressIndicator,
+        Color,
+        Colors,
+        Column,
+        ConnectionState,
+        EdgeInsets,
+        Expanded,
+        FutureBuilder,
+        GestureDetector,
+        GridView,
+        Icon,
+        Icons,
+        Key,
+        MainAxisAlignment,
+        MaterialPageRoute,
+        MediaQuery,
+        Navigator,
+        Padding,
+        Scaffold,
+        SizedBox,
+        SliverGridDelegateWithFixedCrossAxisCount,
+        State,
+        StatefulWidget,
+        Text,
+        TextStyle,
+        VoidCallback,
+        Widget;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mangafaver/screens/AdicionarMangaScreen.dart';
@@ -20,13 +49,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late bool isAdmin;
+  late bool isAdmin = false;
+  late bool isLoggedIn = false;
+
   bool sortByRating = false;
   bool orderByAlphabetical = false;
   bool showFavoritesOnly = false;
 
   late List<Map<String, dynamic>> dataList;
-
 
   void handleFavoritesFilter() {
     setState(() {
@@ -39,11 +69,16 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     dataList = [];
-    _initIsAdmin();
+    fetchData();
+    _initState();
+  }
+
+  Future<void> _initState() async {
+    await _initIsAdmin();
     fetchData();
   }
 
- @override
+  @override
   void didUpdateWidget(covariant HomeScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
     fetchData(); // Buscar os dados toda vez que a tela for acessada novamente
@@ -54,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isAdmin = sharedPreferences.getBool('isAdmin') ?? false;
     });
+    fetchData();
   }
 
   void handleAlphabeticalOrder() {
@@ -63,111 +99,111 @@ class _HomeScreenState extends State<HomeScreen> {
     fetchData();
   }
 
+  Future<void> fetchData() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final String? token = sharedPreferences.getString('token');
 
-Future<void> fetchData() async {
-  final sharedPreferences = await SharedPreferences.getInstance();
-  final String? token = sharedPreferences.getString('token');
+    try {
+      if (token != null && token.isNotEmpty) {
+        final response = await http.get(
+          Uri.parse(
+            'https://manga-fever-backend-production.up.railway.app/mangas/user',
+          ),
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        );
 
-  try {
-    if (token != null && token.isNotEmpty) {
-      final response = await http.get(
-        Uri.parse(
-          'https://manga-fever-backend-production.up.railway.app/mangas/user',
-        ),
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      );
+        if (response.statusCode == 200) {
+          final List<dynamic> jsonResponse = json.decode(response.body);
+          dataList = jsonResponse.cast<Map<String, dynamic>>();
+          if (showFavoritesOnly) {
+            dataList = dataList
+                .where((element) => element['userFavorite'] == true)
+                .toList();
+          }
+          if (orderByAlphabetical) {
+            dataList.sort(
+              (a, b) =>
+                  a['titulo'].toString().compareTo(b['titulo'].toString()),
+            );
+          } else {
+            dataList.sort((a, b) {
+              var notaA = a['nota'];
+              var notaB = b['nota'];
 
-      if (response.statusCode == 200) {
-        final List<dynamic> jsonResponse = json.decode(response.body);
-        dataList = jsonResponse.cast<Map<String, dynamic>>();
-        if (showFavoritesOnly) {
-          dataList = dataList.where((element) => element['userFavorite'] == true).toList();
+              if (notaA != null && notaB != null) {
+                return notaB.compareTo(notaA);
+              } else if (notaA == null && notaB == null) {
+                return 0;
+              } else if (notaA == null) {
+                return 1;
+              } else {
+                return -1;
+              }
+            });
+          }
+
+          if (widget.searchTerm.isNotEmpty) {
+            dataList = dataList
+                .where((element) => element['titulo']
+                    .toString()
+                    .toLowerCase()
+                    .contains(widget.searchTerm.toLowerCase()))
+                .toList();
+          }
+        } else {
+          throw Exception('Falha ao carregar os dados do usuário');
         }
-        if (orderByAlphabetical) {
-        dataList.sort(
-          (a, b) => a['titulo'].toString().compareTo(b['titulo'].toString()),
+      } else {
+        final response = await http.get(
+          Uri.parse(
+            'https://manga-fever-backend-production.up.railway.app/mangas',
+          ),
         );
-      } else {
-        dataList.sort((a, b) {
-          var notaA = a['nota'];
-          var notaB = b['nota'];
 
-          if (notaA != null && notaB != null) {
-            return notaB.compareTo(notaA);
-          } else if (notaA == null && notaB == null) {
-            return 0;
-          } else if (notaA == null) {
-            return 1;
+        if (response.statusCode == 200) {
+          final List<dynamic> jsonResponse = json.decode(response.body);
+          dataList = jsonResponse.cast<Map<String, dynamic>>();
+
+          if (orderByAlphabetical) {
+            dataList.sort(
+              (a, b) =>
+                  a['titulo'].toString().compareTo(b['titulo'].toString()),
+            );
           } else {
-            return -1;
+            dataList.sort((a, b) {
+              var notaA = a['nota'];
+              var notaB = b['nota'];
+
+              if (notaA != null && notaB != null) {
+                return notaB.compareTo(notaA);
+              } else if (notaA == null && notaB == null) {
+                return 0;
+              } else if (notaA == null) {
+                return 1;
+              } else {
+                return -1;
+              }
+            });
           }
-        });
-      }
 
-      if (widget.searchTerm.isNotEmpty) {
-        dataList = dataList
-            .where((element) => element['titulo']
-                .toString()
-                .toLowerCase()
-                .contains(widget.searchTerm.toLowerCase()))
-            .toList();
-      }
-
-        
-      } else {
-        throw Exception('Falha ao carregar os dados do usuário');
-      }
-    } else {
-      
-      final response = await http.get(
-        Uri.parse(
-          'https://manga-fever-backend-production.up.railway.app/mangas',
-        ),
-      );
-
-      if (response.statusCode == 200) {
-         final List<dynamic> jsonResponse = json.decode(response.body);
-      dataList = jsonResponse.cast<Map<String, dynamic>>();
-
-      if (orderByAlphabetical) {
-        dataList.sort(
-          (a, b) => a['titulo'].toString().compareTo(b['titulo'].toString()),
-        );
-      } else {
-        dataList.sort((a, b) {
-          var notaA = a['nota'];
-          var notaB = b['nota'];
-
-          if (notaA != null && notaB != null) {
-            return notaB.compareTo(notaA);
-          } else if (notaA == null && notaB == null) {
-            return 0;
-          } else if (notaA == null) {
-            return 1;
-          } else {
-            return -1;
+          if (widget.searchTerm.isNotEmpty) {
+            dataList = dataList
+                .where((element) => element['titulo']
+                    .toString()
+                    .toLowerCase()
+                    .contains(widget.searchTerm.toLowerCase()))
+                .toList();
           }
-        });
+        } else {
+          throw Exception('Falha ao carregar os dados');
+        }
       }
-
-      if (widget.searchTerm.isNotEmpty) {
-        dataList = dataList
-            .where((element) => element['titulo']
-                .toString()
-                .toLowerCase()
-                .contains(widget.searchTerm.toLowerCase()))
-            .toList();
-      }
-      } else {
-        throw Exception('Falha ao carregar os dados');
-      }
+    } catch (error) {
+      // Aqui você pode lidar com possíveis erros ao buscar dados
     }
-  } catch (error) {
-    // Aqui você pode lidar com possíveis erros ao buscar dados
   }
-}
 
   late double maxWidth;
 
@@ -224,7 +260,7 @@ Future<void> fetchData() async {
                         String title = data['titulo'] ?? '';
                         String id = data["id"] ?? '';
                         bool userFavorite = data['userFavorite'] ?? false;
-                        
+
                         if (title.length > 16) {
                           title =
                               '${title.substring(0, 16)}\n${title.substring(16)}';
@@ -259,7 +295,7 @@ Future<void> fetchData() async {
           ),
         ],
       ),
-      floatingActionButton: isAdmin
+      floatingActionButton: isAdmin && maxWidth > 600
           ? BotaoAdicionarManga(
               onPressed: () {
                 Navigator.push(
@@ -320,7 +356,7 @@ class _BotoesComCallbackState extends State<BotoesComCallback> {
       onPressedMaisPopulares: widget.onPressedMaisPopulares,
       searchTerm: widget.searchTerm,
       handleAlphabeticalOrder: widget.handleAlphabeticalOrder,
-     handleFavoritesFilter: widget.handleFavoritesFilter,
+      handleFavoritesFilter: widget.handleFavoritesFilter,
     );
   }
 }
